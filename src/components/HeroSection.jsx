@@ -6,6 +6,7 @@ import {
   MdOutlineWaterDrop,
 } from "react-icons/md";
 import { BsShieldCheck } from "react-icons/bs";
+import { FaStar } from "react-icons/fa";
 
 const features = [
   {
@@ -32,7 +33,7 @@ const features = [
 
 const HeroSection = () => {
   return (
-    <section className="w-full bg-[#f7f3ef] overflow-hidden">
+    <section className="w-full bg-[#FEE9DC]/90 overflow-hidden">
       <div className="grid lg:grid-cols-2 min-h-screen items-center">
         
         {/* LEFT CONTENT - Text & Features */}
@@ -46,16 +47,68 @@ const HeroSection = () => {
             </div>
 
             {/* Heading */}
-            <h1 className="mt-7 text-[54px] sm:text-[68px] lg:text-[84px] leading-[1.2] font-bold tracking-[-3px] text-[#111111]">
-              Sip in <span className="text-[#ff6b00]">Style.</span>
+            <h1 className="mt-7 text-[54px] sm:text-[68px] lg:text-[70px] leading-[1.2] font-bold tracking-[-3px] text-[#111111]">
+              Stay <span className="text-[#ff6b00]">Refreshed.</span>
               <br />
-              Every <span className="text-[#ff6b00]">Moment.</span>
+              Everywhere <span className="text-[#ff6b00]">You Go.</span>
             </h1>
 
             {/* Description */}
-            <p className="mt-8 max-w-[520px] text-[19px] sm:text-[22px] leading-[1.7] text-[#4a4a4a] font-medium">
-              Premium quality tumblers designed to keep your drinks perfect — hot or cold.
+            <p className="mt-5 text-[#5F5F5F] text-[16px] sm:text-[18px] max-w-[480px] font-medium leading-relaxed">
+              Premium tumblers designed for work, gym, travel & lifestyle.
             </p>
+
+            {/* Customer + Rating */}
+          <div className="flex flex-wrap items-center gap-8 mt-8">
+
+            {/* Customers */}
+            <div className="flex items-center gap-4">
+              <div className="flex -space-x-3">
+                <img
+                  src="https://randomuser.me/api/portraits/men/32.jpg"
+                  alt=""
+                  className="w-11 h-11 rounded-full border-2 border-white object-cover"
+                />
+                <img
+                  src="https://randomuser.me/api/portraits/women/44.jpg"
+                  alt=""
+                  className="w-11 h-11 rounded-full border-2 border-white object-cover"
+                />
+                <img
+                  src="https://randomuser.me/api/portraits/men/46.jpg"
+                  alt=""
+                  className="w-11 h-11 rounded-full border-2 border-white object-cover"
+                />
+              </div>
+
+              <div>
+                <h4 className="text-[16px] font-semibold text-[#222]">
+                  10,000+
+                  <span className="font-normal text-[#777]">
+                    {" "}Happy Customers
+                  </span>
+                </h4>
+              </div>
+            </div>
+
+            {/* Ratings */}
+            <div className="flex items-center gap-3">
+              <div className="flex items-center gap-1 text-[#ffb400]">
+                <FaStar />
+                <FaStar />
+                <FaStar />
+                <FaStar />
+                <FaStar />
+              </div>
+
+              <p className="text-[15px] text-[#555]">
+                <span className="font-semibold text-[#111]">
+                  4.9
+                </span>{" "}
+                (2.5k Reviews)
+              </p>
+            </div>
+          </div>
 
             {/* Buttons */}
             <div className="flex flex-wrap gap-5 mt-10">
@@ -93,13 +146,13 @@ const HeroSection = () => {
         <div className="relative min-h-[500px] lg:min-h-full overflow-hidden">
           {/* Background Image */}
           <img
-            src="https://res.cloudinary.com/dbkpwluh0/image/upload/v1779183046/tumb_nb0ehl.png"
+            src="https://res.cloudinary.com/dbkpwluh0/image/upload/v1779263583/ChatGPT_Image_May_20_2026_01_20_45_PM_bmblvd.png"
             alt="Hero visual"
-            className="absolute inset-0 w-full h-full object-cover object-center scale-[1.02]"
+            className="absolute inset-0 w-full h-full object-cover object-right scale-[1.02]"
           />
 
           {/* Gradient Overlay – Bridges left background to image smoothly */}
-          <div className="absolute inset-0 bg-gradient-to-r from-[#f7f3ef] via-[#f7f3ef]/70 via-10% to-transparent to-50%" />
+          {/* <div className="absolute inset-0 bg-gradient-to-r from-[#FEE9DC] via-[#FEE9DC]/70 via-10% to-transparent to-50%" /> */}
 
           {/* Soft Blur Effect – Adds depth and blends the middle section */}
           <div className="absolute left-0 top-0 bottom-0 w-[10%] bg-gradient-to-r from-[#f7f3ef] to-transparent blur-xl opacity-60" />

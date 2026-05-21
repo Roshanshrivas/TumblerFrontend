@@ -1,7 +1,6 @@
 import React, { useRef, useState, useEffect } from "react";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 import ProductCard from "./ProductCard";
-import { TbFlame } from "react-icons/tb";
 
 const products = [
   {
@@ -72,7 +71,7 @@ const products = [
   },
 ];
 
-const BestSellers = () => {
+const TrendingSection = () => {
   const scrollRef = useRef(null);
   const autoScrollInterval = useRef(null);
   const [showLeftArrow, setShowLeftArrow] = useState(false);
@@ -155,16 +154,16 @@ const BestSellers = () => {
   const handleMouseLeave = () => setIsPaused(false);
 
   return (
-    <section className="w-full py-12 md:py-10 bg-gradient-to-b from-orange-50/50 to-white">
-      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="w-full py-12 md:py-10 bg-gradient-to-b from-blue-50/50 to-white">
+      <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="flex flex-col sm:flex-row justify-between items-center mb-10 gap-4">
           <div className="text-center sm:text-left">
-            <h2 className="flex items-center text-3xl md:text-4xl font-bold text-gray-900">
-             Best Sellers
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900">
+              Trending Now
             </h2>
             <p className="text-gray-500 mt-1">
-              Most loved tumblers by our customers
+              See what's hot in the world of tumblers
             </p>
           </div>
           <button className="hidden sm:flex items-center gap-2 border border-gray-200 px-5 py-2.5 rounded-full text-gray-700 font-medium hover:bg-gray-900 hover:text-white transition-all">
@@ -214,9 +213,9 @@ const BestSellers = () => {
             {products.map((product) => (
               <div
                 key={product.id}
-                className="min-w-[260px] sm:min-w-[280px] md:min-w-[280px] lg:min-w-[290px] flex-shrink-0"
+                className="min-w-[260px] sm:min-w-[280px] md:min-w-[280px] lg:min-w-[250px] flex-shrink-0"
               >
-                <ProductCard key={product.id} product={product} tag="Best Seller" />
+                <ProductCard key={product.id} product={product} tag="Trending" />
               </div>
             ))}
           </div>
@@ -240,4 +239,4 @@ const BestSellers = () => {
   );
 };
 
-export default BestSellers;
+export default TrendingSection;

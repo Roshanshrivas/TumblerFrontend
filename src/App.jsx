@@ -8,12 +8,12 @@ import ErrorBoundary from './components/ErrorBoundary';
 import LoadingSpinner from './components/LoadingSpinner';
 // import ProtectedRoute from './components/ProtectedRoute';
 import TopBar from './components/TopOffersBar';
-import Navbar from './components/Navbar';
+import Navbar from './components/Navbar';;
 // import Footer from './components/Footer';
 
 // Lazy load pages
 const Home = lazy(() => import('./pages/Home'));
-// const Login = lazy(() => import('./pages/auth/Login'));
+const CustomizePage = lazy(() => import('./pages/CustomizePage'));
 // const Signup = lazy(() => import('./pages/auth/Signup'));
 // const Dashboard = lazy(() => import('./pages/dashboard/Dashboard'));
 // const AdminDashboard = lazy(() => import('./pages/admin/AdminDashboard'));
@@ -57,7 +57,7 @@ const router = createBrowserRouter([
     element: <PublicLayout />,
     children: [
       { path: '/', element: <Suspense fallback={<LoadingSpinner />}><Home /></Suspense> },
-      // { path: '/about', element: <LazyComponent Component={About} /> },
+      { path: '/customize', element: <Suspense fallback={<LoadingSpinner />}><CustomizePage /></Suspense> },
     ],
   },
   // {
