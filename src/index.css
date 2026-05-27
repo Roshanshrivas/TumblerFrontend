@@ -1,9 +1,24 @@
 @import "tailwindcss";
 
+
 @theme {
   --color-primary: #471396;
   --color-secondary: #B13BFF;
   --color-accent: #FFCC00;
   --color-background: #090040;
   --color-text: #333333;
+
+   /* Custom breakpoints */
+  
+  --breakpoint-xsm: 280px;
+  --breakpoint-ssm: 320px;
+  --breakpoint-sssm: 375px;
+  --breakpoint-ssssm: 425px;
+  --breakpoint-xs: 480px;
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+  --breakpoint-1xl: 1440px;
+  --breakpoint-2xl: 1536px;
 }

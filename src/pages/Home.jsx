@@ -8,6 +8,8 @@ import TestimonialSection from '../components/TestimonialSection'
 import FeaturesBanner from '../components/FeaturesBanner'
 import LifestyleSection from '../components/LifestyleSection'
 import CustomizeTeaser from '../components/CustomizeTeaser'
+import UGCGallery from '../components/UGCGallery'
+import Newsletter from '../components/Newsletter'
 
 
 const Home = () => {
@@ -30,8 +32,12 @@ const Home = () => {
          <TrendingSection />
          {/* Customize Your Tumbler */}
          <CustomizeTeaser/>
+         {/* UGC Gallery */}
+         <UGCGallery/>
          {/* Testimonial Section  */}
          <TestimonialSection/>
+         {/* News Letter section */}
+         {/* <Newsletter/> */}
        </div>
 
     </div>

@@ -1,8 +1,9 @@
 import React from 'react';
 import CustomizeTumbler from '../components/CustomizeTumbler';
+import TumblerCustomizer from '../components/TumblerCustomizer';
 
 const CustomizePage = () => {
-  return <CustomizeTumbler />;
+  return <TumblerCustomizer />;
 };
 
 export default CustomizePage;

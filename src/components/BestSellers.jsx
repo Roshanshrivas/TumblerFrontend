@@ -2,6 +2,8 @@ import React, { useRef, useState, useEffect } from "react";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 import ProductCard from "./ProductCard";
 import { TbFlame } from "react-icons/tb";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 const products = [
   {
@@ -81,12 +83,31 @@ const BestSellers = () => {
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
   const [scrollLeft, setScrollLeft] = useState(0);
+  const [wishlist, setWishlist] = useState([]);
+  const navigate = useNavigate();
+
 
   const scroll = (direction) => {
     if (scrollRef.current) {
       const scrollAmount = direction === "left" ? -300 : 300;
       scrollRef.current.scrollBy({ left: scrollAmount, behavior: "smooth" });
     }
+  };
+
+  const addToCart = (product) => {
+    toast.success(`Added ${product.title} to cart`, {
+      duration: 2000,
+      style: { background: "#ff6b00", color: "#fff" },
+    });
+  };
+
+  const toggleWishlist = (productId) => {
+    setWishlist((prev) =>
+      prev.includes(productId) ? prev.filter((id) => id !== productId) : [...prev, productId]
+    );
+    toast.success(wishlist.includes(productId) ? "Removed from wishlist" : "Added to wishlist", {
+      duration: 1500,
+    });
   };
 
   const checkScrollButtons = () => {
@@ -167,7 +188,9 @@ const BestSellers = () => {
               Most loved tumblers by our customers
             </p>
           </div>
-          <button className="hidden sm:flex items-center gap-2 border border-gray-200 px-5 py-2.5 rounded-full text-gray-700 font-medium hover:bg-gray-900 hover:text-white transition-all">
+          <button 
+          onClick={() => navigate("/allproducts")}
+          className="hidden sm:flex items-center gap-2 border border-gray-200 px-5 py-2.5 rounded-full text-gray-700 font-medium hover:bg-gray-900 hover:text-white transition-all">
             View all
             <FiChevronRight />
           </button>
@@ -204,7 +227,7 @@ const BestSellers = () => {
           {/* Scrollable Products */}
           <div
             ref={scrollRef}
-            className="flex overflow-x-auto gap-6 pb-4 scroll-smooth hide-scrollbar"
+            className="flex overflow-x-auto gap-6 pb-6 scroll-smooth hide-scrollbar"
             style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
             onMouseDown={handleMouseDown}
             onMouseMove={handleMouseMove}
@@ -214,9 +237,16 @@ const BestSellers = () => {
             {products.map((product) => (
               <div
                 key={product.id}
-                className="min-w-[260px] sm:min-w-[280px] md:min-w-[280px] lg:min-w-[290px] flex-shrink-0"
+                className="min-w-[260px] sm:min-w-[280px] md:min-w-[280px] flex-shrink-0"
               >
-                <ProductCard key={product.id} product={product} tag="Best Seller" />
+                <ProductCard 
+                  key={product.id} 
+                  product={product} 
+                  tag="Best Seller" 
+                  onAddToCart={addToCart}
+                  onToggleWishlist={toggleWishlist}
+                  isWishlisted={wishlist.includes(product.id)}
+                  />
               </div>
             ))}
           </div>

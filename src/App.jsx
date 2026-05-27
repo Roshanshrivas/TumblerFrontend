@@ -9,12 +9,17 @@ import LoadingSpinner from './components/LoadingSpinner';
 // import ProtectedRoute from './components/ProtectedRoute';
 import TopBar from './components/TopOffersBar';
 import Navbar from './components/Navbar';;
-// import Footer from './components/Footer';
+import Footer from './components/Footer';
+import ProductsPage from './pages/ProductsPage';
 
 // Lazy load pages
 const Home = lazy(() => import('./pages/Home'));
 const CustomizePage = lazy(() => import('./pages/CustomizePage'));
-// const Signup = lazy(() => import('./pages/auth/Signup'));
+const Login = lazy(() => import('./pages/Login'));
+const Signup = lazy(() => import('./pages/signup'));
+const ProductDetailPage = lazy(() => import('./pages/ProductDetails'));
+const CartPage = lazy(() => import('./pages/CartPage'));
+const WishlistPage = lazy(() => import('./pages/WishlistPage'));
 // const Dashboard = lazy(() => import('./pages/dashboard/Dashboard'));
 // const AdminDashboard = lazy(() => import('./pages/admin/AdminDashboard'));
 
@@ -24,13 +29,15 @@ const PublicLayout = () => (
     <TopBar />
     <Navbar />
     <Outlet />
-    {/* <Footer /> */}
+    <Footer />
   </>
 );
 
 const AuthLayout = () => (
-  <div className="auth-wrapper">
+  <div className="min-h-screen">
+    <Navbar />
     <Outlet />
+    <Footer />
   </div>
 );
 
@@ -58,15 +65,20 @@ const router = createBrowserRouter([
     children: [
       { path: '/', element: <Suspense fallback={<LoadingSpinner />}><Home /></Suspense> },
       { path: '/customize', element: <Suspense fallback={<LoadingSpinner />}><CustomizePage /></Suspense> },
+      { path: '/allproducts', element: <Suspense fallback={<LoadingSpinner />}><ProductsPage /></Suspense> },
+      { path: '/product/:id', element: <Suspense fallback={<LoadingSpinner />}><ProductDetailPage /></Suspense> },
+      { path: '/cart', element: <Suspense fallback={<LoadingSpinner />}><CartPage /></Suspense> },
+      { path: '/wishlist', element: <Suspense fallback={<LoadingSpinner />}><WishlistPage /></Suspense> },
     ],
   },
-  // {
-  //   element: <AuthLayout />,
-  //   children: [
-  //     { path: '/login', element: <LazyComponent Component={Login} /> },
-  //     { path: '/signup', element: <LazyComponent Component={Signup} /> },
-  //   ],
-  // },
+  {
+    element: <AuthLayout />,
+    children: [
+      { path: '/login', element: <Suspense fallback={<LoadingSpinner />}><Login /></Suspense> },
+      { path: '/signup', element: <Suspense fallback={<LoadingSpinner />}><Signup /></Suspense> },
+      
+    ],
+  },
   // {
   //   element: <DashboardLayout />,
   //   children: [

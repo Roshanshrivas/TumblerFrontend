@@ -2,63 +2,66 @@ import React from "react";
 import { FiTruck, FiRefreshCw, FiLock, FiAward, FiPhoneCall } from "react-icons/fi";
 
 const bannerData = [
-  {
-    icon: <FiTruck className="text-[28px] text-[#FF5A1F]" />,
-    title: "Free Shipping",
-    subtitle: "On orders above ₹999",
-  },
-  {
-    icon: <FiRefreshCw className="text-[26px] text-[#FF5A1F]" />,
-    title: "7 Days Returns",
-    subtitle: "No questions asked",
-  },
-  {
-    icon: <FiLock className="text-[26px] text-[#555555]" />, // Using the darker color from screenshot
-    title: "100% Safe Checkout",
-    subtitle: "Secure payments",
-  },
-  {
-    icon: <FiAward className="text-[28px] text-[#FF5A1F]" />,
-    title: "Premium Quality",
-    subtitle: "Built to last",
-  },
-  {
-    icon: <FiPhoneCall className="text-[26px] text-[#FF5A1F]" />,
-    title: "24/7 Support",
-    subtitle: "We're here to help",
-  },
+  { icon: <FiTruck />, title: "Free Shipping", subtitle: "Orders above ₹999" },
+  { icon: <FiRefreshCw />, title: "7 Days Returns", subtitle: "No questions asked" },
+  { icon: <FiLock />, title: "Safe Checkout", subtitle: "Secure payments" }, // shortened
+  { icon: <FiAward />, title: "Premium Quality", subtitle: "Built to last" },
+  { icon: <FiPhoneCall />, title: "24/7 Support", subtitle: "We're here" },
 ];
 
 const FeaturesBanner = () => {
   return (
-    <div className="w-full bg-[#FBFBFA] border-y border-gray-100 py-10 px-4 sm:px-8 md:px-12">
-      <div className="max-w-[1400px] mx-auto grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-y-8 gap-x-4 items-center justify-center">
-        {bannerData.map((item, index) => (
-          <div 
-            key={index} 
-            className={`flex items-center justify-start lg:justify-center gap-4 w-full relative
-              ${index % 2 === 0 ? "pr-2" : "pl-2 md:pl-0"} 
-              /* Desktop dividers between items */
-              lg:border-r lg:last:border-r-0 lg:border-gray-200/60 lg:px-4`
-            }
+    <div className="w-full bg-[#FBFBFA] border-y border-gray-100 py-2 md:py-6 overflow-hidden">
+      <div className="max-w-[1400px] mx-auto px-3 md:px-4">
+        {/* Mobile: compact horizontal scroll */}
+        <div className="xsm:hidden">
+          <div
+            className="flex overflow-x-auto snap-x snap-mandatory gap-2 pb-2 scrollbar-hide"
+            style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
           >
-            {/* Icon Wrapper */}
-            <div className="flex-shrink-0 flex items-center justify-center min-w-[32px]">
-              {item.icon}
-            </div>
-
-            {/* Text Content */}
-            <div className="flex flex-col text-left">
-              <h3 className="text-[14px] sm:text-[15px] font-bold text-[#1A1A1A] leading-tight tracking-tight">
-                {item.title}
-              </h3>
-              <p className="text-[11px] sm:text-[12px] text-gray-400 font-medium mt-1 leading-none">
-                {item.subtitle}
-              </p>
-            </div>
+            {bannerData.map((item, index) => (
+              <div
+                key={index}
+                className="flex items-center gap-2 bg-white/90 rounded-lg px-2 py-2 shadow-sm border border-gray-100 snap-start min-w-[135px] active:scale-95 transition-transform"
+              >
+                <div className="text-[#FF5A1F] text-xl">{item.icon}</div>
+                <div>
+                  <h3 className="text-xs font-bold text-[#1A1A1A]">{item.title}</h3>
+                  <p className="text-[10px] text-gray-400 font-medium">{item.subtitle}</p>
+                </div>
+              </div>
+            ))}
           </div>
-        ))}
+          {/* Very subtle scroll hint (optional, can remove if too much space) */}
+          <div className="flex justify-center mt-0.5 md:hidden">
+            <span className="text-[8px] text-gray-300">← swipe →</span>
+          </div>
+        </div>
+
+        {/* Tablet/Desktop: original grid (unchanged) */}
+        <div className="hidden md:grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-6">
+          {bannerData.map((item, index) => (
+            <div
+              key={index}
+              className="flex items-center justify-start lg:justify-center gap-4 group transition-all duration-200 hover:-translate-y-0.5"
+            >
+              <div className="text-[#FF5A1F] text-3xl group-hover:scale-110 transition-transform">
+                {item.icon}
+              </div>
+              <div>
+                <h3 className="text-[15px] font-bold text-[#1A1A1A]">{item.title}</h3>
+                <p className="text-[12px] text-gray-400 font-medium">{item.subtitle}</p>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
+
+      <style jsx>{`
+        .scrollbar-hide::-webkit-scrollbar {
+          display: none;
+        }
+      `}</style>
     </div>
   );
 };

@@ -1,6 +1,7 @@
 import React, { useRef, useState, useEffect } from "react";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 import ProductCard from "./ProductCard";
+import { useNavigate } from "react-router-dom";
 
 const products = [
   {
@@ -72,6 +73,7 @@ const products = [
 ];
 
 const TrendingSection = () => {
+  const navigate = useNavigate();
   const scrollRef = useRef(null);
   const autoScrollInterval = useRef(null);
   const [showLeftArrow, setShowLeftArrow] = useState(false);
@@ -80,6 +82,7 @@ const TrendingSection = () => {
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
   const [scrollLeft, setScrollLeft] = useState(0);
+
 
   const scroll = (direction) => {
     if (scrollRef.current) {
@@ -166,7 +169,9 @@ const TrendingSection = () => {
               See what's hot in the world of tumblers
             </p>
           </div>
-          <button className="hidden sm:flex items-center gap-2 border border-gray-200 px-5 py-2.5 rounded-full text-gray-700 font-medium hover:bg-gray-900 hover:text-white transition-all">
+          <button 
+           onClick={() => navigate("/allproducts")}
+           className="hidden sm:flex items-center gap-2 border border-gray-200 px-5 py-2.5 rounded-full text-gray-700 font-medium hover:bg-gray-900 hover:text-white transition-all">
             View all
             <FiChevronRight />
           </button>
