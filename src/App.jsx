@@ -1,16 +1,20 @@
-// App.jsx – Production Ready
 import React, { lazy, Suspense } from 'react';
 import { createBrowserRouter, RouterProvider, Navigate, Outlet } from 'react-router-dom';
-// import { Provider } from 'react-redux';
-// import { store } from './store';
 import { Toaster } from 'react-hot-toast';
 import ErrorBoundary from './components/ErrorBoundary';
 import LoadingSpinner from './components/LoadingSpinner';
-// import ProtectedRoute from './components/ProtectedRoute';
 import TopBar from './components/TopOffersBar';
 import Navbar from './components/Navbar';;
 import Footer from './components/Footer';
 import ProductsPage from './pages/ProductsPage';
+import ProtectedRoute from './components/admin/ProtectedRoute';
+
+import AdminLayout from './pages/admin/AdminLayout';          // <-- new
+import AdminDashboard from './pages/admin/AdminDashboard';    // <-- new
+import AdminProducts from './pages/admin/Products';  
+import AdminCategories from './pages/admin/Categories'         // <-- new
+
+
 
 // Lazy load pages
 const Home = lazy(() => import('./pages/Home'));
@@ -20,8 +24,6 @@ const Signup = lazy(() => import('./pages/signup'));
 const ProductDetailPage = lazy(() => import('./pages/ProductDetails'));
 const CartPage = lazy(() => import('./pages/CartPage'));
 const WishlistPage = lazy(() => import('./pages/WishlistPage'));
-// const Dashboard = lazy(() => import('./pages/dashboard/Dashboard'));
-// const AdminDashboard = lazy(() => import('./pages/admin/AdminDashboard'));
 
 // Layout components
 const PublicLayout = () => (
@@ -41,23 +43,11 @@ const AuthLayout = () => (
   </div>
 );
 
-// const DashboardLayout = () => (
-//   <ProtectedRoute allowedRoles={['user', 'admin']}>
-//     <DashboardSidebar />
-//     <div className="dashboard-content">
-//       <Outlet />
-//     </div>
-//   </ProtectedRoute>
-// );
-
-// const AdminLayout = () => (
-//   <ProtectedRoute allowedRoles={['admin']}>
-//     <AdminSidebar />
-//     <div className="admin-content">
-//       <Outlet />
-//     </div>
-//   </ProtectedRoute>
-// );
+const LazyComponent = ({ Component }) => (
+  <Suspense fallback={<LoadingSpinner />}>
+    <Component />
+  </Suspense>
+);
 
 const router = createBrowserRouter([
   {
@@ -79,29 +69,30 @@ const router = createBrowserRouter([
       
     ],
   },
-  // {
-  //   element: <DashboardLayout />,
-  //   children: [
-  //     { path: '/dashboard', element: <LazyComponent Component={Dashboard} /> },
-  //     { path: '/profile', element: <LazyComponent Component={Profile} /> },
-  //   ],
-  // },
-  // {
-  //   element: <AdminLayout />,
-  //   children: [
-  //     { path: '/admin', element: <Navigate to="/admin/dashboard" /> },
-  //     { path: '/admin/dashboard', element: <LazyComponent Component={AdminDashboard} /> },
-  //     { path: '/admin/users', element: <LazyComponent Component={Users} /> },
-  //   ],
-  // },
+
+    // Admin routes – protected by role check
+  {
+    element: <ProtectedRoute allowedRoles={['admin']} />,
+    children: [
+      {
+        element: <AdminLayout />,
+        children: [
+          { path: '/admin', element: <Navigate to="/admin/dashboard" replace /> },
+          { path: '/admin/dashboard', element: <LazyComponent Component={AdminDashboard} /> },
+          { path: '/admin/products', element: <LazyComponent Component={AdminProducts} /> },
+          { path: '/admin/categories', element: <LazyComponent Component={AdminCategories} /> },
+          // { path: '/admin/orders', element: <LazyComponent Component={AdminOrders} /> },
+          // { path: '/admin/custom-designs', element: <LazyComponent Component={AdminCustomDesigns} /> },
+          // { path: '/admin/users', element: <LazyComponent Component={AdminUsers} /> },
+          // { path: '/admin/analytics', element: <LazyComponent Component={AdminAnalytics} /> },
+        ],
+      },
+    ],
+  },
+  // 404 fallback (optional)
   // { path: '*', element: <NotFound /> },
 ]);
 
-const LazyComponent = ({ Component }) => (
-  <Suspense fallback={<LoadingSpinner />}>
-    <Component />
-  </Suspense>
-);
 
 function App() {
   return (

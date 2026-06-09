@@ -1,6 +1,9 @@
 @import "tailwindcss";
 
 
+@custom-variant dark (&:where(.dark, .dark *));
+
+
 @theme {
   --color-primary: #471396;
   --color-secondary: #B13BFF;
@@ -21,4 +24,28 @@
   --breakpoint-xl: 1280px;
   --breakpoint-1xl: 1440px;
   --breakpoint-2xl: 1536px;
+}
+
+
+@keyframes scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-scroll {
+  animation: scroll 15s linear infinite;
+}
+
+/* Optional: pause animation on hover */
+.animate-scroll:hover {
+  animation-play-state: paused;
+}
+
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
 }

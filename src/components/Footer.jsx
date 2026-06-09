@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useRef } from "react";
+import { motion, useInView } from "framer-motion";
 import { Link } from "react-router-dom";
 import {
   FiFacebook,
@@ -14,6 +15,8 @@ import { TbHeartHandshake } from "react-icons/tb";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
+  const sectionRef = useRef(null);
+  const isInView = useInView(sectionRef, { once: true, amount: 0.1 });
 
   const quickLinks = [
     { name: "Home", path: "/" },
@@ -32,24 +35,48 @@ const Footer = () => {
   ];
 
   const socialLinks = [
-    { icon: <FiFacebook />, url: "https://facebook.com", label: "Facebook" },
-    { icon: <FiTwitter />, url: "https://twitter.com", label: "Twitter" },
-    { icon: <FiInstagram />, url: "https://instagram.com", label: "Instagram" },
-    { icon: <FiYoutube />, url: "https://youtube.com", label: "YouTube" },
+    { icon: <FiFacebook />, url: "https://facebook.com", label: "Facebook", color: "#1877F2" },
+    { icon: <FiTwitter />, url: "https://twitter.com", label: "Twitter", color: "#1DA1F2" },
+    { icon: <FiInstagram />, url: "https://instagram.com", label: "Instagram", color: "#E4405F" },
+    { icon: <FiYoutube />, url: "https://youtube.com", label: "YouTube", color: "#FF0000" },
   ];
 
   const paymentMethods = [
     "Visa", "Mastercard", "PayPal", "Razorpay", "Google Pay", "PhonePe"
   ];
 
+  // Animation variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { staggerChildren: 0.1, delayChildren: 0.2 },
+    },
+  };
+  const itemVariants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: { opacity: 1, y: 0, transition: { type: "spring", damping: 12 } },
+  };
+  const brandVariants = {
+    hidden: { opacity: 0, x: -30 },
+    visible: { opacity: 1, x: 0, transition: { type: "spring", damping: 15 } },
+  };
+  const bottomVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { delay: 0.4, duration: 0.5 } },
+  };
+
   return (
-    <footer className="bg-gray-900 text-gray-300">
-      {/* Main Footer */}
+    <footer ref={sectionRef} className="bg-gradient-to-b from-gray-900 to-gray-950 text-gray-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
-          
+        <motion.div
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12"
+          variants={containerVariants}
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
+        >
           {/* Brand Column */}
-          <div className="space-y-4">
+          <motion.div variants={brandVariants} className="space-y-4">
             <Link to="/" className="inline-block">
               <div className="flex items-center gap-2">
                 <span className="text-3xl font-bold text-white tracking-tight">
@@ -61,58 +88,60 @@ const Footer = () => {
               Premium insulated tumblers designed for your daily hydration. 
               Customize your own and sip in style.
             </p>
-            <div className="flex space-x-4 pt-2">
+            <div className="flex space-x-3 pt-2">
               {socialLinks.map((social, idx) => (
-                <a
+                <motion.a
                   key={idx}
                   href={social.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-9 h-9 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-[#ff6b00] hover:text-white transition-colors duration-300"
+                  className="w-9 h-9 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:text-white transition-colors duration-300"
+                  whileHover={{ scale: 1.1, backgroundColor: social.color }}
+                  whileTap={{ scale: 0.95 }}
                   aria-label={social.label}
                 >
                   {social.icon}
-                </a>
+                </motion.a>
               ))}
             </div>
-          </div>
+          </motion.div>
 
           {/* Quick Links */}
-          <div>
+          <motion.div variants={itemVariants}>
             <h3 className="text-white font-semibold text-lg mb-4">Quick Links</h3>
             <ul className="space-y-2">
               {quickLinks.map((link) => (
                 <li key={link.name}>
                   <Link
                     to={link.path}
-                    className="text-gray-400 hover:text-[#ff6b00] transition text-sm"
+                    className="text-gray-400 hover:text-[#ff6b00] transition text-sm inline-block"
                   >
                     {link.name}
                   </Link>
                 </li>
               ))}
             </ul>
-          </div>
+          </motion.div>
 
           {/* Support */}
-          <div>
+          <motion.div variants={itemVariants}>
             <h3 className="text-white font-semibold text-lg mb-4">Support</h3>
             <ul className="space-y-2">
               {supportLinks.map((link) => (
                 <li key={link.name}>
                   <Link
                     to={link.path}
-                    className="text-gray-400 hover:text-[#ff6b00] transition text-sm"
+                    className="text-gray-400 hover:text-[#ff6b00] transition text-sm inline-block"
                   >
                     {link.name}
                   </Link>
                 </li>
               ))}
             </ul>
-          </div>
+          </motion.div>
 
           {/* Contact & Newsletter */}
-          <div>
+          <motion.div variants={itemVariants}>
             <h3 className="text-white font-semibold text-lg mb-4">Get in Touch</h3>
             <ul className="space-y-3 mb-6">
               <li className="flex items-start gap-3 text-sm text-gray-400">
@@ -121,56 +150,72 @@ const Footer = () => {
               </li>
               <li className="flex items-center gap-3 text-sm text-gray-400">
                 <FiMail className="flex-shrink-0 text-[#ff6b00]" />
-                <a href="mailto:hello@tumblerco.com" className="hover:text-[#ff6b00]">
+                <a href="mailto:hello@tumblerco.com" className="hover:text-[#ff6b00] transition">
                   hello@tumblerco.com
                 </a>
               </li>
               <li className="flex items-center gap-3 text-sm text-gray-400">
                 <FiPhone className="flex-shrink-0 text-[#ff6b00]" />
-                <a href="tel:+911234567890">+91 12345 67890</a>
+                <a href="tel:+911234567890" className="hover:text-[#ff6b00] transition">
+                  +91 12345 67890
+                </a>
               </li>
             </ul>
 
-            {/* Simple Newsletter (inline) */}
+            {/* Newsletter */}
             <div className="mt-4">
               <p className="text-sm text-gray-400 mb-2">Subscribe for offers</p>
               <form className="flex" onSubmit={(e) => e.preventDefault()}>
                 <input
                   type="email"
                   placeholder="Your email"
-                  className="flex-1 px-3 py-2 bg-gray-800 border border-gray-700 rounded-l-md text-sm text-white placeholder-gray-500 focus:outline-none focus:border-[#ff6b00]"
+                  className="flex-1 px-3 py-2 bg-gray-800 border border-gray-700 rounded-l-md text-sm text-white placeholder-gray-500 focus:outline-none focus:border-[#ff6b00] transition"
                 />
-                <button
+                <motion.button
                   type="submit"
                   className="px-3 py-2 bg-[#ff6b00] text-white rounded-r-md hover:bg-orange-600 transition"
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
                 >
                   <FiArrowRight size={18} />
-                </button>
+                </motion.button>
               </form>
             </div>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
 
         {/* Payment Methods & Copyright */}
-        <div className="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-          <div className="flex flex-wrap justify-center gap-3">
+        <motion.div
+          className="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center gap-4"
+          variants={bottomVariants}
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
+        >
+          <div className="flex flex-wrap justify-center gap-2">
             {paymentMethods.map((method) => (
-              <span
+              <motion.span
                 key={method}
-                className="px-3 py-1 bg-gray-800 text-gray-400 text-xs rounded-full"
+                className="px-3 py-1 bg-gray-800 text-gray-400 text-xs rounded-full cursor-default"
+                whileHover={{ scale: 1.05, backgroundColor: "#ff6b00", color: "#fff" }}
+                transition={{ type: "spring", stiffness: 400 }}
               >
                 {method}
-              </span>
+              </motion.span>
             ))}
           </div>
           <div className="text-center text-sm text-gray-500">
             © {currentYear} Tumbler. All rights reserved. | 
             <span className="inline-flex items-center gap-1 mx-1">
-              <TbHeartHandshake size={14} className="text-red-500" />
+              <motion.span
+                animate={{ scale: [1, 1.2, 1] }}
+                transition={{ repeat: Infinity, repeatDelay: 3, duration: 0.5 }}
+              >
+                <TbHeartHandshake size={14} className="text-red-500" />
+              </motion.span>
               Designed with care
             </span>
           </div>
-        </div>
+        </motion.div>
       </div>
     </footer>
   );

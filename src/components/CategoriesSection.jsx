@@ -1,231 +1,288 @@
+// CategorySection.jsx – with navigation to filtered products
 import React, { useRef } from "react";
-import { FiArrowRight } from "react-icons/fi";
-import { FaHeart } from "react-icons/fa";
+import { motion, useInView } from "framer-motion";
+import { useNavigate } from "react-router-dom";
+import {
+  ArrowRight,
+  Coffee,
+  Plane,
+  Dumbbell,
+  Sparkles,
+  CupSoda,
+} from "lucide-react";
 
 const categories = [
   {
-    title: "Travel",
-    products: "16 Products",
-    image: "https://res.cloudinary.com/dbkpwluh0/image/upload/v1779188733/categryone-Photoroom_odwr1b.png",
+    id: 1,
+    title: "Insulated Tumblers",
+    description: "Maximum temperature retention for all-day hydration.",
+    image:
+      "https://res.cloudinary.com/dbkpwluh0/image/upload/v1780121820/ChatGPT_Image_May_30_2026_11_45_33_AM_vsusu1.png",
+    bg: "bg-[#FCF1EC]",
+    icon: <CupSoda size={18} />,
   },
   {
-    title: "Coffee Mugs",
-    products: "12 Products",
-    image: "https://res.cloudinary.com/dbkpwluh0/image/upload/v1779188926/categrytwo-removebg-preview_xci0l8.png",
-    wishlist: true,
+    id: 2,
+    title: "Travel Tumblers",
+    description: "Leak-proof and travel-friendly for your on-the-go lifestyle.",
+    image:
+      "https://res.cloudinary.com/dbkpwluh0/image/upload/v1780121820/ChatGPT_Image_May_30_2026_11_27_35_AM_usdykk.png",
+    bg: "bg-[#F6EFEC]",
+    icon: <Plane size={18} />,
   },
   {
-    title: "Gym Bottles",
-    products: "14 Products",
-    image: "https://res.cloudinary.com/dbkpwluh0/image/upload/v1779188925/boottle-removebg-preview_irowts.png",
+    id: 3,
+    title: "Sports Tumblers",
+    description: "Built for performance and active lifestyles.",
+    image:
+      "https://res.cloudinary.com/dbkpwluh0/image/upload/v1780121820/ChatGPT_Image_May_30_2026_11_44_01_AM_e19f5h.png",
+    bg: "bg-[#F7EFF2]",
+    icon: <Dumbbell size={18} />,
   },
   {
-    title: "Kids",
-    products: "10 Products",
-    image: "https://res.cloudinary.com/dbkpwluh0/image/upload/v1779188734/bottle-Photoroom_pqzvhc.png",
+    id: 4,
+    title: "Coffee Tumblers",
+    description: "Perfect for coffee lovers, keeps drinks hot & fresh.",
+    image:
+      "https://res.cloudinary.com/dbkpwluh0/image/upload/v1779991950/ChatGPT_Image_May_28_2026_11_40_22_PM_kgdcha.png",
+    bg: "from-[#f7eadf] to-[#fff8f1]",
+    icon: <Coffee size={18} />,
   },
   {
-    title: "Accessories",
-    products: "8 Products",
-    image: "https://res.cloudinary.com/dbkpwluh0/image/upload/v1779189010/imgi_1143_8901372268703_3-removebg-preview_nnm2vx.png",
+    id: 5,
+    title: "Limited Edition",
+    description: "Exclusive designs for those who love to stand out.",
+    image:
+      "https://res.cloudinary.com/dbkpwluh0/image/upload/v1779991615/ChatGPT_Image_May_28_2026_11_36_32_PM_a8ea7o.png",
+    bg: "from-[#ffdcec] to-[#fff4fa]",
+    icon: <Sparkles size={18} />,
   },
 ];
 
-const CategoriesSection = () => {
-  const scrollRef = useRef(null);
+const CategorySection = () => {
+  const navigate = useNavigate();
+  const sectionRef = useRef(null);
+  const isInView = useInView(sectionRef, { once: true, amount: 0.2 });
+
+  // Animation variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { staggerChildren: 0.08, delayChildren: 0.2 },
+    },
+  };
+  const itemVariants = {
+    hidden: { opacity: 0, y: 40 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { type: "spring", damping: 12, stiffness: 90 },
+    },
+  };
+  const mobileItemVariants = {
+    hidden: { opacity: 0, x: 40 },
+    visible: {
+      opacity: 1,
+      x: 0,
+      transition: { type: "spring", damping: 15, stiffness: 100 },
+    },
+  };
+
+  const handleCategoryClick = (categoryId) => {
+    navigate(`/allproducts?category=${categoryId}`);
+  };
 
   return (
-    <section className="w-full py-2 md:py-16 bg-white">
-      <div className="max-w-[1400px] mx-auto px-4 md:px-5">
-        {/* Header */}
-        <div className="flex items-center justify-between mb-6 md:mb-10">
-          <h2 className="sm:text-3xl md:text-[38px] font-bold text-[#161616] tracking-[-0.5px] md:tracking-[-1px]">
-            Shop By Category
-          </h2>
+    <section
+      ref={sectionRef}
+      className="w-full bg-white py-14 md:py-20 overflow-hidden"
+    >
+      <div className="max-w-[1700px] mx-auto px-4 md:px-6">
+        {/* HEADER */}
+        <div className="flex items-center justify-between mb-12">
+          <div>
+            <h2 className="text-3xl md:text-4xl font-bold mt-3 text-[#111]">
+              Shop By Category
+            </h2>
+          </div>
+          {/* Desktop "View all" button */}
           <button
-            className="
-              h-9 md:h-[46px]
-              px-4 md:px-6
-              rounded-full
-              border border-[#dddddd]
-              bg-white
-              hover:bg-[#111]
-              hover:text-white
-              hover:border-[#111]
-              transition-all duration-300
-              flex items-center gap-1 md:gap-2
-              text-xs md:text-[15px]
-              font-semibold
-              text-[#222]
-              shadow-sm
-            "
-            aria-label="View all categories"
+            onClick={() => navigate("/products")}
+            className="hidden lg:flex items-center gap-4 border border-[#ece7e4] px-8 py-2 rounded-full font-semibold hover:bg-[#ff6b35] hover:text-white transition-all duration-300 group"
           >
-            View all
-            <FiArrowRight className="text-xs md:text-[17px]" />
+            View All
+            <span className="w-9 h-9 rounded-full bg-[#ff6b35] text-white flex items-center justify-center group-hover:translate-x-1 transition-transform duration-300">
+              <ArrowRight size={18} />
+            </span>
           </button>
         </div>
 
-        {/* Mobile: horizontal scrollable carousel – app‑style compact cards */}
-        <div className="block md:hidden">
-          <div
-            ref={scrollRef}
-            className="flex overflow-x-auto snap-x snap-mandatory gap-3 pb-4 scrollbar-hide"
-            style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
-          >
-            {categories.map((item, index) => (
-              <div
-                key={index}
-                className="
-                  relative
-                  bg-[#f4ece8]
-                  rounded-2xl
-                  overflow-hidden
-                  w-[150px]
-                  flex-shrink-0
-                  snap-start
-                  transition-all
-                  duration-200
-                  active:scale-95
-                  border border-[#ece7e4]
-                  shadow-sm
-                  group
-                "
-              >
-                {/* Wishlist heart */}
-                {item.wishlist && (
-                  <button
-                    className="
-                      absolute top-2 right-2 z-20
-                      w-7 h-7 rounded-full bg-white/80 backdrop-blur-sm shadow-sm
-                      flex items-center justify-center
-                      hover:scale-110 transition
-                    "
-                    aria-label="Add to wishlist"
-                  >
-                    <FaHeart className="text-[#888] text-[10px]" />
-                  </button>
-                )}
-
-                {/* Image */}
-                <div className="h-[130px] overflow-hidden flex items-center justify-center bg-[#f4ece8]">
-                  <img
-                    src={item.image}
-                    alt={item.title}
-                    loading="lazy"
-                    className="
-                      w-full h-full object-contain
-                      group-hover:scale-105 transition-transform duration-300
-                      p-3
-                    "
-                  />
-                </div>
-
-                {/* Text content */}
-                <div className="pb-3 px-2 text-center">
-                  <h3 className="text-sm font-bold text-[#1d1d1d] truncate">{item.title}</h3>
-                  <p className="mt-0.5 text-[11px] text-[#7a7a7a] font-medium">{item.products}</p>
-                  <button className="mt-2 text-[#ff6b00] text-[11px] font-semibold flex items-center justify-center gap-0.5 w-full">
-                    Explore <FiArrowRight className="text-[10px]" />
-                  </button>
-                </div>
-              </div>
-            ))}
-            {/* Extra "View All" card (optional) */}
-            <div
-              className="
+        {/* DESKTOP: Responsive Grid */}
+        <motion.div
+          className="hidden md:grid grid-cols-2 lg:grid-cols-5 gap-5"
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
+          variants={containerVariants}
+        >
+          {categories.map((item) => (
+            <motion.div
+              key={item.id}
+              variants={itemVariants}
+              whileHover={{ y: -8 }}
+              transition={{ type: "spring", damping: 15 }}
+              onClick={() => handleCategoryClick(item.id)}
+              className={`
                 relative
-                bg-white
-                rounded-2xl
                 overflow-hidden
-                w-[150px]
-                flex-shrink-0
-                snap-start
-                border border-dashed border-[#ff6b00]
-                flex flex-col items-center justify-center
-                text-center
-                p-3
-                shadow-sm
-              "
-            >
-              <div className="w-12 h-12 rounded-full bg-[#ff6b00]/10 flex items-center justify-center mb-2">
-                <FiArrowRight className="text-[#ff6b00] text-xl" />
-              </div>
-              <p className="text-sm font-semibold text-[#ff6b00]">View All</p>
-              <p className="text-[10px] text-gray-400 mt-1">28+ products</p>
-            </div>
-          </div>
-          {/* Scroll hint */}
-          <div className="flex justify-center gap-1 mt-2 md:hidden">
-            <span className="text-[9px] text-gray-400">← Swipe to explore →</span>
-          </div>
-        </div>
-
-        {/* Desktop/Tablet: responsive grid (unchanged) */}
-        <div className="hidden md:grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
-          {categories.map((item, index) => (
-            <div
-              key={index}
-              className="
+                rounded-[26px]
+                bg-gradient-to-br
+                ${item.bg}
+                border border-[#efe8e5]
                 group
-                relative
-                bg-[#f4ece8]
-                rounded-[24px]
-                overflow-hidden
-                hover:-translate-y-1
-                transition-all duration-300
-                border border-[#ece7e4]
-                shadow-[0_10px_30px_rgba(0,0,0,0.03)]
-                hover:shadow-[0_20px_40px_rgba(0,0,0,0.08)]
-              "
+                cursor-pointer
+                transition-all duration-500
+                hover:shadow-[0_25px_70px_rgba(0,0,0,0.12)]
+                flex flex-col
+              `}
             >
-              {item.wishlist && (
-                <button
-                  className="
-                    absolute top-4 right-4 z-20
-                    w-9 h-9 rounded-full bg-white shadow-md
-                    flex items-center justify-center
-                    hover:scale-110 transition
-                  "
-                  aria-label="Add to wishlist"
-                >
-                  <FaHeart className="text-[#888] text-[13px]" />
-                </button>
-              )}
+              {/* Icon */}
+              <div className="absolute top-4 left-4 z-20 w-10 h-10 rounded-full flex items-center justify-center backdrop-blur-md shadow-md bg-white/80 text-[#ff6b35]">
+                {item.icon}
+              </div>
 
-              <div className="h-[210px] overflow-hidden flex items-center justify-center">
+              {/* Image Area */}
+              <div className="relative h-[300px] flex items-center justify-center overflow-hidden">
+                <div className="absolute w-[180px] h-[180px] rounded-full bg-white/40 blur-3xl" />
                 <img
                   src={item.image}
                   alt={item.title}
                   loading="lazy"
-                  className="
-                    w-full h-full object-contain
-                    group-hover:scale-105 transition-transform duration-500
-                    p-5
-                  "
+                  className="relative z-10 w-full h-full object-cover drop-shadow-[0_20px_30px_rgba(0,0,0,0.15)] group-hover:scale-105 transition-transform duration-500"
                 />
               </div>
 
-              <div className="pb-7 px-5 text-center">
-                <h3 className="text-xl font-bold text-[#1d1d1d]">{item.title}</h3>
-                <p className="mt-2 text-[15px] text-[#7a7a7a] font-medium">{item.products}</p>
-                <button className="mt-4 text-[#ff6b00] text-sm font-semibold flex items-center justify-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                  Shop Now <FiArrowRight className="text-sm" />
+              {/* Content */}
+              <div className="px-4 pb-7 pt-2 flex flex-col flex-1">
+                <h3 className="text-xl md:text-2xl font-bold text-[#111] leading-tight">
+                  {item.title}
+                </h3>
+                <p className="mt-3 text-sm md:text-base text-gray-600 leading-relaxed flex-1">
+                  {item.description}
+                </p>
+                <button className="mt-5 flex items-center gap-3 font-semibold text-sm group/button text-black">
+                  Explore Now
+                  <span className="transition-all duration-300 group-hover/button:translate-x-2 text-[#ff6b35]">
+                    <ArrowRight size={18} />
+                  </span>
                 </button>
               </div>
-            </div>
+
+              {/* Bottom line animation */}
+              <div className="absolute bottom-0 left-0 h-[4px] w-0 bg-[#ff6b35] transition-all duration-500 group-hover:w-full" />
+            </motion.div>
           ))}
+        </motion.div>
+
+        {/* MOBILE: Horizontal Scroll Carousel (snap scroll) */}
+        <div className="block md:hidden">
+          <motion.div
+            className="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-5 scrollbar-hide"
+            style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+            initial="hidden"
+            animate={isInView ? "visible" : "hidden"}
+            variants={containerVariants}
+          >
+            {categories.map((item) => (
+              <motion.div
+                key={item.id}
+                variants={mobileItemVariants}
+                whileHover={{ y: -3 }}
+                whileTap={{ scale: 0.98 }}
+                onClick={() => handleCategoryClick(item.id)}
+                className={`
+                  relative
+                  w-[200px]
+                  flex-shrink-0
+                  snap-start
+                  overflow-hidden
+                  rounded-[24px]
+                  bg-gradient-to-br
+                  ${item.bg}
+                  border border-[#efe8e5]
+                  group
+                  cursor-pointer
+                  shadow-sm
+                  flex flex-col
+                `}
+              >
+                {/* Icon */}
+                <div className="absolute top-3 left-3 z-20 w-8 h-8 rounded-full flex items-center justify-center backdrop-blur-md shadow-sm bg-white/80 text-[#ff6b35]">
+                  {item.icon}
+                </div>
+
+                {/* Image */}
+                <div className="relative h-[200px] flex items-center justify-center overflow-hidden">
+                  <img
+                    src={item.image}
+                    alt={item.title}
+                    loading="lazy"
+                    className="w-full h-full object-cover pb-3 drop-shadow-lg group-hover:scale-105 transition-transform duration-500"
+                  />
+                </div>
+
+                {/* Content */}
+                <div className="px-4 pb-5 pt-1">
+                  <h3 className="text-lg font-bold text-[#111] leading-tight">
+                    {item.title}
+                  </h3>
+                  <p className="mt-2 text-xs text-gray-600 line-clamp-2">
+                    {item.description}
+                  </p>
+                  <button className="mt-3 flex items-center gap-2 font-semibold text-xs group/button text-black">
+                    Explore Now
+                    <span className="transition-all duration-300 group-hover/button:translate-x-1 text-[#ff6b35]">
+                      <ArrowRight size={14} />
+                    </span>
+                  </button>
+                </div>
+
+                {/* Bottom line */}
+                <div className="absolute bottom-0 left-0 h-[3px] w-0 bg-[#ff6b35] transition-all duration-500 group-hover:w-full" />
+              </motion.div>
+            ))}
+          </motion.div>
+          {/* Scroll hint */}
+          <div className="flex justify-center mt-2">
+            <span className="text-[10px] text-gray-400">← Swipe to see more →</span>
+          </div>
+        </div>
+
+        {/* Mobile "View All" button */}
+        <div className="flex justify-center mt-10 lg:hidden">
+          <button
+            onClick={() => navigate("/products")}
+            className="flex items-center gap-3 border border-[#ece7e4] px-6 py-3 rounded-full font-semibold text-sm"
+          >
+            View All
+            <span className="w-8 h-8 rounded-full bg-[#ff6b35] text-white flex items-center justify-center">
+              <ArrowRight size={16} />
+            </span>
+          </button>
         </div>
       </div>
 
-      {/* Hide scrollbar for Chrome/Safari */}
       <style jsx>{`
         .scrollbar-hide::-webkit-scrollbar {
           display: none;
+        }
+        .scrollbar-hide {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
         }
       `}</style>
     </section>
   );
 };
 
-export default CategoriesSection;
+export default CategorySection;
