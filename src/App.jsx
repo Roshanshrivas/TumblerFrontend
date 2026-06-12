@@ -13,6 +13,10 @@ import AdminLayout from './pages/admin/AdminLayout';          // <-- new
 import AdminDashboard from './pages/admin/AdminDashboard';    // <-- new
 import AdminProducts from './pages/admin/Products';  
 import AdminCategories from './pages/admin/Categories'         // <-- new
+import AdminOrders from './pages/admin/Orders'
+import AdminCustomDesigns from './pages/admin/CustomProducts'
+import AdminUsers from './pages/admin/Users'
+import AdminAnalytics from './pages/admin/Analytics'
 
 
 
@@ -81,10 +85,10 @@ const router = createBrowserRouter([
           { path: '/admin/dashboard', element: <LazyComponent Component={AdminDashboard} /> },
           { path: '/admin/products', element: <LazyComponent Component={AdminProducts} /> },
           { path: '/admin/categories', element: <LazyComponent Component={AdminCategories} /> },
-          // { path: '/admin/orders', element: <LazyComponent Component={AdminOrders} /> },
-          // { path: '/admin/custom-designs', element: <LazyComponent Component={AdminCustomDesigns} /> },
-          // { path: '/admin/users', element: <LazyComponent Component={AdminUsers} /> },
-          // { path: '/admin/analytics', element: <LazyComponent Component={AdminAnalytics} /> },
+          { path: '/admin/orders', element: <LazyComponent Component={AdminOrders} /> },
+          { path: '/admin/custom-designs', element: <LazyComponent Component={AdminCustomDesigns} /> },
+          { path: '/admin/users', element: <LazyComponent Component={AdminUsers} /> },
+          { path: '/admin/analytics', element: <LazyComponent Component={AdminAnalytics} /> },
         ],
       },
     ],

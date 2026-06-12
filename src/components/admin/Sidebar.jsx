@@ -44,16 +44,9 @@ const Sidebar = ({ isExpanded, onMouseEnter, onMouseLeave, isMobile, onMobileClo
     },
     { 
       name: "Orders", 
+      path: "/admin/orders",
       icon: <ShoppingCart size={20} />, 
       section: "main",
-      children: [
-        { name: "All Orders", path: "/admin/orders", icon: null },
-        { name: "Pending", path: "/admin/orders/pending", icon: null },
-        { name: "Processing", path: "/admin/orders/processing", icon: null },
-        { name: "Shipped", path: "/admin/orders/shipped", icon: null },
-        { name: "Delivered", path: "/admin/orders/delivered", icon: null },
-        { name: "Cancelled", path: "/admin/orders/cancelled", icon: null },
-      ]
     },
     { name: "Custom Designs", path: "/admin/custom-designs", icon: <Palette size={20} />, section: "main" },
     { name: "Users", path: "/admin/users", icon: <Users size={20} />, section: "main" },
