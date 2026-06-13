@@ -172,13 +172,6 @@ const Orders = () => {
 
   return (
     <div className="space-y-6">
-      {/* Breadcrumb */}
-      <div className="flex items-center gap-2 text-sm text-gray-500">
-        <Link to="/admin" className="hover:text-orange-600">Dashboard</Link>
-        <span>/</span>
-        <span className="text-gray-800 dark:text-white font-medium">Orders</span>
-      </div>
-
       {/* Stats Grid */}
       <StatsGrid stats={statsCards} />
 
