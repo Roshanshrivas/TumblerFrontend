@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Mail, Lock, Eye, EyeOff, Leaf, Loader2 } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import BrandPanel from "../components/BrandPanel";
 
@@ -54,6 +54,7 @@ export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -67,9 +68,27 @@ export default function LoginPage() {
     }
     setIsLoading(true);
     setTimeout(() => {
-      toast.success("Logged in successfully!");
+    // Demo credentials
+    let role = "customer";
+    if (email === "admin@tumbler.com" && password === "admin123") role = "admin";
+    else if (email === "user@tumbler.com" && password === "user123") role = "customer";
+    else {
+      toast.error("Invalid credentials. Use admin@tumbler.com / admin123 or user@tumbler.com / user123");
       setIsLoading(false);
-    }, 1000);
+      return;
+    }
+    const user = {
+      id: Date.now(),
+      name: email.split("@")[0],
+      email,
+      role,
+    };
+    localStorage.setItem("user", JSON.stringify(user));
+    window.dispatchEvent(new Event("userUpdated"));
+    toast.success(`Logged in as ${role}`);
+    navigate(role === "admin" ? "/admin/dashboard" : "/");
+    setIsLoading(false);
+  }, 800);
   };
 
   return (

@@ -370,10 +370,10 @@ const ProductsPage = () => {
 
   // Persist cart & wishlist
   useEffect(() => {
-    localStorage.setItem("tumblerCart", JSON.stringify(cart));
+    localStorage.setItem("cart", JSON.stringify(cart));
   }, [cart]);
   useEffect(() => {
-    localStorage.setItem("tumblerWishlist", JSON.stringify(wishlist));
+    localStorage.setItem("wishlist", JSON.stringify(wishlist));
   }, [wishlist]);
 
   // Listen for filter reset event
