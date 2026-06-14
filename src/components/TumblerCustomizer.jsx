@@ -1,11 +1,11 @@
-// TumblerCustomizer.jsx – Full‑screen Canva‑style layout
+// TumblerCustomizer.jsx – Professional full‑height layout, no shifting
 import React, { useEffect, useRef, useState, useCallback } from "react";
 import { fabric } from "fabric";
 import { tumblers } from "../utils/tumblerData";
 import toast from "react-hot-toast";
 import {
-  FiGrid, FiType, FiDroplet, FiUpload, FiDownload,
-  FiShoppingCart, FiTrash2, FiPlus, FiChevronDown, FiChevronUp, FiSave,
+  FiGrid, FiType, FiDroplet, FiUpload, FiShoppingCart,
+  FiTrash2, FiPlus, FiChevronDown, FiChevronUp,
   FiHeart, FiStar, FiSun, FiMoon, FiXCircle, FiMenu, FiX
 } from "react-icons/fi";
 import { CiUndo, CiRedo } from "react-icons/ci";
@@ -92,9 +92,9 @@ const TumblerCustomizer = () => {
     actions: true,
   });
   const [activeDesignObject, setActiveDesignObject] = useState(null);
-  const [sidebarOpen, setSidebarOpen] = useState(false); // for mobile
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  // ---------- Undo / Redo (unchanged) ----------
+  // ---------- Undo / Redo ----------
   const saveState = useCallback(() => {
     if (!fabricCanvas.current) return;
     const json = JSON.stringify(fabricCanvas.current.toJSON());
@@ -110,9 +110,14 @@ const TumblerCustomizer = () => {
       setHistoryIndex(newIndex);
       fabricCanvas.current.loadFromJSON(JSON.parse(history[newIndex]), () => {
         fabricCanvas.current.renderAll();
+        const objects = fabricCanvas.current.getObjects();
+        const designObj = objects.find(obj => obj.pattern && obj.fill?.source);
+        setActiveDesignObject(designObj || null);
       });
       toast.success("Undo");
-    } else toast.error("Nothing to undo");
+    } else {
+      toast.error("Nothing to undo");
+    }
   };
 
   const redo = () => {
@@ -121,9 +126,14 @@ const TumblerCustomizer = () => {
       setHistoryIndex(newIndex);
       fabricCanvas.current.loadFromJSON(JSON.parse(history[newIndex]), () => {
         fabricCanvas.current.renderAll();
+        const objects = fabricCanvas.current.getObjects();
+        const designObj = objects.find(obj => obj.pattern && obj.fill?.source);
+        setActiveDesignObject(designObj || null);
       });
       toast.success("Redo");
-    } else toast.error("Nothing to redo");
+    } else {
+      toast.error("Nothing to redo");
+    }
   };
 
   // Initialize canvas
@@ -132,12 +142,13 @@ const TumblerCustomizer = () => {
       width: 500,
       height: 700,
       preserveObjectStacking: true,
+      backgroundColor: "#ffffff",
     });
     fabricCanvas.current = canvas;
-    saveState();
     canvas.on("object:modified", () => saveState());
     canvas.on("object:added", () => saveState());
     canvas.on("object:removed", () => saveState());
+    saveState();
     return () => canvas.dispose();
   }, []);
 
@@ -159,6 +170,9 @@ const TumblerCustomizer = () => {
         addGuideArea();
         saveState();
       });
+    }, (err) => {
+      console.error("Failed to load tumbler image", err);
+      toast.error("Could not load tumbler image");
     });
   };
 
@@ -204,11 +218,11 @@ const TumblerCustomizer = () => {
       left: area.left + 20,
       top: area.top + 40,
       width: area.width - 40,
-      fontSize: fontSize,
+      fontSize,
       fill: selectedColor,
       fontFamily: selectedFont,
-      fontWeight: fontWeight,
-      fontStyle: fontStyle,
+      fontWeight,
+      fontStyle,
       textAlign: "center",
       editable: true,
       cornerColor: selectedTumbler.theme.accent,
@@ -333,15 +347,6 @@ const TumblerCustomizer = () => {
     }
   };
 
-  const downloadImage = () => {
-    const dataURL = fabricCanvas.current.toDataURL({ format: "png", quality: 1 });
-    const link = document.createElement("a");
-    link.download = "custom-tumbler.png";
-    link.href = dataURL;
-    link.click();
-    toast.success("Download started");
-  };
-
   const addToCart = () => {
     const canvas = fabricCanvas.current;
     if (!canvas) return;
@@ -378,7 +383,7 @@ const TumblerCustomizer = () => {
   const SectionHeader = ({ title, icon, section }) => (
     <button
       onClick={() => toggleSection(section)}
-      className="flex items-center justify-between w-full py-3 text-left font-semibold text-gray-800 border-b border-gray-100 hover:text-orange-500 transition"
+      className="flex items-center justify-between w-full py-3 text-left font-semibold text-gray-700 border-b border-gray-100 hover:text-orange-500 transition"
     >
       <div className="flex items-center gap-2">
         {icon}
@@ -390,38 +395,46 @@ const TumblerCustomizer = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-100 to-gray-200 flex flex-col">
-      {/* Top Bar (visible on all screens) */}
-      <div className="bg-white shadow-md px-6 py-3 flex items-center justify-between">
+      {/* Top Bar – always on top, not covered by sidebar */}
+      {/* <div className="bg-white shadow-sm border-b border-gray-200 px-6 py-3 flex items-center justify-between sticky top-0 z-30">
         <div className="flex items-center gap-3">
           <button
             className="lg:hidden text-gray-700 hover:text-orange-500 transition"
             onClick={() => setSidebarOpen(true)}
+            aria-label="Open menu"
           >
             <FiMenu size={24} />
           </button>
           <h1 className="text-xl font-bold text-gray-800">Tumbler<span className="text-orange-500">Studio</span></h1>
         </div>
-        <div className="text-sm text-gray-500 hidden sm:block">Design your own tumbler – drag, resize, rotate</div>
-        <div className="w-10" /> {/* spacer for alignment */}
-      </div>
+        <div className="text-sm text-gray-500 hidden sm:block">Customise your tumbler – drag, resize, rotate</div>
+        <div className="w-10" />
+      </div> */}
 
-      <div className="flex flex-1 overflow-hidden">
-        {/* Sidebar Overlay (mobile) */}
+      {/* Main flex row – full height excluding top bar */}
+      <div className="flex flex-1 overflow-hidden relative">
+        {/* Mobile overlay (only when sidebar open) */}
         {sidebarOpen && (
-          <div className="fixed inset-0 z-40 bg-black/50 lg:hidden" onClick={() => setSidebarOpen(false)} />
+          <div
+            className="fixed inset-0 z-50 bg-black/50 lg:hidden"
+            onClick={() => setSidebarOpen(false)}
+          />
         )}
 
-        {/* Sidebar – fixed width, scrollable, canva‑style */}
+        {/* Sidebar – drawer on mobile, inline on desktop */}
         <aside
           className={`
-            fixed lg:static top-0 left-0 z-50 h-full w-80 bg-white shadow-2xl transform transition-transform duration-300 ease-in-out overflow-y-auto
+            fixed lg:relative top-0 left-0 h-full w-80 bg-white shadow-2xl transform transition-transform duration-300 ease-in-out overflow-y-auto
             ${sidebarOpen ? "translate-x-0" : "-translate-x-full"} lg:translate-x-0
           `}
+          style={{ top: 0 }} // ensure it starts at top (covers top bar if needed)
         >
           <div className="p-5">
             <div className="flex justify-between items-center mb-4 lg:hidden">
               <h2 className="text-xl font-bold">Tools</h2>
-              <button onClick={() => setSidebarOpen(false)} className="text-gray-500"><FiX size={24} /></button>
+              <button onClick={() => setSidebarOpen(false)} className="text-gray-500 hover:text-orange-500">
+                <FiX size={24} />
+              </button>
             </div>
 
             {/* Tumbler Selection */}
@@ -440,7 +453,7 @@ const TumblerCustomizer = () => {
                       className={`rounded-xl border p-2 transition ${
                         selectedTumbler.id === item.id
                           ? "border-orange-500 shadow-md bg-orange-50"
-                          : "border-gray-200 hover:border-gray-300"
+                          : "border-gray-200 hover:border-gray-300 hover:bg-gray-50"
                       }`}
                     >
                       <img src={item.image} alt={item.name} className="h-12 object-contain mx-auto" />
@@ -456,23 +469,35 @@ const TumblerCustomizer = () => {
               <SectionHeader title="Text Settings" icon={<FiType size={18} />} section="text" />
               {openSections.text && (
                 <div className="space-y-3 mt-3">
-                  <input type="text" value={userText} onChange={(e) => setUserText(e.target.value)} className="w-full border rounded-xl p-2 text-sm" placeholder="Your text" />
-                  <select value={selectedFont} onChange={(e) => setSelectedFont(e.target.value)} className="w-full border rounded-xl p-2 text-sm">
+                  <input
+                    type="text"
+                    value={userText}
+                    onChange={(e) => setUserText(e.target.value)}
+                    className="w-full border border-gray-300 rounded-xl p-2 text-sm focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                    placeholder="Your text"
+                  />
+                  <select
+                    value={selectedFont}
+                    onChange={(e) => setSelectedFont(e.target.value)}
+                    className="w-full border border-gray-300 rounded-xl p-2 text-sm"
+                  >
                     {selectedTumbler.fonts.map(font => <option key={font}>{font}</option>)}
                   </select>
                   <div>
-                    <label className="text-xs">Size: {fontSize}px</label>
+                    <label className="text-xs text-gray-500">Size: {fontSize}px</label>
                     <input type="range" min="20" max="80" value={fontSize} onChange={(e) => setFontSize(parseInt(e.target.value))} className="w-full" />
                   </div>
                   <div className="grid grid-cols-2 gap-2">
-                    <select value={fontWeight} onChange={(e) => setFontWeight(e.target.value)} className="border rounded-xl p-2 text-sm">
-                      <option>Normal</option><option>500</option><option>700</option>
+                    <select value={fontWeight} onChange={(e) => setFontWeight(e.target.value)} className="border border-gray-300 rounded-xl p-2 text-sm">
+                      <option value="400">Normal</option><option value="500">Medium</option><option value="700">Bold</option>
                     </select>
-                    <select value={fontStyle} onChange={(e) => setFontStyle(e.target.value)} className="border rounded-xl p-2 text-sm">
-                      <option>Normal</option><option>Italic</option>
+                    <select value={fontStyle} onChange={(e) => setFontStyle(e.target.value)} className="border border-gray-300 rounded-xl p-2 text-sm">
+                      <option value="normal">Normal</option><option value="italic">Italic</option>
                     </select>
                   </div>
-                  <button onClick={addNewText} className="w-full bg-black text-white py-2 rounded-xl flex items-center justify-center gap-1 text-sm"><FiPlus /> Add Text</button>
+                  <button onClick={addNewText} className="w-full bg-black text-white py-2 rounded-xl flex items-center justify-center gap-1 text-sm hover:bg-gray-800 transition">
+                    <FiPlus /> Add Text
+                  </button>
                 </div>
               )}
             </div>
@@ -484,28 +509,45 @@ const TumblerCustomizer = () => {
                 <div className="space-y-3 mt-3">
                   <div className="flex gap-2 flex-wrap">
                     {selectedTumbler.colors.map(color => (
-                      <button key={color} onClick={() => setSelectedColor(color)} className={`w-8 h-8 rounded-full border-2 ${selectedColor === color ? "border-black scale-110" : "border-white"} shadow`} style={{ backgroundColor: color }} />
+                      <button
+                        key={color}
+                        onClick={() => setSelectedColor(color)}
+                        className={`w-8 h-8 rounded-full border-2 shadow-sm transition ${
+                          selectedColor === color ? "border-black scale-110" : "border-white"
+                        }`}
+                        style={{ backgroundColor: color }}
+                        aria-label={`Select color ${color}`}
+                      />
                     ))}
                   </div>
-                  <label className="bg-orange-500 text-white py-2 rounded-xl text-center text-sm cursor-pointer flex items-center justify-center gap-1"><FiUpload /> Upload Logo<input hidden type="file" accept="image/*" onChange={uploadLogo} /></label>
+                  <label className="bg-orange-500 text-white py-2 rounded-xl text-center text-sm cursor-pointer flex items-center justify-center gap-1 hover:bg-orange-600 transition">
+                    <FiUpload /> Upload Logo
+                    <input hidden type="file" accept="image/*" onChange={uploadLogo} />
+                  </label>
                 </div>
               )}
             </div>
 
-            {/* Ready Designs (patterns) */}
+            {/* Ready Designs */}
             <div className="mt-4">
               <SectionHeader title="Ready Designs" icon={<FiStar size={18} />} section="designs" />
               {openSections.designs && (
                 <>
                   <div className="grid grid-cols-2 gap-2 mt-3">
                     {readyDesigns.map(design => (
-                      <button key={design.id} onClick={() => applyDesign(design.patternType)} className="flex flex-col items-center p-2 border rounded-xl hover:border-orange-500">
+                      <button
+                        key={design.id}
+                        onClick={() => applyDesign(design.patternType)}
+                        className="flex flex-col items-center p-2 border border-gray-200 rounded-xl hover:border-orange-500 hover:bg-orange-50 transition"
+                      >
                         <div className="text-2xl text-orange-500">{design.icon}</div>
-                        <span className="text-xs">{design.name}</span>
+                        <span className="text-xs mt-1">{design.name}</span>
                       </button>
                     ))}
                   </div>
-                  <button onClick={clearDesign} className="mt-2 w-full bg-gray-200 text-gray-700 py-2 rounded-xl flex items-center justify-center gap-1 text-sm"><FiXCircle /> Clear Design</button>
+                  <button onClick={clearDesign} className="mt-2 w-full bg-gray-100 text-gray-700 py-2 rounded-xl flex items-center justify-center gap-1 text-sm hover:bg-gray-200 transition">
+                    <FiXCircle /> Clear Design
+                  </button>
                 </>
               )}
             </div>
@@ -516,24 +558,31 @@ const TumblerCustomizer = () => {
               {openSections.actions && (
                 <div className="space-y-2 mt-3">
                   <div className="flex gap-2">
-                    <button onClick={undo} className="flex-1 border py-2 rounded-xl flex items-center justify-center gap-1"><CiUndo /> Undo</button>
-                    <button onClick={redo} className="flex-1 border py-2 rounded-xl flex items-center justify-center gap-1"><CiRedo /> Redo</button>
+                    <button onClick={undo} className="flex-1 border border-gray-300 py-2 rounded-xl flex items-center justify-center gap-1 text-sm hover:bg-gray-50 transition">
+                      <CiUndo /> Undo
+                    </button>
+                    <button onClick={redo} className="flex-1 border border-gray-300 py-2 rounded-xl flex items-center justify-center gap-1 text-sm hover:bg-gray-50 transition">
+                      <CiRedo /> Redo
+                    </button>
                   </div>
-                  <button onClick={deleteSelectedObject} className="w-full bg-red-500 text-white py-2 rounded-xl flex items-center justify-center gap-1"><FiTrash2 /> Delete</button>
+                  <button onClick={deleteSelectedObject} className="w-full bg-red-500 text-white py-2 rounded-xl flex items-center justify-center gap-1 text-sm hover:bg-red-600 transition">
+                    <FiTrash2 /> Delete Selected
+                  </button>
                 </div>
               )}
             </div>
 
             {/* Final actions */}
-            <div className="mt-6 pt-4 border-t space-y-2">
-              <button onClick={downloadImage} className="w-full bg-green-600 text-white py-2 rounded-xl flex items-center justify-center gap-1"><FiDownload /> Download PNG</button>
-              <button onClick={addToCart} className="w-full bg-[#ff6b00] text-white py-2 rounded-xl flex items-center justify-center gap-1"><FiShoppingCart /> Add to Cart</button>
+            <div className="mt-6 pt-4 border-t border-gray-200 space-y-2">
+              <button onClick={addToCart} className="w-full bg-[#ff6b00] text-white py-2 rounded-xl flex items-center justify-center gap-1 font-semibold hover:bg-orange-600 transition shadow-sm">
+                <FiShoppingCart /> Add to Cart
+              </button>
             </div>
           </div>
         </aside>
 
-        {/* Main Canvas Area */}
-        <main className="flex-1 flex flex-col items-center justify-center p-4 bg-gradient-to-br from-gray-50 to-gray-100 overflow-auto">
+        {/* Main Canvas Area – takes remaining space, centers canvas */}
+        <main className="flex-1 flex flex-col items-center p-4 bg-gradient-to-br from-gray-50 to-gray-100 overflow-auto">
           <div className="relative bg-white shadow-2xl rounded-2xl p-2 inline-block">
             <canvas
               id="canvas"
@@ -542,7 +591,7 @@ const TumblerCustomizer = () => {
               style={{ maxHeight: "80vh", width: "auto" }}
             />
           </div>
-          {/* Optional: summary card below canvas */}
+          {/* Summary card */}
           <div className="mt-6 bg-white rounded-xl shadow-md p-3 max-w-md w-full">
             <div className="flex justify-between items-center text-sm">
               <div>

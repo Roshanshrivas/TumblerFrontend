@@ -17,6 +17,8 @@ import AdminOrders from './pages/admin/Orders'
 import AdminCustomDesigns from './pages/admin/CustomProducts'
 import AdminUsers from './pages/admin/Users'
 import AdminAnalytics from './pages/admin/Analytics'
+import AboutUs from './pages/AboutUs';
+import Contact from './pages/Contact';
 
 
 
@@ -63,6 +65,8 @@ const router = createBrowserRouter([
       { path: '/product/:id', element: <Suspense fallback={<LoadingSpinner />}><ProductDetailPage /></Suspense> },
       { path: '/cart', element: <Suspense fallback={<LoadingSpinner />}><CartPage /></Suspense> },
       { path: '/wishlist', element: <Suspense fallback={<LoadingSpinner />}><WishlistPage /></Suspense> },
+      { path: '/about', element: <Suspense fallback={<LoadingSpinner />}><AboutUs /></Suspense> },
+      { path: '/contact', element: <Suspense fallback={<LoadingSpinner />}><Contact /></Suspense> },
     ],
   },
   {
