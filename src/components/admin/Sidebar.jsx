@@ -3,7 +3,8 @@ import React, { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   Home, Package, ShoppingCart, Users, Palette, BarChart2,
-  Tag, Image, Star, Settings, LogOut, ChevronDown, ChevronRight
+  Tag, Image, Star, Settings, LogOut, ChevronDown, ChevronRight,
+  Mail
 } from "lucide-react";
 import toast from "react-hot-toast";
 
@@ -51,6 +52,7 @@ const Sidebar = ({ isExpanded, onMouseEnter, onMouseLeave, isMobile, onMobileClo
     { name: "Custom Designs", path: "/admin/custom-designs", icon: <Palette size={20} />, section: "main" },
     { name: "Users", path: "/admin/users", icon: <Users size={20} />, section: "main" },
     { name: "Analytics", path: "/admin/analytics", icon: <BarChart2 size={20} />, section: "main" },
+    { name: "Broadcast", path: "/admin/broadcast", icon: <Mail size={20} />, section: "main" },
     { name: "Coupons", path: "/admin/coupons", icon: <Tag size={20} />, section: "management" },
     { name: "Banners", path: "/admin/banners", icon: <Image size={20} />, section: "management" },
     { name: "Reviews", path: "/admin/reviews", icon: <Star size={20} />, section: "management" },

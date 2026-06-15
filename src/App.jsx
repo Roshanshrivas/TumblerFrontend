@@ -9,16 +9,19 @@ import Footer from './components/Footer';
 import ProductsPage from './pages/ProductsPage';
 import ProtectedRoute from './components/admin/ProtectedRoute';
 
-import AdminLayout from './pages/admin/AdminLayout';          // <-- new
-import AdminDashboard from './pages/admin/AdminDashboard';    // <-- new
+import AdminLayout from './pages/admin/AdminLayout';        
+import AdminDashboard from './pages/admin/AdminDashboard'; 
 import AdminProducts from './pages/admin/Products';  
-import AdminCategories from './pages/admin/Categories'         // <-- new
+import AdminCategories from './pages/admin/Categories' 
 import AdminOrders from './pages/admin/Orders'
 import AdminCustomDesigns from './pages/admin/CustomProducts'
 import AdminUsers from './pages/admin/Users'
 import AdminAnalytics from './pages/admin/Analytics'
+import AdminBroadcast from './pages/admin/AdminBroadcast';
 import AboutUs from './pages/AboutUs';
 import Contact from './pages/Contact';
+import UserProfile from './pages/UserProfile';
+import AdminProfile from './pages/admin/AdminProfile';
 
 
 
@@ -74,6 +77,7 @@ const router = createBrowserRouter([
     children: [
       { path: '/login', element: <Suspense fallback={<LoadingSpinner />}><Login /></Suspense> },
       { path: '/signup', element: <Suspense fallback={<LoadingSpinner />}><Signup /></Suspense> },
+      { path: '/user/profile', element: <Suspense><UserProfile /></Suspense> },
       
     ],
   },
@@ -86,6 +90,7 @@ const router = createBrowserRouter([
         element: <AdminLayout />,
         children: [
           { path: '/admin', element: <Navigate to="/admin/dashboard" replace /> },
+          { path: '/admin/profile', element: <Suspense><AdminProfile /></Suspense> },
           { path: '/admin/dashboard', element: <LazyComponent Component={AdminDashboard} /> },
           { path: '/admin/products', element: <LazyComponent Component={AdminProducts} /> },
           { path: '/admin/categories', element: <LazyComponent Component={AdminCategories} /> },
@@ -93,6 +98,7 @@ const router = createBrowserRouter([
           { path: '/admin/custom-designs', element: <LazyComponent Component={AdminCustomDesigns} /> },
           { path: '/admin/users', element: <LazyComponent Component={AdminUsers} /> },
           { path: '/admin/analytics', element: <LazyComponent Component={AdminAnalytics} /> },
+          { path: '/admin/broadcast', element: <LazyComponent Component={AdminBroadcast} /> },
         ],
       },
     ],
