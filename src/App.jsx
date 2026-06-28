@@ -11,10 +11,17 @@ import ProtectedRoute from './components/admin/ProtectedRoute';
 
 import AdminLayout from './pages/admin/AdminLayout';        
 import AdminDashboard from './pages/admin/AdminDashboard'; 
-import AdminProducts from './pages/admin/Products';  
-import AdminCategories from './pages/admin/Categories' 
+import AdminProducts from './pages/admin/Products'; 
+import ProductDetail from './components/admin/products/ProductDetail';
+import ProductForm from './components/admin/products/ProductForm'; 
+import AdminCategories from './pages/admin/Categories'
+import CategoryDetail from './components/admin/categories/CategoryDetail';
+import CategoryForm from './components/admin/categories/CategoryForm';
 import AdminOrders from './pages/admin/Orders'
+import OrderDetail from './components/admin/orders/OrderDetail';
+import OrderForm from './components/admin/orders/OrderForm';
 import AdminCustomDesigns from './pages/admin/CustomProducts'
+
 import AdminUsers from './pages/admin/Users'
 import AdminAnalytics from './pages/admin/Analytics'
 import AdminBroadcast from './pages/admin/AdminBroadcast';
@@ -22,6 +29,16 @@ import AboutUs from './pages/AboutUs';
 import Contact from './pages/Contact';
 import UserProfile from './pages/UserProfile';
 import AdminProfile from './pages/admin/AdminProfile';
+import AdminCoupons from './pages/admin/AdminCoupons';
+import AdminBanners from './pages/admin/AdminBanners';
+import AdminReviews from './pages/admin/AdminReviews';
+import AdminSettings from './pages/admin/AdminSettings';
+
+import OrderPrint from './components/admin/orders/OrderPrint';
+import TrackOrder from './components/admin/orders/TrackOrder';
+import CustomProductForm from './components/admin/customization/CustomProductForm';
+import CustomProductDetail from './components/admin/customization/CustomProductDetail';
+import BroadcastForm from './components/admin/broadcast/BroadcastForm';
 
 
 
@@ -70,6 +87,7 @@ const router = createBrowserRouter([
       { path: '/wishlist', element: <Suspense fallback={<LoadingSpinner />}><WishlistPage /></Suspense> },
       { path: '/about', element: <Suspense fallback={<LoadingSpinner />}><AboutUs /></Suspense> },
       { path: '/contact', element: <Suspense fallback={<LoadingSpinner />}><Contact /></Suspense> },
+      { path: '/track/order/:id', element: <TrackOrder /> },
     ],
   },
   {
@@ -86,6 +104,8 @@ const router = createBrowserRouter([
   {
     element: <ProtectedRoute allowedRoles={['admin']} />,
     children: [
+        { path: '/admin/orders/:id/print/:type', element: <OrderPrint /> },
+        { path: '/admin/orders/:id/print', element: <OrderPrint /> },
       {
         element: <AdminLayout />,
         children: [
@@ -93,12 +113,30 @@ const router = createBrowserRouter([
           { path: '/admin/profile', element: <Suspense><AdminProfile /></Suspense> },
           { path: '/admin/dashboard', element: <LazyComponent Component={AdminDashboard} /> },
           { path: '/admin/products', element: <LazyComponent Component={AdminProducts} /> },
+          { path: '/admin/products/add', element: <ProductForm /> },
+          { path: '/admin/products/:id', element: <ProductDetail /> },
+          { path: '/admin/products/:id/edit', element: <ProductForm /> },
           { path: '/admin/categories', element: <LazyComponent Component={AdminCategories} /> },
+          { path: '/admin/categories/add', element: <CategoryForm /> },
+          { path: '/admin/categories/:id', element: <CategoryDetail /> },
+          { path: '/admin/categories/:id/edit', element: <CategoryForm /> },
           { path: '/admin/orders', element: <LazyComponent Component={AdminOrders} /> },
-          { path: '/admin/custom-designs', element: <LazyComponent Component={AdminCustomDesigns} /> },
+          { path: '/admin/orders/add', element: <LazyComponent Component={OrderForm} /> },
+          { path: '/admin/orders/:id', element: <OrderDetail /> },
+          { path: '/admin/orders/:id/edit', element: <OrderForm /> },
+          { path: '/admin/custom-products', element: <LazyComponent Component={AdminCustomDesigns} /> },
+          { path: '/admin/custom-products/add', element: <CustomProductForm /> },
+          { path: '/admin/custom-products/:id', element: <CustomProductDetail /> },
+          { path: '/admin/custom-products/:id/edit', element: <CustomProductForm /> },
           { path: '/admin/users', element: <LazyComponent Component={AdminUsers} /> },
           { path: '/admin/analytics', element: <LazyComponent Component={AdminAnalytics} /> },
           { path: '/admin/broadcast', element: <LazyComponent Component={AdminBroadcast} /> },
+          { path: '/admin/broadcast/create', element: <BroadcastForm /> },
+          { path: '/admin/broadcast/:id/edit', element: <BroadcastForm /> },
+          { path: '/admin/coupons', element: <LazyComponent Component={AdminCoupons} /> },
+          { path: '/admin/banners', element: <LazyComponent Component={AdminBanners} /> },
+          { path: '/admin/reviews', element: <LazyComponent Component={AdminReviews} /> },
+          { path: '/admin/settings', element: <LazyComponent Component={AdminSettings} /> },
         ],
       },
     ],

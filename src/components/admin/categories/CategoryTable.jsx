@@ -18,7 +18,7 @@ const StatusBadge = ({ status }) => (
   </span>
 );
 
-const CategoryTable = ({ categories, onEdit, onDelete, onBulkDelete, isLoading }) => {
+const CategoryTable = ({ categories, onEdit, onDelete, onBulkDelete, onRowClick, isLoading }) => {
   const [selectedIds, setSelectedIds] = useState([]);
   const [selectAll, setSelectAll] = useState(false);
 
@@ -83,9 +83,10 @@ const CategoryTable = ({ categories, onEdit, onDelete, onBulkDelete, isLoading }
               variants={rowVariants}
               initial="hidden"
               animate="visible"
-              className="hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors"
+              onClick={() => onRowClick?.(category.id)}
+              className="hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors group cursor-pointer"
             >
-              <td className="px-4 py-4">
+              <td className="px-4 py-4" onClick={(e) => e.stopPropagation()}>
                 <input
                   type="checkbox"
                   checked={selectedIds.includes(category.id)}
@@ -93,14 +94,16 @@ const CategoryTable = ({ categories, onEdit, onDelete, onBulkDelete, isLoading }
                   className="rounded border-gray-300 text-orange-500 focus:ring-orange-500"
                 />
               </td>
-              <td className="px-6 py-4 whitespace-nowrap">
+              <td className="px-6 py-4 whitespace-nowrap" onClick={(e) => e.stopPropagation()}>
                 <img
                   src={category.image}
                   alt={category.name}
                   className="w-12 h-12 rounded-lg object-cover border border-gray-100 dark:border-gray-700"
                 />
               </td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">{category.name}</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
+                {category.name}
+              </td>
               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-400">{category.slug}</td>
               <td className="px-6 py-4 text-sm text-gray-600 dark:text-gray-400 max-w-xs">
                 <div className="line-clamp-1">{category.description}</div>
@@ -108,7 +111,7 @@ const CategoryTable = ({ categories, onEdit, onDelete, onBulkDelete, isLoading }
               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-400">{category.products}</td>
               <td className="px-6 py-4 whitespace-nowrap"><StatusBadge status={category.status} /></td>
               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{category.createdAt}</td>
-              <td className="px-6 py-4 whitespace-nowrap">
+              <td className="px-6 py-4 whitespace-nowrap" onClick={(e) => e.stopPropagation()}>
                 <div className="flex gap-2">
                   <button onClick={() => onEdit(category)} className="p-1 hover:text-orange-500 transition" title="Edit">
                     <Pencil size={16} />

@@ -75,17 +75,6 @@ const AdminDashboard = () => {
 
   return (
     <motion.div className="space-y-6" variants={containerVariants} initial="hidden" animate="visible">
-      {/* Header */}
-      <div className="flex justify-between items-center">
-        <div>
-          <h1 className="text-2xl font-bold text-gray-800 dark:text-white">Dashboard</h1>
-          <p className="text-sm text-gray-500 dark:text-gray-400">Welcome back! Here's what's happening today.</p>
-        </div>
-        <button onClick={handleRetry} className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors" title="Refresh data">
-          <RefreshCw size={18} className="text-gray-500" />
-        </button>
-      </div>
-
       {/* KPI Cards */}
       <KPIGrid data={data} formatCurrency={formatCurrency} itemVariants={itemVariants} />
 

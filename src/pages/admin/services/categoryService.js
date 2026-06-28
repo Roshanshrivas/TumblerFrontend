@@ -12,11 +12,15 @@ let mockCategories = [
 ];
 
 export const categoryService = {
-  fetchCategories: async ({ page = 1, limit = 10, search = "" } = {}) => {
-    await new Promise(resolve => setTimeout(resolve, 500));
+  // Fetch with search and status filter
+  fetchCategories: async ({ page = 1, limit = 10, search = "", status = "all" } = {}) => {
+    await new Promise(resolve => setTimeout(resolve, 400));
     let filtered = [...mockCategories];
     if (search) {
       filtered = filtered.filter(c => c.name.toLowerCase().includes(search.toLowerCase()));
+    }
+    if (status !== "all") {
+      filtered = filtered.filter(c => c.status === status);
     }
     const total = filtered.length;
     const start = (page - 1) * limit;
@@ -24,15 +28,37 @@ export const categoryService = {
     return { categories: paginated, total, page, limit };
   },
 
+  // Fetch all categories (for export)
+  fetchAllCategories: async ({ search = "", status = "all" } = {}) => {
+    await new Promise(resolve => setTimeout(resolve, 200));
+    let filtered = [...mockCategories];
+    if (search) {
+      filtered = filtered.filter(c => c.name.toLowerCase().includes(search.toLowerCase()));
+    }
+    if (status !== "all") {
+      filtered = filtered.filter(c => c.status === status);
+    }
+    return filtered;
+  },
+
+  // Get single category by ID
+  getCategory: async (id) => {
+    await new Promise(resolve => setTimeout(resolve, 300));
+    const category = mockCategories.find(c => c.id === parseInt(id));
+    if (!category) throw new Error("Category not found");
+    return category;
+  },
+
   addCategory: async (category) => {
     await new Promise(resolve => setTimeout(resolve, 500));
-    const newCategory = { 
-      id: Date.now(), 
-      ...category, 
-      createdAt: new Date().toISOString().slice(0,10),
-      image: category.image || "https://via.placeholder.com/50?text=No+Image"
+    const newCategory = {
+      id: Date.now(),
+      ...category,
+      createdAt: new Date().toISOString().slice(0, 10),
+      image: category.image || "https://via.placeholder.com/50?text=No+Image",
+      products: 0,
     };
-    mockCategories.push(newCategory);
+    mockCategories.unshift(newCategory);
     toast.success("Category added");
     return newCategory;
   },
@@ -40,7 +66,9 @@ export const categoryService = {
   updateCategory: async (category) => {
     await new Promise(resolve => setTimeout(resolve, 500));
     const index = mockCategories.findIndex(c => c.id === category.id);
-    if (index !== -1) mockCategories[index] = { ...mockCategories[index], ...category };
+    if (index !== -1) {
+      mockCategories[index] = { ...mockCategories[index], ...category };
+    }
     toast.success("Category updated");
     return category;
   },
@@ -52,7 +80,7 @@ export const categoryService = {
     return id;
   },
 
-  // Bulk delete
+  // Bulk delete (kept from original)
   bulkDeleteCategories: async (ids) => {
     await new Promise(resolve => setTimeout(resolve, 500));
     mockCategories = mockCategories.filter(c => !ids.includes(c.id));

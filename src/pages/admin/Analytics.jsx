@@ -239,19 +239,26 @@ const Analytics = () => {
                 <input
                   type="date"
                   value={dateRange.start}
-                  onChange={(e) => setDateRange(prev => ({ ...prev, start: e.target.value }))}
+                  onChange={(e) =>
+                    setDateRange((prev) => ({ ...prev, start: e.target.value }))
+                  }
                   className="bg-transparent text-sm outline-none w-32"
                 />
                 <span className="text-gray-400">—</span>
                 <input
                   type="date"
                   value={dateRange.end}
-                  onChange={(e) => setDateRange(prev => ({ ...prev, end: e.target.value }))}
+                  onChange={(e) =>
+                    setDateRange((prev) => ({ ...prev, end: e.target.value }))
+                  }
                   className="bg-transparent text-sm outline-none w-32"
                 />
                 {dateRange.start && (
                   <button onClick={() => setDateRange({ start: "", end: "" })}>
-                    <X size={12} className="text-gray-400 hover:text-gray-600" />
+                    <X
+                      size={12}
+                      className="text-gray-400 hover:text-gray-600"
+                    />
                   </button>
                 )}
               </div>
@@ -267,7 +274,10 @@ const Analytics = () => {
                   <option value="weekly">Revenue: Weekly</option>
                   <option value="monthly">Revenue: Monthly</option>
                 </select>
-                <ChevronDown size={14} className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
+                <ChevronDown
+                  size={14}
+                  className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none"
+                />
               </div>
 
               {/* Orders Filter */}
@@ -281,7 +291,10 @@ const Analytics = () => {
                   <option value="weekly">Orders: Weekly</option>
                   <option value="monthly">Orders: Monthly</option>
                 </select>
-                <ChevronDown size={14} className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
+                <ChevronDown
+                  size={14}
+                  className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none"
+                />
               </div>
 
               {/* Top Products Filter */}
@@ -295,11 +308,17 @@ const Analytics = () => {
                   <option value="monthly">Top: Monthly</option>
                   <option value="all">Top: All Time</option>
                 </select>
-                <ChevronDown size={14} className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
+                <ChevronDown
+                  size={14}
+                  className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none"
+                />
               </div>
 
               {hasActiveFilters && (
-                <button onClick={clearFilters} className="text-sm text-orange-600 flex items-center gap-1">
+                <button
+                  onClick={clearFilters}
+                  className="text-sm text-orange-600 flex items-center gap-1"
+                >
                   <X size={14} /> Clear
                 </button>
               )}
@@ -332,24 +351,63 @@ const Analytics = () => {
             {/* Revenue Area */}
             <div className="bg-gray-50 dark:bg-gray-800/30 rounded-xl p-4 border border-gray-100 dark:border-gray-800">
               <div className="flex justify-between items-center mb-3">
-                <h3 className="text-sm font-semibold text-gray-700">Revenue Overview</h3>
-                <span className="text-xs text-gray-500">{revenueFilter} view</span>
+                <h3 className="text-sm font-semibold text-gray-700">
+                  Revenue Overview
+                </h3>
+                <span className="text-xs text-gray-500">
+                  {revenueFilter} view
+                </span>
               </div>
               <div className="h-72">
                 <ResponsiveContainer width="100%" height="100%">
                   <AreaChart data={data.revenueData}>
                     <defs>
-                      <linearGradient id="revenueGrad" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="5%" stopColor="#f97316" stopOpacity={0.2} />
-                        <stop offset="95%" stopColor="#f97316" stopOpacity={0} />
+                      <linearGradient
+                        id="revenueGrad"
+                        x1="0"
+                        y1="0"
+                        x2="0"
+                        y2="1"
+                      >
+                        <stop
+                          offset="5%"
+                          stopColor="#f97316"
+                          stopOpacity={0.2}
+                        />
+                        <stop
+                          offset="95%"
+                          stopColor="#f97316"
+                          stopOpacity={0}
+                        />
                       </linearGradient>
                     </defs>
-                    <CartesianGrid strokeDasharray="4 4" stroke="#e5e7eb" opacity={0.3} vertical={false} />
-                    <XAxis dataKey="period" tick={{ fontSize: 11 }} tickLine={false} />
-                    <YAxis tickFormatter={(v) => `₹${v/1000}k`} tick={{ fontSize: 11 }} tickLine={false} axisLine={false} />
+                    <CartesianGrid
+                      strokeDasharray="4 4"
+                      stroke="#e5e7eb"
+                      opacity={0.3}
+                      vertical={false}
+                    />
+                    <XAxis
+                      dataKey="period"
+                      tick={{ fontSize: 11 }}
+                      tickLine={false}
+                    />
+                    <YAxis
+                      tickFormatter={(v) => `₹${v / 1000}k`}
+                      tick={{ fontSize: 11 }}
+                      tickLine={false}
+                      axisLine={false}
+                    />
                     <Tooltip content={<ModernTooltip unit="₹" />} />
                     <Legend />
-                    <Area type="monotone" dataKey="revenue" stroke="#f97316" strokeWidth={2} fill="url(#revenueGrad)" name="Revenue (₹)" />
+                    <Area
+                      type="monotone"
+                      dataKey="revenue"
+                      stroke="#f97316"
+                      strokeWidth={2}
+                      fill="url(#revenueGrad)"
+                      name="Revenue (₹)"
+                    />
                   </AreaChart>
                 </ResponsiveContainer>
               </div>
@@ -358,18 +416,41 @@ const Analytics = () => {
             {/* Orders Bar */}
             <div className="bg-gray-50 dark:bg-gray-800/30 rounded-xl p-4 border border-gray-100 dark:border-gray-800">
               <div className="flex justify-between items-center mb-3">
-                <h3 className="text-sm font-semibold text-gray-700">Orders Overview</h3>
-                <span className="text-xs text-gray-500">{ordersFilter} view</span>
+                <h3 className="text-sm font-semibold text-gray-700">
+                  Orders Overview
+                </h3>
+                <span className="text-xs text-gray-500">
+                  {ordersFilter} view
+                </span>
               </div>
               <div className="h-72">
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart data={data.ordersData}>
-                    <CartesianGrid strokeDasharray="4 4" stroke="#e5e7eb" opacity={0.3} vertical={false} />
-                    <XAxis dataKey="period" tick={{ fontSize: 11 }} tickLine={false} />
-                    <YAxis tick={{ fontSize: 11 }} tickLine={false} axisLine={false} />
+                    <CartesianGrid
+                      strokeDasharray="4 4"
+                      stroke="#e5e7eb"
+                      opacity={0.3}
+                      vertical={false}
+                    />
+                    <XAxis
+                      dataKey="period"
+                      tick={{ fontSize: 11 }}
+                      tickLine={false}
+                    />
+                    <YAxis
+                      tick={{ fontSize: 11 }}
+                      tickLine={false}
+                      axisLine={false}
+                    />
                     <Tooltip content={<ModernTooltip unit="" />} />
                     <Legend />
-                    <Bar dataKey="orders" fill="#3b82f6" name="Orders" radius={[4,4,0,0]} barSize={32} />
+                    <Bar
+                      dataKey="orders"
+                      fill="#3b82f6"
+                      name="Orders"
+                      radius={[4, 4, 0, 0]}
+                      barSize={32}
+                    />
                   </BarChart>
                 </ResponsiveContainer>
               </div>
@@ -380,7 +461,9 @@ const Analytics = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {/* Sales by Channel (Pie) */}
             <div className="border border-gray-200 dark:border-gray-800 rounded-xl p-4 bg-gray-50 dark:bg-gray-800/30">
-              <h3 className="text-sm font-semibold text-gray-700 mb-3">Sales by Channel</h3>
+              <h3 className="text-sm font-semibold text-gray-700 mb-3">
+                Sales by Channel
+              </h3>
               <div className="h-64">
                 <ResponsiveContainer width="100%" height="100%">
                   <PieChart>
@@ -392,15 +475,26 @@ const Analytics = () => {
                       outerRadius={80}
                       paddingAngle={3}
                       dataKey="value"
-                      label={({ name, percent }) => `${name} ${(percent * 100).toFixed(1)}%`}
+                      label={({ name, percent }) =>
+                        `${name} ${(percent * 100).toFixed(1)}%`
+                      }
                       labelLine={false}
                     >
                       {data.salesByChannel.map((entry, idx) => (
-                        <Cell key={`cell-${idx}`} fill={CHANNEL_COLORS[idx % CHANNEL_COLORS.length]} />
+                        <Cell
+                          key={`cell-${idx}`}
+                          fill={CHANNEL_COLORS[idx % CHANNEL_COLORS.length]}
+                        />
                       ))}
                     </Pie>
-                    <Tooltip formatter={(value) => `₹${value.toLocaleString()}`} />
-                    <Legend verticalAlign="bottom" height={36} iconType="circle" />
+                    <Tooltip
+                      formatter={(value) => `₹${value.toLocaleString()}`}
+                    />
+                    <Legend
+                      verticalAlign="bottom"
+                      height={36}
+                      iconType="circle"
+                    />
                   </PieChart>
                 </ResponsiveContainer>
               </div>
@@ -409,7 +503,9 @@ const Analytics = () => {
             {/* Top Selling Tumblers with customers count */}
             <div className="border border-gray-200 dark:border-gray-800 rounded-xl overflow-hidden">
               <div className="bg-gray-50 dark:bg-gray-800/50 px-4 py-3 border-b border-gray-200 dark:border-gray-800">
-                <h3 className="text-sm font-semibold text-gray-700">🏆 Top Selling Tumblers</h3>
+                <h3 className="text-sm font-semibold text-gray-700">
+                  🏆 Top Selling Tumblers
+                </h3>
               </div>
               <div className="overflow-x-auto">
                 <table className="w-full text-sm">
@@ -423,14 +519,25 @@ const Analytics = () => {
                   </thead>
                   <tbody className="divide-y divide-gray-100 dark:divide-gray-800">
                     {data.topProducts.map((product, idx) => (
-                      <tr key={idx} className="hover:bg-gray-50 dark:hover:bg-gray-800/40">
-                        <td className="px-4 py-2 text-gray-500">{idx+1}</td>
+                      <tr
+                        key={idx}
+                        className="hover:bg-gray-50 dark:hover:bg-gray-800/40"
+                      >
+                        <td className="px-4 py-2 text-gray-500">{idx + 1}</td>
                         <td className="px-4 py-2 font-medium flex items-center gap-2">
-                          <img src={product.image} alt={product.name} className="w-6 h-6 rounded object-cover" />
+                          <img
+                            src={product.image}
+                            alt={product.name}
+                            className="w-6 h-6 rounded object-cover"
+                          />
                           {product.name}
                         </td>
-                        <td className="px-4 py-2 text-right font-semibold text-orange-600">₹{product.sales.toLocaleString()}</td>
-                        <td className="px-4 py-2 text-right text-gray-600">{product.customers?.toLocaleString() || "—"}</td>
+                        <td className="px-4 py-2 text-right font-semibold text-orange-600">
+                          ₹{product.sales.toLocaleString()}
+                        </td>
+                        <td className="px-4 py-2 text-right text-gray-600">
+                          {product.customers?.toLocaleString() || "—"}
+                        </td>
                       </tr>
                     ))}
                   </tbody>
@@ -439,39 +546,128 @@ const Analytics = () => {
             </div>
           </div>
 
-          {/* Revenue by Category & Customer Growth */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {/* Revenue by Category (horizontal bar) */}
-            <div className="border border-gray-200 dark:border-gray-800 rounded-xl p-4 bg-gray-50 dark:bg-gray-800/30">
-              <h3 className="text-sm font-semibold text-gray-700 mb-3">Revenue by Category</h3>
+            {/* Revenue by Category */}
+            <div className="border border-gray-200 dark:border-gray-800 rounded-2xl p-6 bg-white dark:bg-gray-900 shadow-sm">
+              <h3 className="text-sm font-bold text-gray-900 dark:text-gray-100 uppercase tracking-wider mb-6">
+                Revenue by Category
+              </h3>
               <div className="h-64">
                 <ResponsiveContainer width="100%" height="100%">
-                  <BarChart data={data.categoryRevenue} layout="vertical" margin={{ left: 70 }}>
-                    <CartesianGrid strokeDasharray="4 4" stroke="#e5e7eb" opacity={0.3} horizontal={false} />
-                    <XAxis type="number" tickFormatter={(v) => `₹${v/1000}k`} tick={{ fontSize: 11 }} />
-                    <YAxis type="category" dataKey="category" width={80} tick={{ fontSize: 12 }} />
-                    <Tooltip content={<ModernTooltip unit="₹" />} />
-                    <Bar dataKey="revenue" fill="#8b5cf6" name="Revenue (₹)" radius={[0,4,4,0]} barSize={28} />
+                  <BarChart
+                    data={data.categoryRevenue}
+                    margin={{ top: 10, right: 10, left: -20, bottom: 0 }}
+                  >
+                    <defs>
+                      <linearGradient
+                        id="barGradient"
+                        x1="0"
+                        y1="0"
+                        x2="0"
+                        y2="1"
+                      >
+                        <stop offset="0%" stopColor="#8b5cf6" />
+                        <stop offset="100%" stopColor="#6d28d9" />
+                      </linearGradient>
+                    </defs>
+                    <CartesianGrid
+                      vertical={false}
+                      strokeDasharray="3 3"
+                      stroke="#f3f4f6"
+                    />
+                    <XAxis
+                      dataKey="category"
+                      axisLine={false}
+                      tickLine={false}
+                      tick={{ fontSize: 12, fill: "#6b7280" }}
+                      dy={10}
+                    />
+                    <YAxis
+                      axisLine={false}
+                      tickLine={false}
+                      tick={{ fontSize: 12, fill: "#6b7280" }}
+                      tickFormatter={(v) => `₹${v / 1000}k`}
+                    />
+                    <Tooltip
+                      cursor={{ fill: "#f3f4f6", opacity: 0.4 }}
+                      content={<ModernTooltip unit="₹" />}
+                    />
+                    <Bar
+                      dataKey="revenue"
+                      fill="url(#barGradient)"
+                      radius={[6, 6, 0, 0]}
+                      barSize={48}
+                    />
                   </BarChart>
                 </ResponsiveContainer>
               </div>
             </div>
 
-            {/* Customer Growth (line) */}
-            <div className="border border-gray-200 dark:border-gray-800 rounded-xl p-4 bg-gray-50 dark:bg-gray-800/30">
-              <div className="flex justify-between items-center mb-2">
-                <h3 className="text-sm font-semibold text-gray-700">Customer Growth</h3>
+            {/* Customer Growth */}
+            <div className="border border-gray-200 dark:border-gray-800 rounded-2xl p-6 bg-white dark:bg-gray-900 shadow-sm">
+              <div className="flex justify-between items-center mb-6">
+                <h3 className="text-sm font-bold text-gray-900 dark:text-gray-100 uppercase tracking-wider">
+                  Customer Growth
+                </h3>
                 <GrowthBadge value={data.kpis.customersGrowth} />
               </div>
               <div className="h-64">
                 <ResponsiveContainer width="100%" height="100%">
-                  <LineChart data={data.customerGrowth}>
-                    <CartesianGrid strokeDasharray="4 4" stroke="#e5e7eb" opacity={0.3} vertical={false} />
-                    <XAxis dataKey="date" tick={{ fontSize: 11 }} tickLine={false} />
-                    <YAxis tick={{ fontSize: 11 }} tickLine={false} axisLine={false} />
+                  <LineChart
+                    data={data.customerGrowth}
+                    margin={{ top: 5, right: 5, left: -20, bottom: 0 }}
+                  >
+                    <defs>
+                      <linearGradient
+                        id="lineGradient"
+                        x1="0"
+                        y1="0"
+                        x2="0"
+                        y2="1"
+                      >
+                        <stop
+                          offset="5%"
+                          stopColor="#10b981"
+                          stopOpacity={0.2}
+                        />
+                        <stop
+                          offset="95%"
+                          stopColor="#10b981"
+                          stopOpacity={0}
+                        />
+                      </linearGradient>
+                    </defs>
+                    <CartesianGrid
+                      strokeDasharray="3 3"
+                      stroke="#f3f4f6"
+                      vertical={false}
+                    />
+                    <XAxis
+                      dataKey="date"
+                      axisLine={false}
+                      tickLine={false}
+                      tick={{ fontSize: 12, fill: "#6b7280" }}
+                    />
+                    <YAxis
+                      axisLine={false}
+                      tickLine={false}
+                      tick={{ fontSize: 12, fill: "#6b7280" }}
+                    />
                     <Tooltip content={<ModernTooltip unit="" />} />
-                    <Legend />
-                    <Line type="monotone" dataKey="newCustomers" stroke="#10b981" strokeWidth={2} dot={{ r: 3 }} name="New Customers" />
+                    <Area
+                      type="monotone"
+                      dataKey="newCustomers"
+                      stroke="#10b981"
+                      fill="url(#lineGradient)"
+                      strokeWidth={3}
+                    />
+                    <Line
+                      type="monotone"
+                      dataKey="newCustomers"
+                      stroke="#10b981"
+                      strokeWidth={3}
+                      dot={{ r: 4, strokeWidth: 2, fill: "#fff" }}
+                    />
                   </LineChart>
                 </ResponsiveContainer>
               </div>
@@ -482,7 +678,9 @@ const Analytics = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {/* New vs Returning (Pie) */}
             <div className="border border-gray-200 dark:border-gray-800 rounded-xl p-4 bg-gray-50 dark:bg-gray-800/30">
-              <h3 className="text-sm font-semibold text-gray-700 mb-3">New vs Returning Customers</h3>
+              <h3 className="text-sm font-semibold text-gray-700 mb-3">
+                New vs Returning Customers
+              </h3>
               <div className="h-64">
                 <ResponsiveContainer width="100%" height="100%">
                   <PieChart>
@@ -493,13 +691,22 @@ const Analytics = () => {
                       innerRadius={50}
                       outerRadius={80}
                       dataKey="value"
-                      label={({ name, percent }) => `${name} ${(percent * 100).toFixed(1)}%`}
+                      label={({ name, percent }) =>
+                        `${name} ${(percent * 100).toFixed(1)}%`
+                      }
                     >
                       {data.newVsReturning.map((entry, idx) => (
-                        <Cell key={`cell-${idx}`} fill={SEGMENT_COLORS[idx % SEGMENT_COLORS.length]} />
+                        <Cell
+                          key={`cell-${idx}`}
+                          fill={SEGMENT_COLORS[idx % SEGMENT_COLORS.length]}
+                        />
                       ))}
                     </Pie>
-                    <Tooltip formatter={(value) => `${value.toLocaleString()} customers`} />
+                    <Tooltip
+                      formatter={(value) =>
+                        `${value.toLocaleString()} customers`
+                      }
+                    />
                     <Legend verticalAlign="bottom" height={36} />
                   </PieChart>
                 </ResponsiveContainer>
@@ -508,40 +715,100 @@ const Analytics = () => {
 
             {/* Funnel Performance */}
             <div className="border border-gray-200 dark:border-gray-800 rounded-xl p-4 bg-gray-50 dark:bg-gray-800/30">
-              <h3 className="text-sm font-semibold text-gray-700 mb-3">Performance Overview</h3>
+              <h3 className="text-sm font-semibold text-gray-700 mb-3">
+                Performance Overview
+              </h3>
               <div className="grid grid-cols-2 gap-3">
-                <PerformanceCard label="Total Visitors" value={data.funnel.totalVisitors} change={data.funnel.visitorsChange} icon={Eye} />
-                <PerformanceCard label="Product Views" value={data.funnel.productViews} change={data.funnel.productViewsChange} icon={BarChart3} />
-                <PerformanceCard label="Add to Cart" value={data.funnel.addToCart} change={data.funnel.addToCartChange} icon={PlusCircle} />
-                <PerformanceCard label="Checkout Init." value={data.funnel.checkoutInitiated} change={data.funnel.checkoutInitiatedChange} icon={CreditCard} />
-                <PerformanceCard label="Checkout Comp." value={data.funnel.checkoutCompleted} change={data.funnel.checkoutCompletedChange} icon={CheckCircle} />
-                <PerformanceCard label="Delivered" value={data.orderStatus.find(s => s.name === "Delivered")?.value || 0} icon={Package} />
+                <PerformanceCard
+                  label="Total Visitors"
+                  value={data.funnel.totalVisitors}
+                  change={data.funnel.visitorsChange}
+                  icon={Eye}
+                />
+                <PerformanceCard
+                  label="Product Views"
+                  value={data.funnel.productViews}
+                  change={data.funnel.productViewsChange}
+                  icon={BarChart3}
+                />
+                <PerformanceCard
+                  label="Add to Cart"
+                  value={data.funnel.addToCart}
+                  change={data.funnel.addToCartChange}
+                  icon={PlusCircle}
+                />
+                <PerformanceCard
+                  label="Checkout Init."
+                  value={data.funnel.checkoutInitiated}
+                  change={data.funnel.checkoutInitiatedChange}
+                  icon={CreditCard}
+                />
+                <PerformanceCard
+                  label="Checkout Comp."
+                  value={data.funnel.checkoutCompleted}
+                  change={data.funnel.checkoutCompletedChange}
+                  icon={CheckCircle}
+                />
+                <PerformanceCard
+                  label="Delivered"
+                  value={
+                    data.orderStatus.find((s) => s.name === "Delivered")
+                      ?.value || 0
+                  }
+                  icon={Package}
+                />
               </div>
             </div>
           </div>
 
           {/* Orders by Status Progress Bars */}
           <div className="border border-gray-200 dark:border-gray-800 rounded-xl p-4">
-            <h3 className="text-sm font-semibold text-gray-700 mb-4">Orders by Status</h3>
+            <h3 className="text-sm font-semibold text-gray-700 mb-4">
+              Orders by Status
+            </h3>
             <div className="space-y-4">
               {data.orderStatus.map((status) => {
-                let colorKey = "gray", Icon = Package;
-                if (status.name === "Delivered") { colorKey = "emerald"; Icon = CheckCircle; }
-                else if (status.name === "Processing") { colorKey = "blue"; Icon = Clock; }
-                else if (status.name === "Shipped") { colorKey = "purple"; Icon = Truck; }
-                else if (status.name === "Pending") { colorKey = "amber"; Icon = Clock; }
-                else if (status.name === "Cancelled") { colorKey = "rose"; Icon = XCircle; }
+                let colorKey = "gray",
+                  Icon = Package;
+                if (status.name === "Delivered") {
+                  colorKey = "emerald";
+                  Icon = CheckCircle;
+                } else if (status.name === "Processing") {
+                  colorKey = "blue";
+                  Icon = Clock;
+                } else if (status.name === "Shipped") {
+                  colorKey = "purple";
+                  Icon = Truck;
+                } else if (status.name === "Pending") {
+                  colorKey = "amber";
+                  Icon = Clock;
+                } else if (status.name === "Cancelled") {
+                  colorKey = "rose";
+                  Icon = XCircle;
+                }
                 return (
-                  <div key={status.name} className="flex flex-wrap items-center gap-4">
+                  <div
+                    key={status.name}
+                    className="flex flex-wrap items-center gap-4"
+                  >
                     <div className="w-28 flex items-center gap-2">
                       <Icon size={14} className={`text-${colorKey}-500`} />
                       <span className="text-sm font-medium">{status.name}</span>
                     </div>
                     <div className="flex-1 min-w-[120px]">
-                      <StatusProgress label="" count={status.value} total={totalOrdersByStatus} colorKey={colorKey} />
+                      <StatusProgress
+                        label=""
+                        count={status.value}
+                        total={totalOrdersByStatus}
+                        colorKey={colorKey}
+                      />
                     </div>
-                    <div className="w-16 text-right text-sm font-semibold">{status.value.toLocaleString()}</div>
-                    <div className="w-16 text-right text-xs text-gray-500">{((status.value/totalOrdersByStatus)*100).toFixed(1)}%</div>
+                    <div className="w-16 text-right text-sm font-semibold">
+                      {status.value.toLocaleString()}
+                    </div>
+                    <div className="w-16 text-right text-xs text-gray-500">
+                      {((status.value / totalOrdersByStatus) * 100).toFixed(1)}%
+                    </div>
                   </div>
                 );
               })}

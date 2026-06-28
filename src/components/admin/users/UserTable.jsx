@@ -39,13 +39,13 @@ const UserTable = memo(({
 
   const handleRoleChange = async (userId, newRole) => {
     setUpdatingId(userId);
-    await onUpdateRole(userId, newRole);
+    if (onUpdateRole) await onUpdateRole(userId, newRole);
     setUpdatingId(null);
   };
 
   const handleStatusChange = async (userId, newStatus) => {
     setUpdatingId(userId);
-    await onUpdateStatus(userId, newStatus);
+    if (onUpdateStatus) await onUpdateStatus(userId, newStatus);
     setUpdatingId(null);
   };
 
@@ -144,9 +144,10 @@ const UserTable = memo(({
                       variants={rowVariants}
                       initial="hidden"
                       animate="visible"
-                      className="hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors"
+                      className="hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors cursor-pointer"
+                      onClick={() => onView(user)}
                     >
-                      <td className="px-3 py-3">
+                      <td className="px-3 py-3" onClick={(e) => e.stopPropagation()}>
                         <input
                           type="checkbox"
                           checked={selectedUsers.includes(user.id)}
@@ -174,7 +175,7 @@ const UserTable = memo(({
                       </td>
                       
                       {/* Role dropdown */}
-                      <td className="px-4 py-3 whitespace-nowrap">
+                      <td className="px-4 py-3 whitespace-nowrap" onClick={(e) => e.stopPropagation()}>
                         <div className="relative inline-block">
                           <select
                             value={user.role}
@@ -196,7 +197,7 @@ const UserTable = memo(({
                       </td>
                       
                       {/* Status dropdown */}
-                      <td className="px-4 py-3 whitespace-nowrap">
+                      <td className="px-4 py-3 whitespace-nowrap" onClick={(e) => e.stopPropagation()}>
                         <div className="relative inline-block">
                           <select
                             value={user.status}
@@ -223,15 +224,8 @@ const UserTable = memo(({
                       <td className="px-4 py-3 whitespace-nowrap text-sm font-semibold">
                         {user.ordersCount}
                       </td>
-                      <td className="px-4 py-3 whitespace-nowrap">
+                      <td className="px-4 py-3 whitespace-nowrap" onClick={(e) => e.stopPropagation()}>
                         <div className="flex gap-2">
-                          <button
-                            onClick={() => onView(user)}
-                            className="p-1.5 rounded-md text-gray-400 hover:text-blue-500 hover:bg-blue-50 transition"
-                            title="View details"
-                          >
-                            <Eye size={16} />
-                          </button>
                           <button
                             onClick={() => onEdit(user)}
                             className="p-1.5 rounded-md text-gray-400 hover:text-orange-500 hover:bg-orange-50 transition"
@@ -263,7 +257,7 @@ const UserTable = memo(({
         onClose={closeDeleteDialog}
         onConfirm={confirmDelete}
         title="Delete User"
-        message={`Are you sure you want to delete this user? This action cannot be undone.`}
+        message="Are you sure you want to delete this user? This action cannot be undone."
         confirmText="Delete"
         cancelText="Cancel"
         confirmVariant="danger"

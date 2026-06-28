@@ -1,20 +1,21 @@
+// src/components/admin/RecentOrdersCard.jsx
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Package } from "lucide-react";
+import { Package, ShoppingBag, ArrowRight } from "lucide-react";
 
 const statusStyles = {
-  Delivered: "text-green-600 dark:text-green-400",
-  Processing: "text-blue-600 dark:text-blue-400",
-  Shipped: "text-orange-500 dark:text-orange-400",
-  Cancelled: "text-gray-500 dark:text-gray-400",
+  Delivered: "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400",
+  Processing: "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400",
+  Shipped: "bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-400",
+  Cancelled: "bg-gray-100 text-gray-700 dark:bg-gray-800 text-gray-400",
 };
 
 // Image with lazy loading and fallback
 const OrderImage = ({ src, alt }) => {
   const [error, setError] = useState(false);
   return (
-    <div className="w-12 h-12 rounded-xl bg-gray-100 dark:bg-gray-800 overflow-hidden flex items-center justify-center flex-shrink-0">
+    <div className="w-12 h-12 rounded-xl bg-gray-100 dark:bg-gray-800 overflow-hidden flex items-center justify-center flex-shrink-0 border border-gray-200 dark:border-gray-700">
       {!error ? (
         <img
           src={src}
@@ -30,7 +31,7 @@ const OrderImage = ({ src, alt }) => {
   );
 };
 
-// Skeleton loader for the card
+// Skeleton loader
 const SkeletonRow = () => (
   <div className="flex items-center justify-between gap-3 animate-pulse">
     <div className="flex items-center gap-3">
@@ -48,24 +49,26 @@ const SkeletonRow = () => (
 );
 
 const RecentOrdersCard = ({ orders, formatCurrency, isLoading = false }) => {
-  // Animation variants for staggered rows
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
-      transition: { staggerChildren: 0.08, delayChildren: 0.1 },
+      transition: { staggerChildren: 0.06, delayChildren: 0.1 },
     },
   };
   const itemVariants = {
-    hidden: { opacity: 0, x: -15 },
-    visible: { opacity: 1, x: 0, transition: { type: "spring", damping: 12 } },
+    hidden: { opacity: 0, y: -8 },
+    visible: { opacity: 1, y: 0, transition: { type: "spring", damping: 15 } },
   };
 
   if (isLoading) {
     return (
       <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-800 shadow-sm h-full">
         <div className="flex items-center justify-between p-5 border-b border-gray-100 dark:border-gray-800">
-          <h3 className="font-semibold text-gray-800 dark:text-white">Recent Orders</h3>
+          <div className="flex items-center gap-2">
+            <ShoppingBag size={18} className="text-orange-500" />
+            <h3 className="font-semibold text-gray-800 dark:text-white">Recent Orders</h3>
+          </div>
           <div className="h-8 w-16 bg-gray-200 dark:bg-gray-700 rounded-lg animate-pulse" />
         </div>
         <div className="p-4 space-y-4">
@@ -82,22 +85,26 @@ const RecentOrdersCard = ({ orders, formatCurrency, isLoading = false }) => {
       initial={{ opacity: 0, y: 15 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4 }}
-      className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-800 shadow-sm h-full"
+      className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-800 shadow-sm hover:shadow-md transition-all duration-200 h-full"
     >
       {/* Header */}
       <div className="flex items-center justify-between p-5 border-b border-gray-100 dark:border-gray-800">
-        <h3 className="font-semibold text-gray-800 dark:text-white">Recent Orders</h3>
+        <div className="flex items-center gap-2">
+          <ShoppingBag size={18} className="text-orange-500" />
+          <h3 className="font-semibold text-gray-800 dark:text-white">Recent Orders</h3>
+        </div>
         <Link
           to="/admin/orders"
-          className="text-xs font-medium px-3 py-1.5 rounded-lg border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 transition"
+          className="flex items-center gap-1 text-xs font-medium text-orange-500 hover:text-orange-600 dark:text-orange-400 dark:hover:text-orange-300 transition"
         >
-          View All →
+          View All
+          <ArrowRight size={14} />
         </Link>
       </div>
 
-      {/* Orders List with staggered entrance */}
+      {/* Orders List */}
       <motion.div
-        className="p-4 space-y-4"
+        className="p-4 space-y-3"
         variants={containerVariants}
         initial="hidden"
         animate="visible"
@@ -106,7 +113,7 @@ const RecentOrdersCard = ({ orders, formatCurrency, isLoading = false }) => {
           <motion.div
             key={order.id}
             variants={itemVariants}
-            className="flex items-center justify-between gap-3 group"
+            className="flex items-center justify-between gap-3 group p-2 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors cursor-pointer"
           >
             {/* Left: Image + Details */}
             <div className="flex items-center gap-3 min-w-0 flex-1">
@@ -126,9 +133,9 @@ const RecentOrdersCard = ({ orders, formatCurrency, isLoading = false }) => {
               <p className="font-semibold text-sm text-gray-900 dark:text-white">
                 {formatCurrency(order.total)}
               </p>
-              <p className={`text-xs font-medium ${statusStyles[order.status]}`}>
+              <span className={`inline-block px-2 py-0.5 text-[10px] font-medium rounded-full ${statusStyles[order.status]}`}>
                 {order.status}
-              </p>
+              </span>
             </div>
           </motion.div>
         ))}

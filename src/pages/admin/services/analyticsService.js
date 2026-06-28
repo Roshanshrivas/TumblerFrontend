@@ -49,11 +49,11 @@ const filterByDateRange = (data, startDate, endDate, dateKey = "date") => {
 
 // Mock data for other sections
 const mockSalesByChannel = [
-  { name: "Website", value: 1250000 },
+  { name: "Website", value: 1200000 },
   { name: "Mobile App", value: 420000 },
   { name: "Facebook Ads", value: 120000 },
   { name: "Instagram", value: 52000 },
-  { name: "Other", value: 0 },
+  { name: "Other", value: 100000 },
 ];
 
 const mockTopProductsWithCustomers = [

@@ -29,6 +29,30 @@ let customProducts = [
       logo: { enabled: false },
       font: { enabled: true, options: ["Poppins", "Arial"] }
     }
+  },
+  {
+    id: "prod_3",
+    name: "Royal Purple Tumbler",
+    basePrice: 1024,
+    color: "#6a0dad",
+    mainImage: "https://res.cloudinary.com/dbkpwluh0/image/upload/v1779963036/tumblerorangee_ijh3os.png",
+    customization: {
+      text: { enabled: true, maxLength: 20, defaultText: "Your Name" },
+      logo: { enabled: false },
+      font: { enabled: true, options: ["Poppins", "Arial"] }
+    }
+  },
+  {
+    id: "prod_4",
+    name: "Royal Purple Tumbler",
+    basePrice: 1024,
+    color: "#6a0dad",
+    mainImage: "https://res.cloudinary.com/dbkpwluh0/image/upload/v1779963036/tumblerorangee_ijh3os.png",
+    customization: {
+      text: { enabled: true, maxLength: 20, defaultText: "Your Name" },
+      logo: { enabled: false },
+      font: { enabled: true, options: ["Poppins", "Arial"] }
+    }
   }
 ];
 

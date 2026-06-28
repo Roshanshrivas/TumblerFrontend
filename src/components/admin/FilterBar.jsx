@@ -11,7 +11,7 @@ import {
   FiDownload
 } from "react-icons/fi";
 
-// Simple Button component – inline to avoid missing import
+// Simple Button component
 const Button = ({ children, onClick, className = "" }) => (
   <motion.button
     whileHover={{ scale: 1.02 }}
@@ -23,7 +23,7 @@ const Button = ({ children, onClick, className = "" }) => (
   </motion.button>
 );
 
-// Helper component for filter dropdowns
+// FilterDropdown component (unchanged)
 const FilterDropdown = ({ label, icon: Icon, options, value, onChange }) => {
   const [open, setOpen] = useState(false);
   const ref = useRef(null);
@@ -83,21 +83,62 @@ const FilterDropdown = ({ label, icon: Icon, options, value, onChange }) => {
   );
 };
 
-// Main FilterBar component
+// ========== SKELETON COMPONENT ==========
+const FilterBarSkeleton = () => (
+  <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-white/20 p-4 mb-6 animate-pulse">
+    <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+      {/* Left side skeleton */}
+      <div className="flex items-center gap-3">
+        <div className="w-11 h-11 bg-gray-200 rounded-xl" />
+        <div>
+          <div className="h-5 bg-gray-200 rounded w-32 mb-1.5" />
+          <div className="h-3 bg-gray-200 rounded w-40" />
+        </div>
+      </div>
+
+      {/* Right side skeleton */}
+      <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+        {/* Search input skeleton */}
+        <div className="relative flex-1 min-w-[200px]">
+          <div className="w-full h-10 bg-gray-200 rounded-lg" />
+        </div>
+
+        {/* Desktop filters + buttons skeleton */}
+        <div className="hidden sm:flex items-center gap-2">
+          <div className="w-24 h-9 bg-gray-200 rounded-lg" />
+          <div className="w-24 h-9 bg-gray-200 rounded-lg" />
+          <div className="w-16 h-9 bg-gray-200 rounded-lg" />
+          <div className="w-28 h-9 bg-gray-200 rounded-lg" />
+        </div>
+
+        {/* Mobile toggle skeleton */}
+        <div className="sm:hidden w-full h-10 bg-gray-200 rounded-lg" />
+      </div>
+    </div>
+  </div>
+);
+
+// ========== MAIN COMPONENT ==========
 const FilterBar = ({
   title = "Filter Items",
   subtitle = "Filter and manage",
   searchTerm = "",
   onSearchChange,
   searchPlaceholder = "Search...",
-  filters = [],       // array of { key, label, icon, options, value, onChange }
+  filters = [],
   onClearFilters,
-  addButton = null,   // { label, onClick, icon }
-  exportButton = null,// { label, onClick, icon }
+  addButton = null,
+  exportButton = null,
   containerClassName = "",
+  isLoading = false, // ✅ new prop
 }) => {
   const [showMobileFilters, setShowMobileFilters] = useState(false);
   const hasActiveFilters = searchTerm || filters.some(f => f.value !== "all" && f.value !== "");
+
+  // ✅ Show skeleton when loading
+  if (isLoading) {
+    return <FilterBarSkeleton />;
+  }
 
   return (
     <div className={`bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-white/20 p-4 mb-6 ${containerClassName}`}>

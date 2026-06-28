@@ -2,9 +2,22 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
-  Home, Package, ShoppingCart, Users, Palette, BarChart2,
-  Tag, Image, Star, Settings, LogOut, ChevronDown, ChevronRight,
-  Mail
+  Home,
+  Package,
+  ShoppingCart,
+  Users,
+  Palette,
+  BarChart2,
+  Tag,
+  Image,
+  Star,
+  Settings,
+  LogOut,
+  ChevronDown,
+  ChevronRight,
+  Mail,
+  Folder,
+  Circle,
 } from "lucide-react";
 import toast from "react-hot-toast";
 
@@ -13,12 +26,11 @@ const Sidebar = ({ isExpanded, onMouseEnter, onMouseLeave, isMobile, onMobileClo
   const navigate = useNavigate();
   const [openMenus, setOpenMenus] = useState({});
 
-  // Auto‑expand parent menus if a child route is active
   useEffect(() => {
     const newOpenMenus = { ...openMenus };
-    navItems.forEach(item => {
+    navItems.forEach((item) => {
       if (item.children) {
-        const anyChildActive = item.children.some(child => location.pathname === child.path);
+        const anyChildActive = item.children.some((child) => location.pathname === child.path);
         if (anyChildActive && !newOpenMenus[item.name]) {
           newOpenMenus[item.name] = true;
         }
@@ -28,28 +40,32 @@ const Sidebar = ({ isExpanded, onMouseEnter, onMouseLeave, isMobile, onMobileClo
   }, [location.pathname]);
 
   const toggleSubMenu = (itemName) => {
-    setOpenMenus(prev => ({ ...prev, [itemName]: !prev[itemName] }));
+    setOpenMenus((prev) => ({ ...prev, [itemName]: !prev[itemName] }));
   };
 
   const navItems = [
     { name: "Dashboard", path: "/admin/dashboard", icon: <Home size={20} />, section: "main" },
-    { 
-      name: "Products", 
-      icon: <Package size={20} />, 
+    {
+      name: "Products",
+      icon: <Package size={20} />,
       section: "main",
       children: [
-        { name: "All Products", path: "/admin/products", icon: null },
-        { name: "Categories", path: "/admin/categories", icon: null },
-        // { name: "Add New Product", path: "/admin/products/add", icon: null },
-      ]
+        { name: "All Products", path: "/admin/products", icon: <Package size={16} /> },
+        { name: "Categories", path: "/admin/categories", icon: <Folder size={16} /> },
+      ],
     },
-    { 
-      name: "Orders", 
+    {
+      name: "Orders",
       path: "/admin/orders",
-      icon: <ShoppingCart size={20} />, 
+      icon: <ShoppingCart size={20} />,
       section: "main",
     },
-    { name: "Custom Designs", path: "/admin/custom-designs", icon: <Palette size={20} />, section: "main" },
+    {
+      name: "Custom Designs",
+      path: "/admin/custom-products",
+      icon: <Palette size={20} />,
+      section: "main",
+    },
     { name: "Users", path: "/admin/users", icon: <Users size={20} />, section: "main" },
     { name: "Analytics", path: "/admin/analytics", icon: <BarChart2 size={20} />, section: "main" },
     { name: "Broadcast", path: "/admin/broadcast", icon: <Mail size={20} />, section: "main" },
@@ -72,13 +88,15 @@ const Sidebar = ({ isExpanded, onMouseEnter, onMouseLeave, isMobile, onMobileClo
 
   const shouldShowDivider = (index) => {
     if (!isExpanded) return false;
-    return navItems[index].section === "main" &&
+    return (
+      navItems[index].section === "main" &&
       index < navItems.length - 1 &&
-      navItems[index + 1]?.section === "management";
+      navItems[index + 1]?.section === "management"
+    );
   };
 
   const isAnyChildActive = (children) => {
-    return children?.some(child => location.pathname === child.path);
+    return children?.some((child) => location.pathname === child.path);
   };
 
   const NavLinkItem = ({ item, onClick, showDivider }) => {
@@ -101,20 +119,29 @@ const Sidebar = ({ isExpanded, onMouseEnter, onMouseLeave, isMobile, onMobileClo
             onClick={() => toggleSubMenu(item.name)}
             title={!isExpanded ? item.name : ""}
           >
-            {/* Left border indicator for active parent (expanded) */}
             {isParentActive && isExpanded && (
               <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-6 bg-orange-500 rounded-r-full" />
             )}
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-center w-full">
               <div className="flex items-center gap-3">
-                <span className={`
-                  flex items-center justify-center transition-all duration-200
-                  ${isParentActive && !isExpanded ? "bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400 rounded-lg p-2" : "text-gray-700 dark:text-gray-300"}
-                `}>
+                <span
+                  className={`
+                    flex items-center justify-center transition-all duration-200
+                    ${
+                      isParentActive && !isExpanded
+                        ? "bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400 rounded-lg p-2"
+                        : "text-gray-700 dark:text-gray-300"
+                    }
+                  `}
+                >
                   {item.icon}
                 </span>
                 {isExpanded && (
-                  <span className={`text-sm font-medium ${isParentActive ? "text-orange-600 dark:text-orange-400" : "text-gray-700 dark:text-gray-300"}`}>
+                  <span
+                    className={`text-sm font-medium ${
+                      isParentActive ? "text-orange-600 dark:text-orange-400" : "text-gray-700 dark:text-gray-300"
+                    }`}
+                  >
                     {item.name}
                   </span>
                 )}
@@ -129,12 +156,8 @@ const Sidebar = ({ isExpanded, onMouseEnter, onMouseLeave, isMobile, onMobileClo
           {/* Submenu (only when expanded and open) */}
           {isExpanded && isOpen && (
             <div className="ml-8 pl-2 border-l border-gray-200 dark:border-gray-700 space-y-1 mt-1 mb-2">
-              {item.children.map(child => (
-                <NavLinkItem
-                  key={child.path}
-                  item={{ ...child, icon: null }}
-                  onClick={onClick}
-                />
+              {item.children.map((child) => (
+                <NavLinkItem key={child.path} item={{ ...child, icon: child.icon || <Circle size={12} /> }} onClick={onClick} />
               ))}
             </div>
           )}
@@ -158,17 +181,29 @@ const Sidebar = ({ isExpanded, onMouseEnter, onMouseLeave, isMobile, onMobileClo
           {isActive && isExpanded && (
             <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-6 bg-orange-500 rounded-r-full" />
           )}
-          <span className={`
-            flex items-center justify-center transition-all duration-200
-            ${isActive && !isExpanded ? "bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400 rounded-lg p-2" : "text-gray-700 dark:text-gray-300"}
-          `}>
-            {item.icon || (item.name === "All Products" ? <Package size={16} /> : null)}
+          <span
+            className={`
+              flex items-center justify-center transition-all duration-200
+              ${
+                isActive && !isExpanded
+                  ? "bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400 rounded-lg p-2"
+                  : "text-gray-700 dark:text-gray-300"
+              }
+            `}
+          >
+            {item.icon || <Circle size={16} />}
           </span>
           {isExpanded && (
-            <span className={`
-              ml-3 text-sm font-medium transition-colors duration-200
-              ${isActive ? "text-orange-600 dark:text-orange-400" : "text-gray-700 dark:text-gray-300 group-hover:text-gray-900 dark:group-hover:text-white"}
-            `}>
+            <span
+              className={`
+                ml-3 text-sm font-medium transition-colors duration-200
+                ${
+                  isActive
+                    ? "text-orange-600 dark:text-orange-400"
+                    : "text-gray-700 dark:text-gray-300 group-hover:text-gray-900 dark:group-hover:text-white"
+                }
+              `}
+            >
               {item.name}
             </span>
           )}
@@ -208,17 +243,6 @@ const Sidebar = ({ isExpanded, onMouseEnter, onMouseLeave, isMobile, onMobileClo
 
       {/* User & Logout */}
       <div className="border-t border-gray-200 dark:border-gray-800 p-3">
-        {isExpanded && (
-          <div className="flex items-center gap-3 px-2 py-2 mb-2 rounded-lg">
-            <div className="w-8 h-8 rounded-full bg-gradient-to-r from-orange-500 to-red-500 flex items-center justify-center text-white font-semibold text-sm">
-              {userName.charAt(0).toUpperCase()}
-            </div>
-            <div className="flex-1 min-w-0">
-              <p className="text-sm font-medium text-gray-800 dark:text-white truncate">{userName}</p>
-              <p className="text-xs text-gray-500 dark:text-gray-400 truncate">{userEmail}</p>
-            </div>
-          </div>
-        )}
         <button
           onClick={handleLogout}
           className={`

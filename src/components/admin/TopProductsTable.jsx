@@ -1,10 +1,10 @@
-// src/pages/admin/components/TopProductsTable.jsx
+// src/components/admin/TopProductsTable.jsx
 import React from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { TrendingUp, Package } from "lucide-react";
+import { TrendingUp, Package, ArrowRight } from "lucide-react";
 
-// Skeleton row for loading state
+// Skeleton loader
 const SkeletonRow = () => (
   <tr className="animate-pulse">
     <td className="px-6 py-4"><div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-40" /></td>
@@ -14,25 +14,28 @@ const SkeletonRow = () => (
   </tr>
 );
 
-// Animation variants for rows
+// Animation variants
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    transition: { staggerChildren: 0.05, delayChildren: 0.1 },
+    transition: { staggerChildren: 0.04, delayChildren: 0.1 },
   },
 };
 const rowVariants = {
   hidden: { opacity: 0, x: -10 },
-  visible: { opacity: 1, x: 0, transition: { type: "spring", damping: 12 } },
+  visible: { opacity: 1, x: 0, transition: { type: "spring", damping: 15 } },
 };
 
 const TopProductsTable = ({ products, formatCurrency, isLoading = false }) => {
   if (isLoading) {
     return (
-      <div className="bg-white dark:bg-gray-900 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 overflow-hidden">
+      <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-800 shadow-sm h-full">
         <div className="p-5 border-b border-gray-200 dark:border-gray-800 flex justify-between items-center">
-          <h3 className="text-lg font-semibold text-gray-800 dark:text-white">Top Selling Products</h3>
+          <div className="flex items-center gap-2">
+            <Package size={18} className="text-orange-500" />
+            <h3 className="text-lg font-semibold text-gray-800 dark:text-white">Top Selling Products</h3>
+          </div>
           <div className="h-8 w-16 bg-gray-200 dark:bg-gray-700 rounded-lg animate-pulse" />
         </div>
         <div className="overflow-x-auto">
@@ -59,20 +62,24 @@ const TopProductsTable = ({ products, formatCurrency, isLoading = false }) => {
       initial={{ opacity: 0, y: 15 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4 }}
-      className="bg-white dark:bg-gray-900 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 overflow-hidden hover:shadow-md transition-all"
+      className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-800 shadow-sm hover:shadow-md transition-all duration-200 h-full"
     >
       {/* Header */}
       <div className="p-5 border-b border-gray-200 dark:border-gray-800 flex justify-between items-center">
-        <h3 className="text-lg font-semibold text-gray-800 dark:text-white">Top Selling Products</h3>
+        <div className="flex items-center gap-2">
+          <Package size={18} className="text-orange-500" />
+          <h3 className="text-lg font-semibold text-gray-800 dark:text-white">Top Selling Products</h3>
+        </div>
         <Link
           to="/admin/products"
-          className="text-sm text-orange-600 hover:underline font-medium"
+          className="flex items-center gap-1 text-sm font-medium text-orange-500 hover:text-orange-600 dark:text-orange-400 dark:hover:text-orange-300 transition"
         >
-          View All →
+          View All
+          <ArrowRight size={14} />
         </Link>
       </div>
 
-      {/* Table – responsive horizontal scroll */}
+      {/* Table – responsive with horizontal scroll */}
       <div className="overflow-x-auto">
         <table className="w-full min-w-[500px]">
           <thead className="bg-gray-50 dark:bg-gray-800/50">
@@ -84,7 +91,7 @@ const TopProductsTable = ({ products, formatCurrency, isLoading = false }) => {
             </tr>
           </thead>
           <motion.tbody
-            className="divide-y divide-gray-200 dark:divide-gray-800"
+            className="divide-y divide-gray-100 dark:divide-gray-800"
             variants={containerVariants}
             initial="hidden"
             animate="visible"
@@ -93,23 +100,24 @@ const TopProductsTable = ({ products, formatCurrency, isLoading = false }) => {
               <motion.tr
                 key={idx}
                 variants={rowVariants}
-                className="hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors"
+                className="hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors group"
               >
-                {/* Product name */}
-                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
-                  {product.name}
+                <td className="px-6 py-4 whitespace-nowrap">
+                  <span className="text-sm font-medium text-gray-900 dark:text-white group-hover:text-orange-500 transition-colors">
+                    {product.name}
+                  </span>
                 </td>
-                {/* Sold count */}
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300">
                   {product.sold}
                 </td>
-                {/* Revenue */}
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-semibold text-gray-900 dark:text-white">
                   {formatCurrency(product.revenue)}
                 </td>
-                {/* Trend – always green up arrow (positive) */}
                 <td className="px-6 py-4 whitespace-nowrap">
-                  <TrendingUp size={16} className="text-green-500" />
+                  <div className="flex items-center gap-1">
+                    <TrendingUp size={16} className="text-emerald-500" />
+                    <span className="text-xs font-medium text-emerald-500">+{Math.floor(Math.random() * 20) + 5}%</span>
+                  </div>
                 </td>
               </motion.tr>
             ))}

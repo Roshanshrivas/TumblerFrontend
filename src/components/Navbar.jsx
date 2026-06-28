@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { IoSearchSharp } from "react-icons/io5";
-import { FaHeart } from "react-icons/fa";
+import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { HiOutlineShoppingBag, HiMenu, HiX } from "react-icons/hi";
 import {
   FiLogOut,
@@ -14,6 +14,7 @@ import CartDrawer from "./CartDrawer";
 import WishlistDrawer from "./WishlistDrawer";
 import SearchModal from "./SearchModal";
 import toast from "react-hot-toast";
+import logo from "../assets/SmoothSip.png"
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -134,7 +135,7 @@ const Navbar = () => {
         animate="visible"
         className="w-full bg-white shadow-lg sticky top-0 z-50"
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto px-4 sm:px-6 lg:px-12">
           <div className="relative flex items-center h-16 md:h-20">
             {/* Logo with hover animation */}
             <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
@@ -142,7 +143,7 @@ const Navbar = () => {
                 to="/"
                 className="text-2xl font-bold bg-gradient-to-r from-gray-800 to-orange-500 bg-clip-text text-transparent"
               >
-                Tumbler
+                <img src={logo} alt="logo" className="h-8"/>
               </Link>
             </motion.div>
 
@@ -173,7 +174,7 @@ const Navbar = () => {
                 onClick={handleOpenWishlist}
                 className="relative"
               >
-                <FaHeart className="text-xl text-gray-700 hover:text-orange-500 transition" />
+                <FaRegHeart className="text-xl text-gray-700 hover:text-orange-500 transition" />
                 {wishlistCount > 0 && (
                   <motion.span
                     initial={{ scale: 0 }}

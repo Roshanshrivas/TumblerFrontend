@@ -1,7 +1,8 @@
-// src/pages/admin/components/products/ProductTable.jsx
-import React, { memo } from "react";
+// src/components/admin/products/ProductTable.jsx
+import React, { memo, useState } from "react";
 import { Eye, Pencil, Trash2 } from "lucide-react";
 import { motion } from "framer-motion";
+import DeleteConfirmModal from "../ConfirmDialog";
 
 const rowVariants = {
   hidden: { opacity: 0, x: -10 },
@@ -26,7 +27,7 @@ const StockBadge = ({ stock }) => {
   return <span className="px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400">In Stock</span>;
 };
 
-// Skeleton row for loading
+// Skeleton row
 const SkeletonRow = () => (
   <tr className="animate-pulse">
     <td className="px-6 py-4">
@@ -48,7 +49,42 @@ const SkeletonRow = () => (
   </tr>
 );
 
-const ProductTable = ({ products, onEdit, onDelete, onView, isLoading = false }) => {
+// Format date properly
+const formatDate = (dateStr) => {
+  if (!dateStr) return "—";
+  const date = new Date(dateStr);
+  if (isNaN(date.getTime())) return "—";
+  return date.toLocaleDateString("en-IN", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  }) + ", " + date.toLocaleTimeString("en-IN", {
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: true,
+  });
+};
+
+const ProductTable = ({ products, onEdit, onDelete, onView, onRowClick, isLoading = false }) => {
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [productToDelete, setProductToDelete] = useState(null);
+
+  // Handle delete confirmation
+  const handleDeleteConfirm = () => {
+    if (productToDelete && onDelete) {
+      onDelete(productToDelete.id);
+    }
+    setDeleteModalOpen(false);
+    setProductToDelete(null);
+  };
+
+  // Open delete modal
+  const handleDeleteClick = (product, e) => {
+    e.stopPropagation();
+    setProductToDelete(product);
+    setDeleteModalOpen(true);
+  };
+
   if (isLoading) {
     return (
       <div className="overflow-x-auto">
@@ -77,9 +113,10 @@ const ProductTable = ({ products, onEdit, onDelete, onView, isLoading = false })
     return <div className="p-8 text-center text-gray-500">No products found</div>;
   }
 
-  const handleDelete = (product) => {
-    if (window.confirm(`Are you sure you want to delete "${product.name}"?`)) {
-      onDelete(product.id);
+  // Row click handler – navigate to detail
+  const handleRowClick = (productId) => {
+    if (onRowClick) {
+      onRowClick(productId);
     }
   };
 
@@ -105,25 +142,42 @@ const ProductTable = ({ products, onEdit, onDelete, onView, isLoading = false })
               variants={rowVariants}
               initial="hidden"
               animate="visible"
-              className="hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors group"
+              onClick={() => handleRowClick(product.id)}
+              className="hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors group cursor-pointer"
             >
               <td className="px-6 py-4 whitespace-nowrap">
                 <div className="flex items-center gap-3">
-                  <img src={product.image} alt={product.name} className="w-12 h-12 rounded-lg object-cover border border-gray-100 dark:border-gray-700" />
+                  <img
+                    src={product.image}
+                    alt={product.name}
+                    className="w-12 h-12 rounded-lg object-cover border border-gray-100 dark:border-gray-700"
+                  />
                   <div>
                     <p className="font-medium text-gray-900 dark:text-white">{product.name}</p>
                     <p className="text-xs text-gray-500 dark:text-gray-400">{product.color || "—"}</p>
                   </div>
                 </div>
-               </td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-400">TMB-{String(product.id).padStart(4, '0')}</td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-400">{product.category}</td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm font-semibold text-gray-900 dark:text-white">₹{product.price.toLocaleString()}</td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm"><StockBadge stock={product.stock} /></td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm"><StatusBadge status={product.status || "Active"} /></td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{product.createdAt || "—"}</td>
+              </td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-400">
+                TMB-{String(product.id).padStart(4, '0')}
+              </td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-400">
+                {product.category}
+              </td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm font-semibold text-gray-900 dark:text-white">
+                ₹{product.price.toLocaleString()}
+              </td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm">
+                <StockBadge stock={product.stock} />
+              </td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm">
+                <StatusBadge status={product.status || "Active"} />
+              </td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                {formatDate(product.createdAt)}
+              </td>
               <td className="px-6 py-4 whitespace-nowrap">
-                <div className="flex items-center gap-1">
+                <div className="flex items-center gap-1" onClick={(e) => e.stopPropagation()}>
                   {onView && (
                     <button
                       onClick={() => onView(product)}
@@ -141,7 +195,7 @@ const ProductTable = ({ products, onEdit, onDelete, onView, isLoading = false })
                     <Pencil size={16} />
                   </button>
                   <button
-                    onClick={() => handleDelete(product)}
+                    onClick={(e) => handleDeleteClick(product, e)}
                     className="p-1.5 rounded-lg text-gray-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 transition"
                     title="Delete product"
                   >
@@ -152,7 +206,19 @@ const ProductTable = ({ products, onEdit, onDelete, onView, isLoading = false })
             </motion.tr>
           ))}
         </tbody>
-       </table>
+      </table>
+
+      {/* Delete Modal */}
+      <DeleteConfirmModal
+        isOpen={deleteModalOpen}
+        onClose={() => {
+          setDeleteModalOpen(false);
+          setProductToDelete(null);
+        }}
+        onConfirm={handleDeleteConfirm}
+        title="Delete Product"
+        message={`Are you sure you want to delete "${productToDelete?.name || 'this product'}"? This action cannot be undone.`}
+      />
     </div>
   );
 };
