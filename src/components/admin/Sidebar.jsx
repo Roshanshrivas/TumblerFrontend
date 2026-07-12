@@ -20,6 +20,7 @@ import {
   Circle,
 } from "lucide-react";
 import toast from "react-hot-toast";
+import adminlogo from "../../assets/Adminlogo.png"
 
 const Sidebar = ({ isExpanded, onMouseEnter, onMouseLeave, isMobile, onMobileClose }) => {
   const location = useLocation();
@@ -216,14 +217,30 @@ const Sidebar = ({ isExpanded, onMouseEnter, onMouseLeave, isMobile, onMobileClo
   const content = (
     <div className="flex flex-col h-full">
       {/* Logo */}
-      <div className="h-16 flex items-center justify-center border-b border-gray-200 dark:border-gray-800">
+      <div className="h-16 flex items-center px-4 border-b border-gray-200 dark:border-gray-800 shrink-0">
         {isExpanded ? (
-          <span className="text-xl font-bold">
-            <span className="text-orange-600">Tumbler</span>
-            <span className="text-gray-800 dark:text-white">Admin</span>
-          </span>
+          <Link to="/admin/dashboard" className="flex items-center gap-2.5 no-underline group">
+            <div className="relative">
+              <img src={adminlogo} alt="Admin" className="h-8 w-auto object-contain" />
+              <span className="absolute -top-1 -right-1.5 flex items-center justify-center w-4 h-4 text-[8px] font-bold text-white bg-orange-500 rounded-full shadow-sm">
+                v2
+              </span>
+            </div>
+            <div className="flex flex-col leading-tight">
+              <span className="text-base font-bold text-gray-800 dark:text-white tracking-tight">
+                <span className="text-orange-600 dark:text-orange-400">Admin</span>Panel
+              </span>
+              <span className="text-[10px] font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wider">
+                Management
+              </span>
+            </div>
+          </Link>
         ) : (
-          <span className="text-2xl font-bold text-orange-600">T</span>
+          <Link to="/admin/dashboard" className="mx-auto">
+            <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-br from-orange-500/10 to-orange-600/10 text-white font-bold text-lg shadow-md group-hover:shadow-lg transition-shadow duration-200">
+              <img src={adminlogo} alt="Admin" className="h-6 w-auto" />
+            </div>
+          </Link>
         )}
       </div>
 

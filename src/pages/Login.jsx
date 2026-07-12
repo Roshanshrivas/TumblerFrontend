@@ -1,19 +1,27 @@
+// src/pages/LoginPage.jsx – Teal Theme, Responsive, Production-Ready
 import React, { useState } from "react";
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Mail, Lock, Eye, EyeOff, Leaf, Loader2 } from "lucide-react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
 import BrandPanel from "../components/BrandPanel";
 
+// ─── Brand Colors ───────────────────────────────────
+const BRAND_TEAL = "#14C6D8";
+const BRAND_HOVER = "#0FB2C3";
+const BRAND_LIGHT_BG = "#E6F9FA";
+
 const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
+// ─── Social Button ──────────────────────────────────
 const SocialButton = ({ label, icon }) => (
-  <button className="flex items-center justify-center gap-2 rounded-xl border border-gray-200 bg-white py-2.5 text-sm font-medium text-gray-700 transition hover:border-orange-300 hover:bg-orange-50">
+  <button className="flex items-center justify-center gap-2 rounded-xl border border-gray-200 bg-white py-2.5 text-sm font-medium text-gray-700 transition hover:border-[#14C6D8] hover:bg-[#E6F9FA] hover:text-[#14C6D8]">
     {icon}
     <span className="hidden sm:inline">{label}</span>
   </button>
 );
 
-
+// ─── Social Icons ──────────────────────────────────
 const GoogleIcon = () => (
   <svg className="h-4 w-4" viewBox="0 0 24 24">
     <path fill="#EA4335" d="M12 5.04c1.64 0 3.12.56 4.28 1.67l3.2-3.2C17.52 1.58 14.96 1 12 1 7.35 1 3.4 3.65 1.5 7.5l3.8 2.95c.9-2.7 3.4-4.41 6.7-4.41z"/>
@@ -35,7 +43,6 @@ const FacebookIcon = () => (
   </svg>
 );
 
-
 const InstagramIcon = () => (
   <svg className="h-4 w-4" viewBox="0 0 24 24">
     <linearGradient id="ig-grad" x1="0%" y1="100%" x2="100%" y2="0%">
@@ -49,12 +56,14 @@ const InstagramIcon = () => (
   </svg>
 );
 
+// ─── MAIN COMPONENT ──────────────────────────────────
 export default function LoginPage() {
+  const navigate = useNavigate();
+  const location = useLocation();
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -68,45 +77,45 @@ export default function LoginPage() {
     }
     setIsLoading(true);
     setTimeout(() => {
-    // Demo credentials
-    let role = "customer";
-    if (email === "admin@tumbler.com" && password === "admin123") role = "admin";
-    else if (email === "user@tumbler.com" && password === "user123") role = "customer";
-    else {
-      toast.error("Invalid credentials. Use admin@tumbler.com / admin123 or user@tumbler.com / user123");
+      let role = "user";
+      if (email === "admin@tumbler.com" && password === "admin123") role = "admin";
+      else if (email === "user@tumbler.com" && password === "user123") role = "user";
+      else {
+        toast.error("Invalid credentials. Use admin@tumbler.com / admin123 or user@tumbler.com / user123");
+        setIsLoading(false);
+        return;
+      }
+      const user = {
+        id: Date.now(),
+        name: email.split("@")[0],
+        email,
+        role,
+      };
+      localStorage.setItem("user", JSON.stringify(user));
+      window.dispatchEvent(new Event("userUpdated"));
+      toast.success(`Logged in as ${role}`);
+      const from = location.state?.from || '/';
+      navigate(from, { replace: true });
       setIsLoading(false);
-      return;
-    }
-    const user = {
-      id: Date.now(),
-      name: email.split("@")[0],
-      email,
-      role,
-    };
-    localStorage.setItem("user", JSON.stringify(user));
-    window.dispatchEvent(new Event("userUpdated"));
-    toast.success(`Logged in as ${role}`);
-    navigate(role === "admin" ? "/admin/dashboard" : "/");
-    setIsLoading(false);
-  }, 800);
+    }, 800);
   };
 
   return (
     <div className="min-h-screen bg-white flex flex-col lg:flex-row">
       <BrandPanel />
-      <div className="w-full lg:w-1/2 flex items-center justify-center p-4 sm:p-6 bg-[#FEE9DC]/30 order-1 lg:order-2">
-        <div className="w-full max-w-md bg-white rounded-2xl shadow-xl p-6 sm:p-8">
+      <div className="w-full lg:w-1/2 flex items-center justify-center p-4 sm:p-6 bg-[#E6F9FA]/30 order-1 lg:order-2">
+        <div className="w-full max-w-md bg-white rounded-2xl shadow-xl p-6 sm:p-8 border border-gray-100">
           <div className="text-center mb-6">
-            <div className="w-14 h-14 mx-auto bg-orange-100 rounded-full flex items-center justify-center mb-3">
-              <Mail className="h-6 w-6 text-orange-600" />
+            <div className="w-14 h-14 mx-auto bg-[#E6F9FA] rounded-full flex items-center justify-center mb-3">
+              <Mail className="h-6 w-6 text-[#14C6D8]" />
             </div>
             <h2 className="text-2xl font-bold text-gray-800">
-              Welcome <span className="text-orange-600">Back!</span>
+              Welcome <span className="text-[#14C6D8]">Back!</span>
             </h2>
             <p className="text-sm text-gray-500 mt-1">Login to continue your tumbler journey</p>
             <div className="flex items-center gap-2 mt-4">
               <div className="flex-1 h-px bg-gray-200" />
-              <Leaf className="h-4 w-4 text-orange-400" />
+              <Leaf className="h-4 w-4 text-[#14C6D8]" />
               <div className="flex-1 h-px bg-gray-200" />
             </div>
           </div>
@@ -120,7 +129,7 @@ export default function LoginPage() {
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full pl-9 pr-3 py-2 border border-gray-200 rounded-lg focus:border-orange-400 focus:ring-1 focus:ring-orange-400 outline-none text-sm"
+                  className="w-full pl-9 pr-3 py-2 border border-gray-200 rounded-lg focus:border-[#14C6D8] focus:ring-1 focus:ring-[#14C6D8] outline-none text-sm transition"
                   placeholder="Enter your email"
                   required
                 />
@@ -135,38 +144,40 @@ export default function LoginPage() {
                   type={showPassword ? "text" : "password"}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full pl-9 pr-9 py-2 border border-gray-200 rounded-lg focus:border-orange-400 focus:ring-1 focus:ring-orange-400 outline-none text-sm"
+                  className="w-full pl-9 pr-9 py-2 border border-gray-200 rounded-lg focus:border-[#14C6D8] focus:ring-1 focus:ring-[#14C6D8] outline-none text-sm transition"
                   placeholder="Enter your password"
                   required
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition"
                 >
                   {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                 </button>
               </div>
               <div className="text-right mt-1">
-                <a href="#" className="text-xs text-orange-500 hover:underline">Forgot password?</a>
+                <a href="#" className="text-xs text-[#14C6D8] hover:text-[#0FB2C3] transition">
+                  Forgot password?
+                </a>
               </div>
             </div>
 
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-2.5 rounded-lg transition flex items-center justify-center gap-2 disabled:opacity-60"
+              className="w-full bg-[#14C6D8] hover:bg-[#0FB2C3] text-white font-bold py-2.5 rounded-lg transition flex items-center justify-center gap-2 disabled:opacity-60 shadow-md hover:shadow-lg hover:shadow-[#14C6D8]/30"
             >
               {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Leaf className="h-4 w-4" />}
               <span>{isLoading ? "Logging in..." : "Login"}</span>
             </button>
           </form>
 
-          {/* Professional signup link – centered, below form, above social */}
+          {/* Signup link */}
           <div className="mt-6 text-center">
             <p className="text-sm text-gray-600">
               Don't have an account?{" "}
-              <Link to="/signup" className="font-semibold text-orange-600 hover:underline">
+              <Link to="/signup" className="font-semibold text-[#14C6D8] hover:text-[#0FB2C3] transition">
                 Sign up
               </Link>
             </p>

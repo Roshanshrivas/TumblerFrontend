@@ -69,7 +69,7 @@ const FeaturesBanner = () => {
                 whileTap={{ scale: 0.98 }}
                 className="flex items-center gap-3 bg-white rounded-xl px-4 py-2.5 shadow-sm border border-gray-100 snap-start min-w-[145px] transition-all duration-200"
               >
-                <div className="text-[#FF5A1F] text-xl">{item.icon}</div>
+                <div className="text-[#14C6D8] text-xl">{item.icon}</div>
                 <div>
                   <h3 className="text-xs font-bold text-[#1A1A1A]">{item.title}</h3>
                   <p className="text-[10px] text-gray-400 font-medium">{item.subtitle}</p>
@@ -77,7 +77,6 @@ const FeaturesBanner = () => {
               </motion.div>
             ))}
           </motion.div>
-          {/* subtle swipe hint */}
           <div className="flex justify-center mt-1">
             <motion.span
               initial={{ opacity: 0 }}
@@ -104,11 +103,13 @@ const FeaturesBanner = () => {
               whileHover={{ y: -4, scale: 1.02 }}
               className="flex items-center justify-start lg:justify-center gap-4 group cursor-default"
             >
-              <div className="text-[#FF5A1F] text-3xl group-hover:scale-110 transition-transform duration-300">
+              <div className="text-[#14C6D8] text-3xl group-hover:scale-110 group-hover:text-[#09AFBD] transition-all duration-300">
                 {item.icon}
               </div>
               <div>
-                <h3 className="text-[15px] font-bold text-[#1A1A1A]">{item.title}</h3>
+                <h3 className="text-[15px] font-bold text-[#1A1A1A] group-hover:text-[#14C6D8] transition-colors">
+                  {item.title}
+                </h3>
                 <p className="text-[12px] text-gray-400 font-medium">{item.subtitle}</p>
               </div>
             </motion.div>

@@ -1,3 +1,4 @@
+// WhyChooseSection.jsx – Refined Light Theme with Teal Accents
 import React, { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import { FiBox, FiShield, FiUser } from "react-icons/fi";
@@ -57,22 +58,25 @@ const WhyChooseSection = () => {
   return (
     <section
       ref={sectionRef}
-      className="w-full px-4 md:px-6 lg:px-8 py-10 md:py-16 bg-white overflow-hidden"
+      className="w-full px-4 md:px-6 lg:px-8 py-10 md:py-16 bg-gradient-to-b from-white to-[#f7fafc] overflow-hidden"
     >
       <div className="max-w-[1400px] mx-auto">
         <motion.div
-          className="relative overflow-hidden rounded-3xl bg-[#f8f2ec] min-h-[380px] md:min-h-[340px] flex flex-col lg:flex-row shadow-lg"
+          className="relative overflow-hidden rounded-3xl bg-[#E6F9FA] border border-[#00C2D6]/20 shadow-sm min-h-[380px] md:min-h-[340px] flex flex-col lg:flex-row"
           variants={cardVariants}
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
         >
+          {/* Subtle teal glow on top-left */}
+          <div className="absolute -top-20 -left-20 w-64 h-64 bg-[#14C6D8]/5 rounded-full blur-3xl pointer-events-none" />
+
           {/* LEFT CONTENT */}
           <div className="relative z-20 w-full lg:w-[58%] px-6 sm:px-10 md:px-14 py-10 md:py-12">
             <motion.h2
-              className="text-3xl sm:text-4xl md:text-[42px] font-bold text-[#111111] tracking-[-1px]"
+              className="text-3xl sm:text-4xl md:text-[42px] font-bold text-gray-900 tracking-[-1px]"
               variants={headingVariants}
             >
-              Why Choose Tumbler?
+              Why Choose <span className="text-[#14C6D8]">Tumbler?</span>
             </motion.h2>
 
             {/* Features Grid */}
@@ -87,24 +91,24 @@ const WhyChooseSection = () => {
                   variants={featureVariants}
                   whileHover="hover"
                 >
-                  {/* Vertical divider (desktop) */}
+                  {/* Vertical divider – teal */}
                   {index !== 0 && (
-                    <div className="hidden md:block absolute left-0 top-1/2 -translate-y-1/2 w-px h-[90px] bg-gradient-to-b from-transparent via-[#e8ddd4] to-transparent" />
+                    <div className="hidden md:block absolute left-0 top-1/2 -translate-y-1/2 w-px h-[90px] bg-gradient-to-b from-transparent via-[#14C6D8]/30 to-transparent" />
                   )}
 
-                  {/* Icon with hover effect */}
+                  {/* Icon with hover effect – teal */}
                   <motion.div
-                    className="text-[#ff6b1a] text-4xl md:text-[38px] mb-4"
+                    className="text-[#14C6D8] bg-white p-4 rounded-full text-4xl md:text-[38px] mb-4"
                     variants={iconHoverVariants}
                   >
                     {item.icon}
                   </motion.div>
 
                   {/* Text */}
-                  <h3 className="text-base font-semibold text-[#222] leading-tight">
+                  <h3 className="text-base font-semibold text-gray-800 leading-tight">
                     {item.title}
                   </h3>
-                  <p className="text-sm text-[#444] leading-tight mt-1">
+                  <p className="text-sm text-gray-500 leading-tight mt-1">
                     {item.subtitle}
                   </p>
                 </motion.div>
@@ -115,16 +119,17 @@ const WhyChooseSection = () => {
           {/* RIGHT IMAGE SIDE */}
           <div className="relative w-full lg:w-[42%] min-h-[300px] md:min-h-[320px] overflow-hidden">
             <motion.img
-              src="https://res.cloudinary.com/dbkpwluh0/image/upload/v1779185673/ChatGPT_Image_May_19_2026_03_44_00_PM_a892bh.png"
+              src="https://res.cloudinary.com/dbkpwluh0/image/upload/v1783755632/ChatGPT_Image_Jul_11_2026_01_10_16_PM_ilivvu.png"
               alt="Premium Tumbler"
               className="absolute inset-0 w-full h-full object-cover object-center"
               variants={imageVariants}
               whileHover="hover"
               style={{ willChange: "transform" }}
+              loading="lazy"
             />
-            {/* Soft gradient overlay to blend with left side */}
-            <div className="absolute inset-0 bg-gradient-to-l from-transparent via-transparent to-[#f8f2ec] pointer-events-none" />
-            <div className="absolute top-10 left-5 w-40 h-40 rounded-full bg-white/30 blur-3xl pointer-events-none" />
+            {/* Gradient overlay to blend smoothly */}
+            <div className="absolute inset-y-0 left-0 w-28 bg-gradient-to-r from-[#E6F9FA] via-[#E6F9FA]/80 to-transparent pointer-events-none hidden lg:block" />
+            <div className="absolute inset-x-0 top-0 h-20 bg-gradient-to-b from-[#E6F9FA] via-[#E6F9FA]/80 to-transparent pointer-events-none lg:hidden" />
           </div>
         </motion.div>
       </div>

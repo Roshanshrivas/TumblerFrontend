@@ -80,7 +80,7 @@ const Footer = () => {
             <Link to="/" className="inline-block">
               <div className="flex items-center gap-2">
                 <span className="text-3xl font-bold text-white tracking-tight">
-                  Tumbler<span className="text-[#ff6b00]">Co</span>
+                  Smooth<span className="text-[#14C6D8]"> Sip</span>
                 </span>
               </div>
             </Link>
@@ -114,7 +114,7 @@ const Footer = () => {
                 <li key={link.name}>
                   <Link
                     to={link.path}
-                    className="text-gray-400 hover:text-[#ff6b00] transition text-sm inline-block"
+                    className="text-gray-400 hover:text-[#14C6D8] hover:font-bold transition text-sm inline-block"
                   >
                     {link.name}
                   </Link>
@@ -131,7 +131,7 @@ const Footer = () => {
                 <li key={link.name}>
                   <Link
                     to={link.path}
-                    className="text-gray-400 hover:text-[#ff6b00] transition text-sm inline-block"
+                    className="text-gray-400 hover:text-[#14C6D8] hover:font-bold  transition text-sm inline-block"
                   >
                     {link.name}
                   </Link>
@@ -145,18 +145,18 @@ const Footer = () => {
             <h3 className="text-white font-semibold text-lg mb-4">Get in Touch</h3>
             <ul className="space-y-3 mb-6">
               <li className="flex items-start gap-3 text-sm text-gray-400">
-                <FiMapPin className="mt-0.5 flex-shrink-0 text-[#ff6b00]" />
+                <FiMapPin className="mt-0.5 flex-shrink-0 text-[#14C6D8]" />
                 <span>123 Tumbler Street, Mumbai, India</span>
               </li>
               <li className="flex items-center gap-3 text-sm text-gray-400">
-                <FiMail className="flex-shrink-0 text-[#ff6b00]" />
-                <a href="mailto:hello@tumblerco.com" className="hover:text-[#ff6b00] transition">
+                <FiMail className="flex-shrink-0 text-[#14C6D8]" />
+                <a href="mailto:hello@tumblerco.com" className="hover:text-[#14C6D8] transition">
                   hello@tumblerco.com
                 </a>
               </li>
               <li className="flex items-center gap-3 text-sm text-gray-400">
-                <FiPhone className="flex-shrink-0 text-[#ff6b00]" />
-                <a href="tel:+911234567890" className="hover:text-[#ff6b00] transition">
+                <FiPhone className="flex-shrink-0 text-[#14C6D8]" />
+                <a href="tel:+911234567890" className="hover:text-[#14C6D8] transition">
                   +91 12345 67890
                 </a>
               </li>
@@ -169,11 +169,11 @@ const Footer = () => {
                 <input
                   type="email"
                   placeholder="Your email"
-                  className="flex-1 px-3 py-2 bg-gray-800 border border-gray-700 rounded-l-md text-sm text-white placeholder-gray-500 focus:outline-none focus:border-[#ff6b00] transition"
+                  className="flex-1 px-3 py-2 bg-gray-800 border border-gray-700 rounded-l-md text-sm text-white placeholder-gray-500 focus:outline-none focus:border-[#09AFC0] transition"
                 />
                 <motion.button
                   type="submit"
-                  className="px-3 py-2 bg-[#ff6b00] text-white rounded-r-md hover:bg-orange-600 transition"
+                  className="px-3 py-2 bg-[#14C6D8] text-white rounded-r-md hover:bg-[#09AFC0] transition"
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                 >
@@ -196,7 +196,7 @@ const Footer = () => {
               <motion.span
                 key={method}
                 className="px-3 py-1 bg-gray-800 text-gray-400 text-xs rounded-full cursor-default"
-                whileHover={{ scale: 1.05, backgroundColor: "#ff6b00", color: "#fff" }}
+                whileHover={{ scale: 1.05, backgroundColor: "#09AFC0", color: "#fff" }}
                 transition={{ type: "spring", stiffness: 400 }}
               >
                 {method}
@@ -204,13 +204,13 @@ const Footer = () => {
             ))}
           </div>
           <div className="text-center text-sm text-gray-500">
-            © {currentYear} Tumbler. All rights reserved. | 
+            © {currentYear} SmoothSip. All rights reserved. | 
             <span className="inline-flex items-center gap-1 mx-1">
               <motion.span
                 animate={{ scale: [1, 1.2, 1] }}
                 transition={{ repeat: Infinity, repeatDelay: 3, duration: 0.5 }}
               >
-                <TbHeartHandshake size={14} className="text-red-500" />
+                <TbHeartHandshake size={14} className="text-[#09AFC0]" />
               </motion.span>
               Designed with care
             </span>

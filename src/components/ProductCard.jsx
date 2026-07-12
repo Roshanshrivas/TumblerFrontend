@@ -1,7 +1,7 @@
 // ProductCard.jsx
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { FaShoppingCart } from "react-icons/fa";
+import { FaShoppingCart, FaStar } from "react-icons/fa";
 import { FiHeart } from "react-icons/fi";
 import toast from "react-hot-toast";
 
@@ -115,7 +115,7 @@ const ProductCard = ({ product, tag }) => {
         </div>
 
         {/* DISCOUNT */}
-        <div className="absolute top-2 left-2 z-10 bg-[#ff6b35] text-white text-xs font-bold px-3 py-1 rounded-full">
+        <div className="absolute shadow-sm top-2 left-2 z-10 bg-[#21BFC8] text-white text-xs font-bold px-3 py-1 rounded-full">
           -{product.discount}%
         </div>
 
@@ -123,17 +123,17 @@ const ProductCard = ({ product, tag }) => {
         {tag && (
           <div
             className={`
-              absolute top-0 right-0 z-10
-              text-white text-xs font-bold
-              px-3 py-1 rounded-bl-xl
+              absolute flex items-center gap-2 shadow-sm top-2 right-2 z-10 rounded-full
+              text-[#21BFC8] text-xs font-bold
+              px-3 py-1 
               ${
                 tag === "Best Seller"
-                  ? "bg-[#ff6b35]"
-                  : "bg-blue-500"
+                  ? "bg-[#ffffff]"
+                  : "bg-[#0FB2C3] text-white"
               }
             `}
           >
-            {tag}
+          <FaStar/> {tag}
           </div>
         )}
 
@@ -144,7 +144,7 @@ const ProductCard = ({ product, tag }) => {
             absolute bottom-3 right-3 z-10
             w-9 h-9 bg-white rounded-full
             flex items-center justify-center
-            shadow-md hover:bg-[#ff6b35]
+            shadow-md hover:bg-[#21BFC8]
             transition-colors duration-200
             group/heart
           "
@@ -163,24 +163,13 @@ const ProductCard = ({ product, tag }) => {
       <div className="p-4 flex flex-col flex-grow">
 
         {/* TITLE */}
-        <h3 className="text-lg font-semibold text-gray-800 line-clamp-2 min-h-[40px]">
+        <h3 className="text-lg font-bold text-gray-800 line-clamp-2 mb-1">
           {product.title}
         </h3>
 
-        {/* PRICE */}
-        <div className="flex items-center gap-2 mt-2 mb-2">
-          <span className="sm:text-xl md:text-2xl font-bold text-[#ff6b35]">
-            ₹{product.price}
-          </span>
-
-          <span className="text-gray-400 line-through text-sm">
-            ₹{product.oldPrice}
-          </span>
-        </div>
-
         {/* RATING */}
-        <div className="flex items-center gap-1 mb-4">
-          <div className="flex text-sm">
+        <div className="flex items-center gap-1 mb-2">
+          <div className="flex text-[20px]">
             {renderStars(product.rating)}
           </div>
 
@@ -189,21 +178,35 @@ const ProductCard = ({ product, tag }) => {
           </span>
         </div>
 
+        {/* PRICE */}
+        <div className="flex items-center gap-2 mb-4">
+          <span className="sm:text-xl md:text-2xl font-bold text-[#21BFC8]">
+            ₹{product.price}
+          </span>
+
+          <span className="text-gray-400 line-through text-sm">
+            ₹{product.oldPrice}
+          </span>
+        </div>
+
+
         {/* BUTTON */}
         <button
           onClick={handleAddToCart}
           className="
             w-full py-3 rounded-xl
-            border-[1.5px] border-[#ff8c57]
-            text-[#ff6b35] font-semibold
+            border-[1.5px] bg-[#00C2D6]
+            text-white font-semibold
             flex items-center justify-center gap-2
-            hover:bg-[#ff6b35]
-            hover:text-white
+            hover:bg-[#00A0B0] hover:shadow-lg
+            hover:text-white hover:scale-[1.02]
             transition-all duration-300
+            active:scale-95
+            group/btn
             mt-auto
           "
         >
-          <FaShoppingCart size={18} />
+          <FaShoppingCart size={18} className="transition-transform duration-300 group-hover/btn:-translate-y-0.5 group-hover/btn:scale-110"/>
           Add to Cart
         </button>
       </div>

@@ -1,3 +1,4 @@
+// src/components/Navbar.jsx
 import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link, NavLink, useNavigate } from "react-router-dom";
@@ -14,7 +15,13 @@ import CartDrawer from "./CartDrawer";
 import WishlistDrawer from "./WishlistDrawer";
 import SearchModal from "./SearchModal";
 import toast from "react-hot-toast";
-import logo from "../assets/SmoothSip.png"
+import logo from "../assets/sslogo.png";
+import { Bell, LayoutDashboard, LifeBuoy, MapPin, Ticket, Shield } from "lucide-react";
+
+// ─── Helper ──────────────────────────────────────────
+const getDashboardPath = (role) => {
+  return role === "admin" ? "/admin/dashboard" : "/dashboard/overview";
+};
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -101,7 +108,10 @@ const Navbar = () => {
 
   const getUserInitials = () => (user?.name ? user.name.charAt(0).toUpperCase() : "U");
 
-  // Animation variants
+  const isAdmin = user?.role === "admin";
+  const dashboardPath = getDashboardPath(user?.role);
+
+  // ─── Animation variants ──────────────────────────────
   const navVariants = {
     hidden: { y: -100, opacity: 0 },
     visible: { y: 0, opacity: 1, transition: { type: "spring", damping: 20, stiffness: 100 } },
@@ -123,9 +133,45 @@ const Navbar = () => {
   };
 
   const navLinkClass = ({ isActive }) => `
-    relative hover:text-orange-500 transition duration-300
-    ${isActive ? "text-orange-500 font-semibold after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-0.5 after:bg-orange-500 after:rounded-full" : "text-gray-700"}
+    relative hover:text-[#00A0B0] transition duration-300
+    ${isActive ? "text-[#18C6D9] font-semibold after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-0.5 after:bg-[#18C6D9] after:rounded-full" : "text-gray-700"}
   `;
+
+  // ─── Desktop User Dropdown Items ─────────────────────
+  const desktopDropdownItems = isAdmin
+    ? [
+        { icon: Shield, label: "Admin Dashboard", path: "/admin/dashboard", divider: false },
+        { icon: FiUser, label: "Profile", path: "/admin/profile", divider: false },
+        { icon: FiPackage, label: "Orders", path: "/admin/orders", divider: false },
+        { icon: FiLogOut, label: "Logout", path: "#", divider: false, isLogout: true },
+      ]
+    : [
+        { icon: LayoutDashboard, label: "Dashboard", path: "/dashboard/overview", divider: false },
+        { icon: FiUser, label: "Profile", path: "/dashboard/profile", divider: false },
+        { icon: FiPackage, label: "My Orders", path: "/dashboard/orders", divider: false },
+        { icon: FiHeartOutline, label: "Wishlist", path: "/dashboard/wishlist", divider: false },
+        { icon: MapPin, label: "Addresses", path: "/dashboard/addresses", divider: false },
+        { icon: Ticket, label: "Coupons", path: "/dashboard/coupons", divider: false },
+        { icon: Bell, label: "Notifications", path: "/dashboard/notifications", divider: false },
+        { icon: LifeBuoy, label: "Support", path: "/dashboard/support", divider: true },
+        { icon: FiLogOut, label: "Logout", path: "#", divider: false, isLogout: true },
+      ];
+
+  // ─── Mobile User Dropdown Items ─────────────────────
+  const mobileDropdownItems = isAdmin
+    ? [
+        { icon: Shield, label: "Admin Dashboard", path: "/admin/dashboard" },
+        { icon: FiUser, label: "Profile", path: "/admin/profile" },
+        { icon: FiPackage, label: "Orders", path: "/admin/orders" },
+        { icon: FiLogOut, label: "Logout", path: "#", isLogout: true },
+      ]
+    : [
+        { icon: LayoutDashboard, label: "Dashboard", path: "/dashboard/overview" },
+        { icon: FiUser, label: "Profile", path: "/dashboard/profile" },
+        { icon: FiPackage, label: "My Orders", path: "/dashboard/orders" },
+        { icon: FiHeartOutline, label: "Wishlist", path: "/dashboard/wishlist" },
+        { icon: FiLogOut, label: "Logout", path: "#", isLogout: true },
+      ];
 
   return (
     <>
@@ -137,17 +183,14 @@ const Navbar = () => {
       >
         <div className="mx-auto px-4 sm:px-6 lg:px-12">
           <div className="relative flex items-center h-16 md:h-20">
-            {/* Logo with hover animation */}
+            {/* Logo */}
             <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-              <Link
-                to="/"
-                className="text-2xl font-bold bg-gradient-to-r from-gray-800 to-orange-500 bg-clip-text text-transparent"
-              >
-                <img src={logo} alt="logo" className="h-8"/>
+              <Link to="/" className="text-2xl font-bold bg-gradient-to-r from-gray-800 to-orange-500 bg-clip-text text-transparent">
+                <img src={logo} alt="logo" className="h-9" />
               </Link>
             </motion.div>
 
-            {/* Desktop Navigation (centered) */}
+            {/* Desktop Navigation */}
             <div className="hidden md:flex absolute left-1/2 transform -translate-x-1/2">
               <ul className="flex space-x-7 font-medium">
                 <li><NavLink to="/" className={navLinkClass} end>Home</NavLink></li>
@@ -158,13 +201,13 @@ const Navbar = () => {
               </ul>
             </div>
 
-            {/* Right icons + user area (Desktop) */}
+            {/* Desktop Right Icons + User */}
             <div className="hidden md:flex items-center gap-6 ml-auto">
               <motion.button
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
                 onClick={handleOpenSearch}
-                className="text-xl text-gray-700 hover:text-orange-500 transition"
+                className="cursor-pointer text-xl text-gray-700 hover:text-[#00C2D6] transition"
               >
                 <IoSearchSharp />
               </motion.button>
@@ -174,7 +217,7 @@ const Navbar = () => {
                 onClick={handleOpenWishlist}
                 className="relative"
               >
-                <FaRegHeart className="text-xl text-gray-700 hover:text-orange-500 transition" />
+                <FaRegHeart className="cursor-pointer text-xl text-gray-700 hover:text-[#00C2D6] transition" />
                 {wishlistCount > 0 && (
                   <motion.span
                     initial={{ scale: 0 }}
@@ -191,7 +234,7 @@ const Navbar = () => {
                 onClick={handleOpenCart}
                 className="relative"
               >
-                <HiOutlineShoppingBag className="text-xl text-gray-700 hover:text-orange-500 transition" />
+                <HiOutlineShoppingBag className="cursor-pointer text-xl text-gray-700 hover:text-[#00C2D6] transition" />
                 {cartCount > 0 && (
                   <motion.span
                     initial={{ scale: 0 }}
@@ -211,7 +254,7 @@ const Navbar = () => {
                     onClick={() => setIsUserDropdownOpen(!isUserDropdownOpen)}
                     className="flex items-center gap-2 focus:outline-none"
                   >
-                    <div className="w-9 h-9 rounded-full bg-gradient-to-r from-orange-500 to-red-500 text-white flex items-center justify-center font-bold shadow-md ring-2 ring-orange-200">
+                    <div className="w-9 h-9 rounded-full bg-gradient-to-r from-[#00A0B0] to-[#09B0BE] text-white flex items-center justify-center font-bold shadow-md ring-2 ring-[#14C6D8]">
                       {getUserInitials()}
                     </div>
                   </motion.button>
@@ -222,10 +265,10 @@ const Navbar = () => {
                         initial="hidden"
                         animate="visible"
                         exit="exit"
-                        className="absolute right-0 mt-2 w-72 bg-white rounded-xl shadow-xl border border-gray-100 py-2 z-50 overflow-hidden"
+                        className="absolute right-0 mt-2 w-72 bg-white rounded-xl shadow-xl border border-gray-100 z-50 overflow-hidden"
                       >
-                        <div className="flex items-center gap-2 px-4 py-3 border-b border-gray-100 bg-gradient-to-r from-orange-50 to-white">
-                          <div className="w-9 h-9 rounded-full bg-gradient-to-r from-orange-500 to-red-500 text-white flex items-center justify-center font-bold">
+                        <div className="flex items-center gap-2 px-4 py-3 border-b border-gray-100 bg-gradient-to-r from-[#00A0B0]/20 to-white">
+                          <div className="w-9 h-9 rounded-full bg-gradient-to-r from-[#00A0B0] to-[#09B0BE] text-white flex items-center justify-center font-bold">
                             {getUserInitials()}
                           </div>
                           <div>
@@ -233,43 +276,40 @@ const Navbar = () => {
                             <p className="text-xs text-gray-500 mt-0.5">{user.email}</p>
                           </div>
                         </div>
-                        <Link
-                          to="/profile"
-                          onClick={closeUserDropdown}
-                          className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-orange-50 transition"
-                        >
-                          <FiUser size={16} /> My Profile
-                        </Link>
-                        <Link
-                          to="/orders"
-                          onClick={closeUserDropdown}
-                          className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-orange-50 transition"
-                        >
-                          <FiPackage size={16} /> My Orders
-                        </Link>
-                        <Link
-                          to="/wishlist"
-                          onClick={closeUserDropdown}
-                          className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-orange-50 transition"
-                        >
-                          <FiHeartOutline size={16} /> Wishlist
-                        </Link>
-                        <div className="border-t border-gray-100 my-1" />
-                        <button
-                          onClick={handleLogout}
-                          className="flex items-center gap-3 px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 transition w-full text-left"
-                        >
-                          <FiLogOut size={16} /> Logout
-                        </button>
+                        {desktopDropdownItems.map((item, idx) => (
+                          <React.Fragment key={idx}>
+                            {item.divider && <div className="border-t border-gray-100 my-1" />}
+                            {item.isLogout ? (
+                              <button
+                                onClick={handleLogout}
+                                className="flex items-center gap-3 px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 transition w-full text-left"
+                              >
+                                <item.icon size={16} /> {item.label}
+                              </button>
+                            ) : (
+                              <Link
+                                to={item.path}
+                                onClick={closeUserDropdown}
+                                className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-[#00A0B0]/10 transition"
+                              >
+                                <item.icon size={16} /> {item.label}
+                              </Link>
+                            )}
+                          </React.Fragment>
+                        ))}
                       </motion.div>
                     )}
                   </AnimatePresence>
                 </div>
               ) : (
-                <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                <motion.div
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 17 }}
+                >
                   <Link
                     to="/login"
-                    className="bg-gradient-to-r from-orange-500 to-red-500 text-white px-5 py-2 rounded-lg font-semibold shadow-md hover:shadow-lg transition"
+                    className="inline-flex items-center justify-center px-6 py-2.5 bg-gradient-to-r from-[#14C6D8] to-[#0FB2C3] hover:from-[#0FB2C3] hover:to-[#0098A8] text-white font-semibold text-sm rounded-xl shadow-md hover:shadow-lg hover:shadow-[#14C6D8]/40 transition-all duration-300"
                   >
                     Sign In
                   </Link>
@@ -277,10 +317,14 @@ const Navbar = () => {
               )}
             </div>
 
-            {/* ========== MOBILE ========== */}
+            {/* Mobile Icons + Menu */}
             <div className="flex md:hidden items-center justify-end w-full">
               <div className="flex items-center gap-4">
-                <motion.button whileTap={{ scale: 0.9 }} onClick={handleOpenCart} className="relative">
+                <motion.button
+                  whileTap={{ scale: 0.9 }}
+                  onClick={handleOpenCart}
+                  className="relative"
+                >
                   <HiOutlineShoppingBag className="text-2xl text-gray-700" />
                   {cartCount > 0 && (
                     <span className="absolute -top-1 -right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
@@ -294,7 +338,7 @@ const Navbar = () => {
                     <motion.button
                       whileTap={{ scale: 0.95 }}
                       onClick={() => setIsUserDropdownOpen(!isUserDropdownOpen)}
-                      className="w-8 h-8 rounded-full bg-gradient-to-r from-orange-500 to-red-500 text-white flex items-center justify-center font-bold text-sm shadow-md"
+                      className="w-8 h-8 rounded-full bg-gradient-to-r from-[#00A0B0] to-[#09B0BE] text-white flex items-center justify-center font-bold text-sm shadow-md"
                     >
                       {getUserInitials()}
                     </motion.button>
@@ -307,30 +351,37 @@ const Navbar = () => {
                           exit="exit"
                           className="absolute right-0 mt-2 w-64 bg-white rounded-xl shadow-xl border border-gray-100 py-2 z-50"
                         >
-                          <div className="px-4 py-3 border-b border-gray-100 bg-gradient-to-r from-orange-50 to-white">
+                          <div className="px-4 py-3 border-b border-gray-100 bg-gradient-to-r from-[#00A0B0]/20 to-white">
                             <p className="font-semibold text-gray-800">{user.name}</p>
                             <p className="text-xs text-gray-500 truncate">{user.email}</p>
                           </div>
-                          <Link to="/profile" onClick={closeUserDropdown} className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-orange-50">
-                            <FiUser size={16} /> My Profile
-                          </Link>
-                          <Link to="/orders" onClick={closeUserDropdown} className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-orange-50">
-                            <FiPackage size={16} /> My Orders
-                          </Link>
-                          <Link to="/wishlist" onClick={closeUserDropdown} className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-orange-50">
-                            <FiHeartOutline size={16} /> Wishlist
-                          </Link>
-                          <div className="border-t border-gray-100 my-1" />
-                          <button onClick={handleLogout} className="flex items-center gap-3 px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 w-full text-left">
-                            <FiLogOut size={16} /> Logout
-                          </button>
+                          {mobileDropdownItems.map((item, idx) => (
+                            <React.Fragment key={idx}>
+                              {item.isLogout ? (
+                                <button
+                                  onClick={handleLogout}
+                                  className="flex items-center gap-3 px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 w-full text-left"
+                                >
+                                  <item.icon size={16} /> {item.label}
+                                </button>
+                              ) : (
+                                <Link
+                                  to={item.path}
+                                  onClick={closeUserDropdown}
+                                  className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-[#00A0B0]/10"
+                                >
+                                  <item.icon size={16} /> {item.label}
+                                </Link>
+                              )}
+                            </React.Fragment>
+                          ))}
                         </motion.div>
                       )}
                     </AnimatePresence>
                   </div>
                 ) : (
                   <Link to="/login">
-                    <button className="px-4 py-1.5 bg-gradient-to-r from-orange-500 to-red-500 text-white text-sm rounded-lg font-semibold shadow-md">
+                    <button className="px-4 py-1.5 bg-gradient-to-r from-[#14C6D8] to-[#0FB2C3] text-white text-sm rounded-lg font-semibold shadow-md">
                       Sign In
                     </button>
                   </Link>
@@ -383,20 +434,40 @@ const Navbar = () => {
                   </button>
                 </div>
                 <ul className="flex-1 overflow-y-auto py-6 px-5 space-y-5">
-                  <li><Link to="/" onClick={closeMenu} className="block text-lg font-semibold text-gray-800 hover:text-orange-500 transition">Home</Link></li>
-                  <li><Link to="/allproducts" onClick={closeMenu} className="block text-lg font-semibold text-gray-800 hover:text-orange-500 transition">Shop</Link></li>
-                  <li><Link to="/customize" onClick={closeMenu} className="block text-lg font-semibold text-gray-800 hover:text-orange-500 transition">Customize</Link></li>
-                  <li><Link to="/about" onClick={closeMenu} className="block text-lg font-semibold text-gray-800 hover:text-orange-500 transition">About Us</Link></li>
-                  <li><Link to="/contact" onClick={closeMenu} className="block text-lg font-semibold text-gray-800 hover:text-orange-500 transition">Contact</Link></li>
+                  <li>
+                    <Link to="/" onClick={closeMenu} className="block text-lg font-semibold text-gray-800 hover:text-[#14C6D8] transition">
+                      Home
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/allproducts" onClick={closeMenu} className="block text-lg font-semibold text-gray-800 hover:text-[#14C6D8] transition">
+                      Shop
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/customize" onClick={closeMenu} className="block text-lg font-semibold text-gray-800 hover:text-[#14C6D8] transition">
+                      Customize
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/about" onClick={closeMenu} className="block text-lg font-semibold text-gray-800 hover:text-[#14C6D8] transition">
+                      About Us
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/contact" onClick={closeMenu} className="block text-lg font-semibold text-gray-800 hover:text-[#14C6D8] transition">
+                      Contact
+                    </Link>
+                  </li>
                 </ul>
                 <div className="border-t border-gray-100 p-5">
                   <div className="flex justify-around">
                     <button onClick={handleOpenSearch} className="flex flex-col items-center gap-1">
-                      <IoSearchSharp className="text-2xl text-gray-600 hover:text-orange-500" />
+                      <IoSearchSharp className="text-2xl text-gray-600 hover:text-[#14C6D8]" />
                       <span className="text-xs text-gray-500">Search</span>
                     </button>
                     <button onClick={handleOpenWishlist} className="relative flex flex-col items-center gap-1">
-                      <FaHeart className="text-2xl text-gray-600 hover:text-orange-500" />
+                      <FaHeart className="text-2xl text-gray-600 hover:text-[#14C6D8]" />
                       {wishlistCount > 0 && (
                         <span className="absolute -top-1 -right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
                           {wishlistCount}

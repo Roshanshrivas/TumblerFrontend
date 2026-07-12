@@ -1,6 +1,4 @@
-// CartDrawer.jsx
-// Production Ready – High-End UI Layout, Advanced Unique Identity Multi-Variants, Smooth Micro-Animations
-
+// CartDrawer.jsx – Production-Ready, Teal Theme, Responsive
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { FiX, FiTrash2, FiMinus, FiPlus, FiShoppingCart, FiChevronRight } from "react-icons/fi";
@@ -9,7 +7,7 @@ import toast from "react-hot-toast";
 const CartDrawer = ({ isOpen, onClose }) => {
   const [cartItems, setCartItems] = useState([]);
 
-  // Load items from local storage setup safely
+  // Load items from localStorage
   const loadCart = () => {
     try {
       const cart = JSON.parse(localStorage.getItem("cart") || "[]");
@@ -27,24 +25,24 @@ const CartDrawer = ({ isOpen, onClose }) => {
     } else {
       document.body.style.overflow = "auto";
     }
-    
+
     const handleUpdate = () => loadCart();
     window.addEventListener("cartUpdated", handleUpdate);
-    
+
     return () => {
       document.body.style.overflow = "auto";
       window.removeEventListener("cartUpdated", handleUpdate);
     };
   }, [isOpen]);
 
-  // Combined programmatic state dispatcher matrix matching ProductCard updates
+  // Save cart with multi-variant support
   const saveCart = (newCart) => {
     localStorage.setItem("cart", JSON.stringify(newCart));
     setCartItems(newCart);
     window.dispatchEvent(new Event("cartUpdated"));
   };
 
-  // Uses combined structural keys (id + color + size) to modify exact multi-variant blocks properly
+  // Update quantity using unique key (id + color + size)
   const updateQuantity = (uniqueKey, currentQuantity, change) => {
     const newQuantity = currentQuantity + change;
     if (newQuantity < 1) return;
@@ -68,6 +66,7 @@ const CartDrawer = ({ isOpen, onClose }) => {
     });
   };
 
+  // Calculations
   const subtotal = cartItems.reduce((sum, item) => sum + Number(item.price || 0) * item.quantity, 0);
   const itemCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
   const shippingThreshold = 999;
@@ -75,55 +74,63 @@ const CartDrawer = ({ isOpen, onClose }) => {
 
   return (
     <>
-      {/* Dynamic Overlay Layer with Smooth Blur Backdrop Effects */}
+      {/* Backdrop with blur */}
       <div
-        className={`fixed inset-0 bg-black/60 backdrop-blur-xs z-50 transition-opacity duration-300 ${
+        className={`fixed inset-0 bg-black/60 backdrop-blur-sm z-50 transition-opacity duration-300 ${
           isOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
         }`}
         onClick={onClose}
       />
 
-      {/* Drawer Container Shell Platform */}
+      {/* Drawer */}
       <div
         className={`fixed top-0 right-0 h-full w-full sm:w-[420px] bg-white shadow-2xl z-50 flex flex-col transform transition-transform duration-300 ease-out ${
           isOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
-        {/* Header Block Section */}
+        {/* Header */}
         <div className="flex justify-between items-center px-5 py-4 border-b border-gray-100 bg-white">
           <div>
             <h2 className="text-lg font-black text-gray-900 tracking-tight flex items-center gap-2">
-              Your Cart <span className="text-xs bg-orange-50 text-[#ff6b35] px-2.5 py-0.5 rounded-full font-bold">{itemCount} items</span>
+              Your Cart{" "}
+              <span className="text-xs bg-[#E6F9FA] text-[#00C2D6] px-2.5 py-0.5 rounded-full font-bold">
+                {itemCount} items
+              </span>
             </h2>
           </div>
-          <button 
-            onClick={onClose} 
+          <button
+            onClick={onClose}
             className="w-8 h-8 rounded-full border border-gray-100 flex items-center justify-center text-gray-400 hover:text-gray-900 hover:bg-gray-50 transition duration-200 active:scale-90"
+            aria-label="Close cart"
           >
             <FiX size={18} />
           </button>
         </div>
 
-        {/* Multi-tier Free Shipping Dynamics Header Tracker bar */}
+        {/* Free Shipping Tracker */}
         {cartItems.length > 0 && (
-          <div className="bg-orange-50/40 border-b border-orange-100/50 px-5 py-3">
+          <div className="bg-[#E6F9FA]/40 border-b border-[#00C2D6]/20 px-5 py-3">
             <p className="text-xs font-semibold text-gray-700">
               {subtotal >= shippingThreshold ? (
-                <span className="text-emerald-600 font-bold flex items-center gap-1">🎉 You qualify for Free Regional Shipping!</span>
+                <span className="text-emerald-600 font-bold flex items-center gap-1">
+                  🎉 You qualify for Free Shipping!
+                </span>
               ) : (
-                <>Add <span className="text-[#ff6b35] font-bold">₹{shippingThreshold - subtotal}</span> more to unlock free shipping</>
+                <>
+                  Add <span className="text-[#00C2D6] font-bold">₹{shippingThreshold - subtotal}</span> more to unlock free shipping
+                </>
               )}
             </p>
             <div className="w-full bg-gray-200/70 h-1.5 rounded-full mt-2 overflow-hidden">
-              <div 
-                className="h-full bg-[#ff6b35] transition-all duration-500 ease-out rounded-full" 
+              <div
+                className="h-full bg-[#00C2D6] transition-all duration-500 ease-out rounded-full"
                 style={{ width: `${freeShippingProgress}%` }}
               />
             </div>
           </div>
         )}
 
-        {/* Main List Display Canvas Area */}
+        {/* Cart Items List */}
         <div className="flex-1 overflow-y-auto px-5 py-4 divide-y divide-gray-100 scrollbar-none">
           {cartItems.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-full text-center py-12">
@@ -131,17 +138,18 @@ const CartDrawer = ({ isOpen, onClose }) => {
                 <FiShoppingCart size={32} />
               </div>
               <p className="text-gray-900 font-bold text-base">Your cart is feeling light</p>
-              <p className="text-gray-400 text-xs max-w-[240px] mt-1 leading-normal">Explore our high-end insulated collections to fill it with premium performance.</p>
+              <p className="text-gray-400 text-xs max-w-[240px] mt-1 leading-normal">
+                Explore our high-end insulated collections to fill it with premium performance.
+              </p>
               <button
                 onClick={onClose}
-                className="mt-5 bg-gray-900 text-white font-bold text-xs px-5 py-2.5 rounded-xl hover:bg-[#ff6b35] transition duration-200 shadow-xs uppercase tracking-wider"
+                className="mt-5 bg-gray-900 text-white font-bold text-xs px-5 py-2.5 rounded-xl hover:bg-[#00C2D6] transition duration-200 shadow-xs uppercase tracking-wider"
               >
                 Continue Shopping
               </button>
             </div>
           ) : (
             cartItems.map((item, idx) => {
-              // Creating unique identities handling overlapping duplicate matching sets
               const uniqueKey = `${item.id}-${item.color || ""}-${item.size || ""}`;
               return (
                 <div key={uniqueKey} className={`flex gap-4 py-4 ${idx === 0 ? "pt-1" : ""}`}>
@@ -150,25 +158,27 @@ const CartDrawer = ({ isOpen, onClose }) => {
                       src={item.image}
                       alt={item.title}
                       className="max-w-full max-h-full object-contain mix-blend-multiply"
+                      loading="lazy"
                     />
                   </div>
-                  
+
                   <div className="flex-1 flex flex-col justify-between">
                     <div>
                       <div className="flex items-start justify-between gap-2">
-                        <h4 className="font-bold text-gray-900 text-sm line-clamp-2 leading-tight hover:text-[#ff6b35] transition">
+                        <h4 className="font-bold text-gray-900 text-sm line-clamp-2 leading-tight hover:text-[#00C2D6] transition">
                           {item.title}
                         </h4>
                         <button
                           onClick={() => removeItem(uniqueKey)}
                           className="text-gray-400 hover:text-red-500 p-0.5 transition shrink-0 rounded"
                           title="Remove Item"
+                          aria-label="Remove item"
                         >
                           <FiTrash2 size={15} />
                         </button>
                       </div>
-                      
-                      {/* Configuration Badges Array Container */}
+
+                      {/* Variant badges */}
                       <div className="flex flex-wrap gap-1.5 mt-1.5">
                         {item.color && (
                           <span className="text-[10px] bg-gray-100 text-gray-600 font-bold px-2 py-0.5 rounded-md">
@@ -184,19 +194,23 @@ const CartDrawer = ({ isOpen, onClose }) => {
                     </div>
 
                     <div className="flex items-center justify-between mt-3">
-                      {/* Premium Micro-engineered Increment Control Block */}
-                      <div className="flex items-center border border-gray-200 rounded-lg bg-white shadow-2xs overflow-hidden">
+                      {/* Quantity controls */}
+                      <div className="flex items-center border border-gray-200 rounded-lg bg-white overflow-hidden">
                         <button
                           onClick={() => updateQuantity(uniqueKey, item.quantity, -1)}
                           disabled={item.quantity <= 1}
                           className="w-8 h-8 flex items-center justify-center text-gray-500 hover:bg-gray-50 transition active:scale-90 disabled:opacity-30 disabled:pointer-events-none"
+                          aria-label="Decrease quantity"
                         >
                           <FiMinus size={11} />
                         </button>
-                        <span className="w-7 text-center font-bold text-gray-900 text-xs">{item.quantity}</span>
+                        <span className="w-7 text-center font-bold text-gray-900 text-xs">
+                          {item.quantity}
+                        </span>
                         <button
                           onClick={() => updateQuantity(uniqueKey, item.quantity, 1)}
                           className="w-8 h-8 flex items-center justify-center text-gray-500 hover:bg-gray-50 transition active:scale-90"
+                          aria-label="Increase quantity"
                         >
                           <FiPlus size={11} />
                         </button>
@@ -218,23 +232,23 @@ const CartDrawer = ({ isOpen, onClose }) => {
           )}
         </div>
 
-        {/* Subtotal Checkout Platform Block Area */}
+        {/* Footer – Checkout */}
         {cartItems.length > 0 && (
           <div className="border-t border-gray-100 p-5 bg-white shadow-[0_-8px_30px_rgb(0,0,0,0.02)]">
             <div className="space-y-2 mb-4">
               <div className="flex justify-between items-center text-sm font-semibold text-gray-500">
-                <span>Value Breakdown</span>
+                <span>Subtotal</span>
                 <span>₹{subtotal}.00</span>
               </div>
               <div className="flex justify-between items-center text-sm font-semibold text-gray-500">
-                <span>Estimated Delivery</span>
+                <span>Shipping</span>
                 <span className={subtotal >= shippingThreshold ? "text-emerald-600 font-bold" : "text-gray-700"}>
-                  {subtotal >= shippingThreshold ? "FREE" : "₹70.00"}
+                  {subtotal >= shippingThreshold ? "FREE" : "₹70"}
                 </span>
               </div>
               <div className="flex justify-between items-baseline pt-2 border-t border-gray-50">
-                <span className="font-black text-gray-900 text-base">Total Order Value</span>
-                <span className="font-black text-2xl text-[#ff6b35]">
+                <span className="font-black text-gray-900 text-base">Total</span>
+                <span className="font-black text-2xl text-[#00C2D6]">
                   ₹{subtotal + (subtotal >= shippingThreshold ? 0 : 70)}.00
                 </span>
               </div>
@@ -244,7 +258,7 @@ const CartDrawer = ({ isOpen, onClose }) => {
               <Link
                 to="/cart"
                 onClick={onClose}
-                className="w-full bg-[#ff6b35] hover:bg-[#e05621] text-white font-bold py-3.5 rounded-xl flex items-center justify-center gap-2 transition duration-200 shadow-sm active:scale-99 text-sm uppercase tracking-wide"
+                className="w-full bg-[#00C2D6] hover:bg-[#00A0B0] text-white font-bold py-3.5 rounded-xl flex items-center justify-center gap-2 transition duration-200 shadow-sm active:scale-99 text-sm uppercase tracking-wide"
               >
                 Go to Checkout <FiChevronRight size={16} />
               </Link>

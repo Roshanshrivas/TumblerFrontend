@@ -1,3 +1,4 @@
+// UGCReels.jsx – Teal‑themed, professional, production‑ready
 import React, { useState, useRef, useEffect } from "react";
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import { FiHeart, FiMessageCircle, FiShare2, FiVolume2, FiVolumeX, FiPlay, FiPause, FiLoader } from "react-icons/fi";
@@ -56,7 +57,7 @@ const reels = [
   },
 ];
 
-// Single Reel Card Component with animations
+// Single Reel Card Component
 const ReelCard = ({ reel, index }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
@@ -125,20 +126,20 @@ const ReelCard = ({ reel, index }) => {
         </div>
       )}
 
-      {/* Overlay controls – appear on hover */}
+      {/* Overlay controls */}
       <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-        {/* Play/Pause button */}
         <button
           onClick={handlePlayPause}
           className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/20 backdrop-blur flex items-center justify-center text-white hover:bg-white/40 transition"
+          aria-label={isPlaying ? "Pause" : "Play"}
         >
           {isPlaying ? <FiPause size={24} /> : <FiPlay size={24} />}
         </button>
 
-        {/* Mute/Unmute */}
         <button
           onClick={() => setIsMuted(!isMuted)}
           className="absolute bottom-20 right-3 w-8 h-8 rounded-full bg-black/50 backdrop-blur flex items-center justify-center text-white hover:bg-black/70 transition"
+          aria-label={isMuted ? "Unmute" : "Mute"}
         >
           {isMuted ? <FiVolumeX size={14} /> : <FiVolume2 size={14} />}
         </button>
@@ -158,19 +159,20 @@ const ReelCard = ({ reel, index }) => {
           whileTap="tapped"
           variants={likeHeartVariants}
           className="flex flex-col items-center"
+          aria-label={liked ? "Unlike" : "Like"}
         >
           <div className="w-10 h-10 rounded-full bg-black/50 backdrop-blur flex items-center justify-center text-white hover:scale-110 transition">
             <FiHeart className={liked ? "fill-red-500 text-red-500" : ""} size={20} />
           </div>
           <span className="text-white text-xs mt-1">{likesCount}</span>
         </motion.button>
-        <button className="flex flex-col items-center">
+        <button className="flex flex-col items-center" aria-label="Comments">
           <div className="w-10 h-10 rounded-full bg-black/50 backdrop-blur flex items-center justify-center text-white">
             <FiMessageCircle size={20} />
           </div>
           <span className="text-white text-xs mt-1">{reel.comments}</span>
         </button>
-        <button className="flex flex-col items-center">
+        <button className="flex flex-col items-center" aria-label="Share">
           <div className="w-10 h-10 rounded-full bg-black/50 backdrop-blur flex items-center justify-center text-white">
             <FiShare2 size={20} />
           </div>
@@ -198,8 +200,8 @@ const UGCReels = () => {
   };
 
   return (
-    <section ref={sectionRef} className="w-full py-16 md:py-20 bg-gradient-to-b from-gray-50 to-white overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section ref={sectionRef} className="w-full py-16 md:py-20 bg-gradient-to-b from-[#EAF9FB]/40 via-white to-[#f0f8fa] overflow-hidden">
+      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <motion.div
           className="text-center max-w-3xl mx-auto mb-12"
@@ -207,13 +209,13 @@ const UGCReels = () => {
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
         >
-          <div className="inline-flex items-center gap-2 bg-gradient-to-r from-orange-100 to-pink-100 text-orange-700 px-4 py-1.5 rounded-full text-sm font-semibold mb-4">
+          <div className="inline-flex items-center gap-2 bg-[#EAF9FB] text-[#14C6D8] px-4 py-1.5 rounded-full text-sm font-semibold mb-4">
             📱 Instagram Reels
           </div>
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-            Real People, Real Style
+          <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-4 tracking-tight">
+            Real People, <span className="text-[#14C6D8]">Real Style</span>
           </h2>
-          <p className="text-gray-600 text-lg">
+          <p className="text-gray-600 text-lg max-w-2xl mx-auto leading-relaxed">
             Watch how our customers customized their tumblers. Hover to play, tap to like.
           </p>
         </motion.div>
@@ -230,7 +232,7 @@ const UGCReels = () => {
           ))}
         </motion.div>
 
-        {/* Mobile: Horizontal scroll carousel (snap) */}
+        {/* Mobile: Horizontal scroll carousel */}
         <div className="block md:hidden">
           <motion.div
             className="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-6 scrollbar-hide"
@@ -245,7 +247,6 @@ const UGCReels = () => {
               </div>
             ))}
           </motion.div>
-          {/* Scroll hint */}
           <motion.div
             className="flex justify-center mt-2"
             initial={{ opacity: 0 }}
@@ -267,12 +268,12 @@ const UGCReels = () => {
             href="https://instagram.com/tumblerco"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 bg-gradient-to-r from-orange-500 to-pink-600 text-white px-6 py-3 rounded-full font-semibold hover:shadow-lg transition-all hover:scale-105"
+            className="inline-flex items-center gap-2 bg-[#14C6D8] hover:bg-[#09AFC0] text-white px-6 py-3 rounded-full font-semibold shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
           >
             📸 Follow @tumblerco on Instagram
           </a>
           <p className="text-gray-500 text-sm mt-4">
-            Tag <span className="font-semibold">#MyTumblerStyle</span> to get featured.
+            Tag <span className="font-semibold text-[#14C6D8]">#MyTumblerStyle</span> to get featured.
           </p>
         </motion.div>
       </div>

@@ -1,3 +1,4 @@
+// LifestyleSection.jsx – Fully teal-themed, production-ready
 import React, { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import { FiArrowRight, FiCoffee, FiSun, FiMoon } from "react-icons/fi";
@@ -62,7 +63,7 @@ const LifestyleSection = () => {
   return (
     <section
       ref={sectionRef}
-      className="w-full bg-gradient-to-b from-[#f9fafb] to-white overflow-hidden py-12 md:py-24"
+      className="w-full bg-gradient-to-b from-[#EAF9FB]/30 via-white to-white overflow-hidden py-12 md:py-24"
     >
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
@@ -78,36 +79,37 @@ const LifestyleSection = () => {
             whileHover="hover"
           >
             <motion.img
-              src="https://res.cloudinary.com/dbkpwluh0/image/upload/v1779180721/ChatGPT_Image_May_10_2026_08_48_33_PM_twjzi0.png"
+              src="https://res.cloudinary.com/dbkpwluh0/image/upload/v1783754440/ChatGPT_Image_Jul_11_2026_12_50_07_PM_byqnmq.png"
               alt="Tumbler in everyday life"
               className="w-full h-full object-cover"
               variants={imageVariants}
               style={{ willChange: "transform" }}
+              loading="lazy"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent pointer-events-none" />
           </motion.div>
 
           {/* RIGHT COLUMN: Content */}
           <motion.div className="space-y-5 md:space-y-6" variants={rightVariants}>
-            {/* Badge */}
+            {/* Badge – teal */}
             <motion.div
-              className="inline-flex items-center gap-2 bg-orange-50 text-[#FF5A1F] px-3 py-1 rounded-full text-sm font-medium"
+              className="inline-flex items-center gap-2 bg-[#EAF9FB] text-[#14C6D8] px-3 py-1 rounded-full text-sm font-medium"
               variants={badgeVariants}
             >
               <FiCoffee className="w-4 h-4" />
               <span>Everyday Essential</span>
             </motion.div>
 
-            {/* Heading with animated underline */}
+            {/* Heading with animated underline – teal */}
             <motion.h2
               className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-gray-900"
               variants={headingVariants}
             >
               Made for your{" "}
-              <span className="text-[#FF5A1F] relative inline-block">
+              <span className="text-[#14C6D8] relative inline-block">
                 every moment
                 <svg
-                  className="absolute -bottom-2 left-0 w-full h-2 text-orange-200"
+                  className="absolute -bottom-2 left-0 w-full h-2 text-[#14C6D8]"
                   viewBox="0 0 200 10"
                   fill="currentColor"
                 >
@@ -132,31 +134,32 @@ const LifestyleSection = () => {
               From morning coffee to late‑night workouts – our tumblers keep you refreshed, stylish, and hydrated wherever you go.
             </motion.p>
 
-            {/* Feature list */}
+            {/* Feature list – teal accent */}
             <motion.div
               className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2"
               variants={containerVariants}
             >
               <motion.div className="flex items-center gap-3" variants={featureItemVariants}>
-                <div className="w-8 h-8 rounded-full bg-orange-100 flex items-center justify-center">
-                  <FiSun className="w-4 h-4 text-[#FF5A1F]" />
+                <div className="w-8 h-8 rounded-full bg-[#EAF9FB] flex items-center justify-center">
+                  <FiSun className="w-4 h-4 text-[#14C6D8]" />
                 </div>
                 <span className="text-sm text-gray-700">24H cold / 12H hot</span>
               </motion.div>
               <motion.div className="flex items-center gap-3" variants={featureItemVariants}>
-                <div className="w-8 h-8 rounded-full bg-orange-100 flex items-center justify-center">
-                  <FiMoon className="w-4 h-4 text-[#FF5A1F]" />
+                <div className="w-8 h-8 rounded-full bg-[#EAF9FB] flex items-center justify-center">
+                  <FiMoon className="w-4 h-4 text-[#14C6D8]" />
                 </div>
                 <span className="text-sm text-gray-700">Leak‑proof & durable</span>
               </motion.div>
             </motion.div>
 
-            {/* CTA Button */}
+            {/* CTA Button – teal */}
             <motion.button
-              className="group mt-4 inline-flex items-center gap-2 bg-[#FF5A1F] hover:bg-[#E04B14] text-white font-semibold px-6 py-3 rounded-full transition-all duration-300 shadow-md hover:shadow-lg"
+              className="group mt-4 inline-flex items-center gap-2 bg-[#14C6D8] hover:bg-[#09AFC0] text-white font-semibold px-6 py-3 rounded-full transition-all duration-300 shadow-md hover:shadow-lg"
               variants={buttonVariants}
               whileHover="hover"
               whileTap="tap"
+              onClick={() => window.location.href = '/allproducts'}
             >
               Shop Lifestyle
               <FiArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />

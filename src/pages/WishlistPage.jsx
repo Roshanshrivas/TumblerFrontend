@@ -69,13 +69,13 @@ const WishlistPage = () => {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
         <div className="text-center max-w-md mx-auto">
-          <div className="w-32 h-32 mx-auto bg-orange-50 rounded-full flex items-center justify-center mb-6">
-            <FiHeart className="w-12 h-12 text-orange-300" />
+          <div className="w-32 h-32 mx-auto bg-[#00C2D6] rounded-full flex items-center justify-center mb-6">
+            <FiHeart className="w-12 h-12 text-white" />
           </div>
           <h2 className="text-2xl font-bold text-gray-800 mb-2">Your wishlist is empty</h2>
           <p className="text-gray-500 mb-6">Save your favourite items here.</p>
           <Link to="/allproducts">
-            <button className="bg-orange-500 hover:bg-orange-600 text-white font-semibold px-8 py-3 rounded-xl transition shadow-md">
+            <button className="bg-[#00C2D6] hover:bg-[#00A8B8] text-white font-semibold px-8 py-3 rounded-xl transition shadow-md">
               Start Shopping
             </button>
           </Link>
@@ -85,13 +85,13 @@ const WishlistPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8 md:py-12">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gray-50 py-5">
+      <div className="mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header with back link and count */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
           <Link
             to="/allproducts"
-            className="inline-flex items-center gap-2 text-gray-500 hover:text-orange-500 transition w-fit"
+            className="inline-flex items-center gap-2 text-gray-500 hover:text-[#00C2D6] transition w-fit"
           >
             <FiArrowLeft size={18} /> Continue Shopping
           </Link>
@@ -142,7 +142,7 @@ const WishlistPage = () => {
                       )}
                       {/* Mobile price display */}
                       <div className="md:hidden mt-2">
-                        <span className="text-2xl font-bold text-orange-600">
+                        <span className="text-2xl font-bold text-[#14C6D8]">
                           ₹{item.price}
                         </span>
                       </div>
@@ -151,14 +151,14 @@ const WishlistPage = () => {
 
                   {/* Desktop price column */}
                   <div className="hidden md:block md:w-32 text-center">
-                    <span className="text-xl font-bold text-orange-600">₹{item.price}</span>
+                    <span className="text-xl font-bold text-[#14C6D8]">₹{item.price}</span>
                   </div>
 
                   {/* Actions: Add to Cart + Remove */}
                   <div className="flex flex-wrap items-center justify-start gap-3 mt-3 sm:mt-0">
                     <button
                       onClick={() => addToCart(item, 1)}
-                      className="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2.5 px-5 rounded-xl transition flex items-center justify-center gap-2 text-sm shadow-sm"
+                      className="bg-[#00C2D6] hover:bg-[#00A8B8] text-white font-semibold py-2.5 px-5 rounded-xl transition flex items-center justify-center gap-2 text-sm shadow-sm"
                     >
                       <FiShoppingCart size={16} /> Add to Cart
                     </button>

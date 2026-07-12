@@ -1,3 +1,4 @@
+// src/components/BrandPanel.jsx – Teal Theme, Enhanced Readability
 import React from "react";
 import {
   Truck, ShieldCheck, RefreshCw, Headphones, Leaf,
@@ -5,8 +6,8 @@ import {
 } from "lucide-react";
 
 const FeatureBadge = ({ icon, title, desc }) => (
-  <div className="flex items-start gap-2 bg-white/20 backdrop-blur-sm rounded-lg p-2">
-    <div className="mt-0.5 text-orange-200">{icon}</div>
+  <div className="flex items-start gap-2 bg-white/20 backdrop-blur-sm rounded-lg p-2 border border-white/10">
+    <div className="mt-0.5 text-[#14C6D8]">{icon}</div>
     <div>
       <p className="text-xs font-black text-white leading-tight">{title}</p>
       <p className="text-[10px] text-white/80">{desc}</p>
@@ -28,9 +29,10 @@ export default function BrandPanel() {
   return (
     <div
       className="relative w-full lg:w-1/2 min-h-[400px] lg:min-h-screen bg-cover bg-center order-2 lg:order-1"
-      style={{ backgroundImage: `url('https://res.cloudinary.com/dbkpwluh0/image/upload/v1779476329/LoginPage_lrcwem.png')` }}
+      style={{ backgroundImage: `url('https://res.cloudinary.com/dbkpwluh0/image/upload/v1783755632/ChatGPT_Image_Jul_11_2026_01_10_16_PM_ilivvu.png')` }}
     >
-      <div className="absolute inset-0 bg-black/20" />
+      {/* Darker overlay for better text legibility */}
+      <div className="absolute inset-0 bg-gradient-to-br from-black/40 via-black/20 to-black/40" />
 
       <div className="relative z-10 flex flex-col justify-between h-full p-6 sm:p-8 lg:p-12">
         {/* Logo */}
@@ -42,19 +44,19 @@ export default function BrandPanel() {
             </svg>
           </div>
           <div>
-            <span className="text-xl font-black tracking-[0.2em] text-white block leading-none">TUMBLRÉ</span>
-            <span className="text-[10px] text-white/80 font-medium tracking-wider">Sip • Style • Repeat</span>
+            <span className="text-xl font-black tracking-[0.2em] text-white block leading-none drop-shadow-md">TUMBLRÉ</span>
+            <span className="text-[10px] text-white/90 font-medium tracking-wider drop-shadow">Sip • Style • Repeat</span>
           </div>
         </div>
 
         {/* Main message */}
         <div className="my-auto py-12">
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white leading-tight tracking-tight">
-            Sip Your <span className="text-orange-400">Style</span>,<br />
-            Live Your <span className="text-orange-400">Vibe</span>.
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white leading-tight tracking-tight drop-shadow-md">
+            Sip Your <span className="text-[#14C6D8]">Style</span>,<br />
+            Live Your <span className="text-[#14C6D8]">Vibe</span>.
           </h1>
-          <div className="w-12 h-1 bg-orange-400 rounded-full my-5" />
-          <p className="text-white/90 text-base max-w-md">
+          <div className="w-12 h-1 bg-[#14C6D8] rounded-full my-5 shadow-sm" />
+          <p className="text-white/95 text-base max-w-md drop-shadow">
             Premium tumblers designed for every mood, every moment, every you.
           </p>
 
@@ -68,7 +70,7 @@ export default function BrandPanel() {
         </div>
 
         {/* Trust ribbon */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 bg-white/20 backdrop-blur-md p-3 rounded-xl border border-white/30">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 bg-white/10 backdrop-blur-lg p-3 rounded-xl border border-white/30 shadow-lg">
           <TrustItem icon={<Truck size={14} />} title="Free Delivery" desc="Orders above ₹499" />
           <TrustItem icon={<ShieldCheck size={14} />} title="Secure Payment" desc="100% encrypted" />
           <TrustItem icon={<RefreshCw size={12} />} title="Easy Returns" desc="Hassle free" />

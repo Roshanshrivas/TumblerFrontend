@@ -1,12 +1,14 @@
 import React from 'react';
-import { Navigate, Outlet } from 'react-router-dom';
+import { Navigate, Outlet, useLocation } from 'react-router-dom';
 
 const ProtectedRoute = ({ allowedRoles = [] }) => {
+  const location = useLocation();
   const user = JSON.parse(localStorage.getItem('user') || 'null');
   const userRole = user?.role || 'guest';
 
   if (!user) {
-    return <Navigate to="/login" replace />;
+    // Save the current path so we can redirect back after login
+    return <Navigate to="/login" state={{ from: location.pathname }} replace />;
   }
 
   if (allowedRoles.length && !allowedRoles.includes(userRole)) {

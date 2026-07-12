@@ -107,7 +107,7 @@ const SearchModal = ({ isOpen, onClose }) => {
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder="Search for tumblers..."
-                className="w-full pl-11 pr-10 py-3 border border-gray-200 rounded-xl focus:border-orange-500 focus:ring-2 focus:ring-orange-200 outline-none transition"
+                className="w-full pl-11 pr-10 py-3 border border-gray-200 rounded-xl focus:border-[#14C6D8] focus:ring-2 focus:ring-[#09B0BE] outline-none transition"
               />
               {query && (
                 <button

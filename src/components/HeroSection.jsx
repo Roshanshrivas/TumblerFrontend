@@ -5,14 +5,14 @@ import { GiCoffeeCup } from "react-icons/gi";
 import { MdOutlineVerifiedUser, MdOutlineWaterDrop } from "react-icons/md";
 import { BsShieldCheck } from "react-icons/bs";
 import { FaStar } from "react-icons/fa";
-import herovideo from "../assets/herovideo.mp4"; // adjust path
+import herovideo from "../assets/herovdos.mp4"; 
 
 // ========== FEATURES DATA ==========
 const features = [
-  { icon: <GiCoffeeCup className="text-2xl text-[#ff6b00]" />, title: "24H Cold", subtitle: "12H Hot" },
-  { icon: <MdOutlineVerifiedUser className="text-2xl text-[#ff6b00]" />, title: "Premium", subtitle: "SS304 Steel" },
-  { icon: <MdOutlineWaterDrop className="text-2xl text-[#ff6b00]" />, title: "Eco-Friendly", subtitle: "BPA Free" },
-  { icon: <BsShieldCheck className="text-2xl text-[#ff6b00]" />, title: "Leak Proof", subtitle: "Design" },
+  { icon: <GiCoffeeCup className="text-2xl text-[#09AFBD]" />, title: "24H Cold", subtitle: "12H Hot" },
+  { icon: <MdOutlineVerifiedUser className="text-2xl text-[#09AFBD]" />, title: "Premium", subtitle: "SS304 Steel" },
+  { icon: <MdOutlineWaterDrop className="text-2xl text-[#09AFBD]" />, title: "Eco-Friendly", subtitle: "BPA Free" },
+  { icon: <BsShieldCheck className="text-2xl text-[#09AFBD]" />, title: "Leak Proof", subtitle: "Design" },
 ];
 
 const carouselSlides = [
@@ -57,7 +57,7 @@ const DesktopHero = () => {
   }, []);
 
   return (
-    <section className="w-full bg-[#FEE9DC]/90 overflow-hidden relative">
+    <section className="w-full bg-[#09AFBD]/18 overflow-hidden relative">
       <div className="grid lg:grid-cols-2 min-h-screen items-center">
         {/* Left Content – animated with stagger */}
         <motion.div
@@ -69,8 +69,8 @@ const DesktopHero = () => {
         >
           <div className="w-full max-w-full px-6 sm:px-6 md:px-8 lg:px-10 xl:px-12 py-2 sm:py-16 mx-auto lg:mx-0">
             <motion.div variants={itemVariants}>
-              <div className="hidden sm:inline-flex items-center rounded-full border border-[#ffd6bf] bg-white/60 backdrop-blur-sm px-4 py-[7px] shadow-sm">
-                <span className="text-[#ff6b00] text-[11px] font-bold tracking-wide uppercase">✨ Premium Quality</span>
+              <div className="hidden sm:inline-flex items-center rounded-full border border-[#14C6D8] bg-white/60 backdrop-blur-sm px-4 py-[7px] shadow-sm">
+                <span className="text-[#14C6D8] text-[11px] font-bold tracking-wide uppercase">✨ Premium Quality</span>
               </div>
             </motion.div>
 
@@ -78,12 +78,12 @@ const DesktopHero = () => {
               variants={itemVariants}
               className="mt-7 text-[54px] sm:text-[68px] lg:text-[54px] xl:text-[72px] leading-[1.2] font-bold tracking-[-3px] text-[#111111]"
             >
-              Stay <span className="text-[#ff6b00] relative inline-block">
+              Stay <span className="text-[#18C6D9] relative inline-block">
                 Refreshed.
-                <span className="absolute -bottom-2 left-0 w-full h-1 bg-[#ff6b00]/30 rounded-full"></span>
+                <span className="absolute -bottom-2 left-0 w-full h-1 bg-[#14C6D8]/30 rounded-full"></span>
               </span>
               <br />
-              Everywhere <span className="text-[#ff6b00]">You Go.</span>
+              Everywhere <span className="text-[#14C6D8]">You Go.</span>
             </motion.h1>
 
             <motion.p variants={itemVariants} className="mt-5 text-[#5F5F5F] text-base sm:text-lg max-w-[480px] font-medium leading-relaxed">
@@ -108,10 +108,10 @@ const DesktopHero = () => {
 
             {/* CTA Buttons */}
             <motion.div variants={itemVariants} className="flex flex-wrap gap-5 mt-10">
-              <button className="h-[62px] px-9 rounded-2xl bg-[#ff6b00] hover:bg-[#eb6200] text-white font-semibold text-[17px] flex items-center gap-3 transition-all duration-300 shadow-[0_15px_35px_rgba(255,107,0,0.28)] hover:scale-[1.02] active:scale-100">
+              <button className="h-[62px] px-9 rounded-2xl bg-[#14C6D8] hover:bg-[#09B0BE] text-white font-semibold text-[17px] flex items-center gap-3 transition-all duration-300 shadow-[0_15px_35px_rgba(20,198,216,0.28)] hover:scale-[1.02] active:scale-100">
                 Shop Now <FiArrowRight className="text-xl" />
               </button>
-              <button className="h-[62px] px-9 rounded-2xl border border-[#cfcfcf] bg-white/90 backdrop-blur-md hover:bg-white hover:border-[#ff6b00] text-[#222] font-semibold text-[17px] flex items-center gap-3 transition-all duration-300 shadow-sm">
+              <button className="h-[62px] px-9 rounded-2xl border border-[#14C6D8] bg-white/90 backdrop-blur-md hover:bg-white hover:border-[#09B0BE] text-[#222] font-semibold text-[17px] flex items-center gap-3 transition-all duration-300 shadow-sm">
                 <FiEdit3 className="text-[18px]" /> Customize Now
               </button>
             </motion.div>
@@ -162,10 +162,10 @@ const DesktopHero = () => {
               <source src={herovideo} type="video/mp4" />
             </video>
           )}
-          <div className="absolute left-0 top-0 bottom-0 w-[15%] bg-gradient-to-r from-[#FEE9DC] via-[#FEE9DC]/70 to-transparent" />
-          <div className="absolute right-0 bottom-0 w-[40%] h-[60%] bg-[#FEEBDF]/10 blur-[120px] rounded-full" />
-          <div className="absolute inset-0 bg-[#FEEBDF]/10 pointer-events-none" />
-        </div>
+          <div className="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-[#D3F0F3] to-transparent pointer-events-none hidden lg:block" /> 
+          <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-[#D3F0F3] to-transparent pointer-events-none lg:hidden" /> 
+          <div className="absolute inset-0 bg-[#D3F0F3]/10 pointer-events-none mix-blend-multiply" />
+          </div>
       </div>
     </section>
   );

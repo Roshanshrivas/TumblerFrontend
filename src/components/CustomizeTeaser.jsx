@@ -1,3 +1,4 @@
+// CustomizeTeaser.jsx – Brand Cyan Theme (#00C2D6)
 import React, { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import { Link } from "react-router-dom";
@@ -8,9 +9,13 @@ import tumblerBlack from "../assets/tumblerimg.png";
 import tumblerOrange from "../assets/tumblerorangee.png";
 import tumblerWhite from "../assets/tumblerwhite.png";
 
+// Logo Theme Color Constants
+const BRAND_CYAN = "#00C2D6";
+const BRAND_HOVER = "#00A0B0";
+
 const CustomizeTeaser = () => {
   const sectionRef = useRef(null);
-  const isInView = useInView(sectionRef, { once: true, amount: 0.2 });
+  const isInView = useInView(sectionRef, { once: true, amount: 0.15 });
 
   const samples = [
     { id: 1, name: "Roshan's Black", text: "Roshan", color: "#FFFFFF", image: tumblerBlack },
@@ -27,76 +32,64 @@ const CustomizeTeaser = () => {
     { icon: <TbPackage />, text: "Accessories" },
   ];
 
-  // Animation variants
+  // Motion Orchestration Variants
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
-      transition: { staggerChildren: 0.1, delayChildren: 0.2 },
+      transition: { staggerChildren: 0.08, delayChildren: 0.1 },
     },
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: { opacity: 1, y: 0, transition: { type: "spring", damping: 12 } },
-  };
-
-  const headerVariants = {
-    hidden: { opacity: 0, y: -20 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
+    hidden: { opacity: 0, y: 25 },
+    visible: { opacity: 1, y: 0, transition: { type: "spring", damping: 15, stiffness: 100 } },
   };
 
   const sampleVariants = {
-    hidden: { opacity: 0, scale: 0.9 },
-    visible: { opacity: 1, scale: 1, transition: { type: "spring", damping: 15 } },
-  };
-
-  const featureVariants = {
     hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0, transition: { type: "spring", damping: 12 } },
+    visible: { opacity: 1, y: 0, transition: { type: "spring", damping: 16 } },
   };
 
   return (
     <section
       ref={sectionRef}
-      className="w-full bg-gradient-to-br from-orange-50 via-white to-amber-50 py-16 md:py-24 overflow-hidden"
+      className="w-full bg-gradient-to-b from-[#E6F9FA]/60 via-white to-[#E6F9FA]/30 py-16 md:py-24 overflow-hidden"
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+        
+        {/* Header Section */}
         <motion.div
-          className="text-center max-w-3xl mx-auto mb-12"
-          variants={headerVariants}
-          initial="hidden"
-          animate={isInView ? "visible" : "hidden"}
+          className="text-center max-w-3xl mx-auto space-y-3"
+          initial={{ opacity: 0, y: -20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.5 }}
         >
-          <motion.div
-            className="inline-flex items-center gap-2 bg-orange-100 text-orange-700 px-4 py-1.5 rounded-full text-sm font-semibold mb-4"
-            whileHover={{ scale: 1.02 }}
-          >
+          <div className="inline-flex items-center gap-2 bg-[#E6F9FA] border border-[#00C2D6]/20 text-[#00C2D6] px-4 py-1.5 rounded-full text-xs font-bold tracking-wider uppercase">
             <FiStar /> Create Your Signature
-          </motion.div>
-          <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-4">
-            Design Your Own Tumbler
+          </div>
+          <h2 className="text-3xl sm:text-4xl font-black text-gray-950 tracking-tight">
+            Design Your Own <span style={{ color: BRAND_CYAN }}>Tumbler</span>
           </h2>
-          <p className="text-gray-600 text-lg max-w-2xl mx-auto">
-            Choose colors, add your name, pick a font, upload artwork – make it uniquely yours.
+          <p className="text-xs sm:text-sm text-gray-500 font-medium max-w-xl mx-auto leading-relaxed">
+            Choose colors, add your name, pick custom typography, or upload your own artwork to make it uniquely yours.
           </p>
         </motion.div>
 
-        {/* Sample Gallery */}
-        <div className="mb-16">
+        {/* Sample Gallery Section */}
+        <div className="space-y-6">
           <motion.div
-            className="flex items-center justify-center gap-2 text-gray-700 mb-6"
-            initial={{ opacity: 0, y: -10 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ delay: 0.3 }}
+            className="flex items-center justify-center gap-2 text-xs font-bold text-gray-600 uppercase tracking-wider"
+            initial={{ opacity: 0 }}
+            animate={isInView ? { opacity: 1 } : {}}
+            transition={{ delay: 0.2 }}
           >
-            <FiTrendingUp className="text-orange-500" />
-            <span className="font-semibold">See what others are creating</span>
+            <FiTrendingUp style={{ color: BRAND_CYAN }} />
+            <span>See What Others Are Creating</span>
           </motion.div>
 
           <motion.div
-            className="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-4xl mx-auto"
+            className="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-5xl mx-auto"
             variants={containerVariants}
             initial="hidden"
             animate={isInView ? "visible" : "hidden"}
@@ -105,32 +98,31 @@ const CustomizeTeaser = () => {
               <motion.div
                 key={sample.id}
                 variants={sampleVariants}
-                whileHover={{ y: -8, scale: 1.02 }}
-                className="bg-white rounded-2xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-xl group"
+                whileHover={{ y: -6 }}
+                className="bg-white rounded-3xl p-3 border border-gray-100 shadow-sm transition-shadow hover:shadow-md group flex flex-col justify-between"
               >
-                <div className="relative bg-gradient-to-br from-gray-50 to-gray-100 h-64 flex items-center justify-center p-4">
+                <div className="relative bg-[#F1F3F5] rounded-2xl h-64 flex items-center justify-center p-4 overflow-hidden">
                   <img
                     src={sample.image}
                     alt={sample.name}
-                    className="h-52 object-contain transition-transform duration-500 group-hover:scale-105"
+                    className="h-52 object-contain transition-transform duration-500 group-hover:scale-105 drop-shadow-sm"
                   />
-                  {/* Floating text label (optional) */}
-                  <div className="absolute bottom-2 right-2 bg-white/80 backdrop-blur-sm rounded-full px-2 py-0.5 text-[10px] font-medium text-orange-600">
-                    {sample.text}
+                  <div className="absolute bottom-3 right-3 bg-white/90 backdrop-blur-md rounded-full px-3 py-1 text-[10px] font-extrabold text-[#00C2D6] shadow-sm border border-gray-100">
+                    “{sample.text}”
                   </div>
                 </div>
-                <div className="p-3 text-center">
-                  <p className="font-semibold text-gray-800">{sample.name}</p>
-                  <p className="text-xs text-gray-500">Customized with “{sample.text}”</p>
+                <div className="p-3 text-center space-y-0.5">
+                  <p className="font-extrabold text-sm text-gray-900">{sample.name}</p>
+                  <p className="text-xs text-gray-400 font-medium">Custom engraved tumbler</p>
                 </div>
               </motion.div>
             ))}
           </motion.div>
         </div>
 
-        {/* Features Grid */}
+        {/* Customization Capabilities Grid */}
         <motion.div
-          className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-6 mb-12"
+          className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4 max-w-5xl mx-auto pt-4"
           variants={containerVariants}
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
@@ -138,43 +130,41 @@ const CustomizeTeaser = () => {
           {features.map((feat, idx) => (
             <motion.div
               key={idx}
-              variants={featureVariants}
-              whileHover={{ y: -5 }}
-              className="flex flex-col items-center text-center group cursor-pointer"
+              variants={itemVariants}
+              whileHover={{ y: -4 }}
+              className="flex flex-col items-center text-center p-3 bg-white rounded-2xl border border-gray-100 shadow-sm group cursor-pointer"
             >
-              <motion.div
-                className="w-14 h-14 bg-white rounded-full flex items-center justify-center shadow-md text-[#ff6b00] text-2xl transition-all duration-300 group-hover:bg-orange-500 group-hover:text-white group-hover:shadow-lg"
-                whileHover={{ scale: 1.1, rotate: 5 }}
-              >
+              <div className="w-12 h-12 rounded-xl bg-[#E6F9FA] text-[#00C2D6] flex items-center justify-center text-2xl group-hover:bg-[#00C2D6] group-hover:text-white transition-all duration-300 mb-2">
                 {feat.icon}
-              </motion.div>
-              <p className="mt-2 text-sm font-medium text-gray-700 group-hover:text-orange-600 transition">
+              </div>
+              <p className="text-xs font-bold text-gray-800 group-hover:text-[#00C2D6] transition-colors">
                 {feat.text}
               </p>
             </motion.div>
           ))}
         </motion.div>
 
-        {/* Call to Action */}
+        {/* Call to Action Bar */}
         <motion.div
-          className="text-center"
-          initial={{ opacity: 0, y: 30 }}
+          className="text-center pt-4 space-y-3"
+          initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ delay: 0.5, type: "spring" }}
+          transition={{ delay: 0.4 }}
         >
-          <Link to="/customize">
+          <Link to="/customize" className="inline-block">
             <motion.button
-              className="inline-flex items-center gap-2 bg-gradient-to-r from-orange-500 to-red-600 text-white px-8 py-3 rounded-full font-semibold shadow-md hover:shadow-xl transition-all duration-300"
-              whileHover={{ scale: 1.03, boxShadow: "0 20px 35px -10px rgba(249, 115, 22, 0.5)" }}
+              className="inline-flex items-center gap-2.5 bg-[#00C2D6] hover:bg-[#00A0B0] text-white px-8 py-3.5 rounded-2xl font-bold text-xs sm:text-sm shadow-md shadow-[#00C2D6]/20 transition-all outline-none"
+              whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
             >
-              Start Customizing Now <FiArrowRight className="text-lg" />
+              Start Customizing Now <FiArrowRight className="text-base" />
             </motion.button>
           </Link>
-          <p className="text-sm text-gray-500 mt-4">
-            No design skills needed • Easy to use • Preview in real time
+          <p className="text-xs text-gray-400 font-medium">
+            No design skills needed • Live 3D preview • Fast dispatch
           </p>
         </motion.div>
+
       </div>
     </section>
   );

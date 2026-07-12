@@ -209,7 +209,7 @@ const BestSellers = () => {
   return (
     <motion.section
       ref={sectionRef}
-      className="w-full py-12 md:py-20 bg-gradient-to-b from-orange-50/40 via-white to-white overflow-hidden"
+      className="w-full py-12 md:py-20 bg-[#e6f7ff]/30 overflow-hidden"
       variants={sectionVariants}
       initial="hidden"
       animate={isInView ? "visible" : "hidden"}

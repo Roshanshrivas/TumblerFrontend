@@ -93,6 +93,10 @@ const CategorySection = () => {
     navigate(`/allproducts?category=${categoryId}`);
   };
 
+  const handleViewAll = () => {
+    navigate("/allproducts");
+  };
+
   return (
     <section
       ref={sectionRef}
@@ -106,15 +110,17 @@ const CategorySection = () => {
               Shop By Category
             </h2>
           </div>
-          {/* Desktop "View all" button */}
+          {/* Desktop "View all" button – updated to teal */}
           <button
-            onClick={() => navigate("/products")}
-            className="hidden lg:flex items-center gap-4 border border-[#ece7e4] px-8 py-2 rounded-full font-semibold hover:bg-[#ff6b35] hover:text-white transition-all duration-300 group"
+            onClick={handleViewAll}
+            className="hidden md:flex items-center gap-2.5 px-5 py-2.5 rounded-full border border-gray-200 bg-white text-sm font-semibold text-gray-700 hover:bg-[#14C6D8] hover:text-white hover:border-[#14C6D8] transition-all duration-300 shadow-sm hover:shadow-md group"
+            aria-label="View all categories"
           >
             View All
-            <span className="w-9 h-9 rounded-full bg-[#ff6b35] text-white flex items-center justify-center group-hover:translate-x-1 transition-transform duration-300">
-              <ArrowRight size={18} />
-            </span>
+            <ArrowRight
+              size={16}
+              className="group-hover:translate-x-1 transition-transform duration-300"
+            />
           </button>
         </div>
 
@@ -144,10 +150,20 @@ const CategorySection = () => {
                 transition-all duration-500
                 hover:shadow-[0_25px_70px_rgba(0,0,0,0.12)]
                 flex flex-col
+                focus:outline-none focus:ring-2 focus:ring-[#14C6D8]
               `}
+              role="button"
+              tabIndex={0}
+              aria-label={`Explore ${item.title}`}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  handleCategoryClick(item.id);
+                }
+              }}
             >
-              {/* Icon */}
-              <div className="absolute top-4 left-4 z-20 w-10 h-10 rounded-full flex items-center justify-center backdrop-blur-md shadow-md bg-white/80 text-[#ff6b35]">
+              {/* Icon – teal accent */}
+              <div className="absolute top-4 left-4 z-20 w-10 h-10 rounded-full flex items-center justify-center backdrop-blur-md shadow-md bg-white/80 text-[#14C6D8] group-hover:bg-[#14C6D8] group-hover:text-white transition-colors duration-300">
                 {item.icon}
               </div>
 
@@ -172,14 +188,14 @@ const CategorySection = () => {
                 </p>
                 <button className="mt-5 flex items-center gap-3 font-semibold text-sm group/button text-black">
                   Explore Now
-                  <span className="transition-all duration-300 group-hover/button:translate-x-2 text-[#ff6b35]">
+                  <span className="transition-all duration-300 group-hover/button:translate-x-2 text-[#14C6D8]">
                     <ArrowRight size={18} />
                   </span>
                 </button>
               </div>
 
-              {/* Bottom line animation */}
-              <div className="absolute bottom-0 left-0 h-[4px] w-0 bg-[#ff6b35] transition-all duration-500 group-hover:w-full" />
+              {/* Bottom line animation – teal */}
+              <div className="absolute bottom-0 left-0 h-[4px] w-0 bg-[#14C6D8] transition-all duration-500 group-hover:w-full" />
             </motion.div>
           ))}
         </motion.div>
@@ -214,10 +230,20 @@ const CategorySection = () => {
                   cursor-pointer
                   shadow-sm
                   flex flex-col
+                  focus:outline-none focus:ring-2 focus:ring-[#14C6D8]
                 `}
+                role="button"
+                tabIndex={0}
+                aria-label={`Explore ${item.title}`}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    handleCategoryClick(item.id);
+                  }
+                }}
               >
-                {/* Icon */}
-                <div className="absolute top-3 left-3 z-20 w-8 h-8 rounded-full flex items-center justify-center backdrop-blur-md shadow-sm bg-white/80 text-[#ff6b35]">
+                {/* Icon – teal */}
+                <div className="absolute top-3 left-3 z-20 w-8 h-8 rounded-full flex items-center justify-center backdrop-blur-md shadow-sm bg-white/80 text-[#14C6D8] group-hover:bg-[#14C6D8] group-hover:text-white transition-colors duration-300">
                   {item.icon}
                 </div>
 
@@ -241,14 +267,14 @@ const CategorySection = () => {
                   </p>
                   <button className="mt-3 flex items-center gap-2 font-semibold text-xs group/button text-black">
                     Explore Now
-                    <span className="transition-all duration-300 group-hover/button:translate-x-1 text-[#ff6b35]">
+                    <span className="transition-all duration-300 group-hover/button:translate-x-1 text-[#14C6D8]">
                       <ArrowRight size={14} />
                     </span>
                   </button>
                 </div>
 
-                {/* Bottom line */}
-                <div className="absolute bottom-0 left-0 h-[3px] w-0 bg-[#ff6b35] transition-all duration-500 group-hover:w-full" />
+                {/* Bottom line – teal */}
+                <div className="absolute bottom-0 left-0 h-[3px] w-0 bg-[#14C6D8] transition-all duration-500 group-hover:w-full" />
               </motion.div>
             ))}
           </motion.div>
@@ -258,14 +284,15 @@ const CategorySection = () => {
           </div>
         </div>
 
-        {/* Mobile "View All" button */}
+        {/* Mobile "View All" button – updated to teal */}
         <div className="flex justify-center mt-10 lg:hidden">
           <button
-            onClick={() => navigate("/products")}
-            className="flex items-center gap-3 border border-[#ece7e4] px-6 py-3 rounded-full font-semibold text-sm"
+            onClick={handleViewAll}
+            className="flex items-center gap-3 border border-[#ece7e4] px-6 py-3 rounded-full font-semibold text-sm hover:bg-[#14C6D8] hover:text-white hover:border-[#14C6D8] transition-all duration-300"
+            aria-label="View all categories"
           >
             View All
-            <span className="w-8 h-8 rounded-full bg-[#ff6b35] text-white flex items-center justify-center">
+            <span className="w-8 h-8 rounded-full bg-[#14C6D8] text-white flex items-center justify-center">
               <ArrowRight size={16} />
             </span>
           </button>

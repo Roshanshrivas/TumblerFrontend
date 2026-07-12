@@ -1,3 +1,4 @@
+// WishlistDrawer.jsx – Teal Theme, Production-Ready, Responsive
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { FiX, FiTrash2, FiHeart, FiShoppingCart } from "react-icons/fi";
@@ -7,8 +8,13 @@ const WishlistDrawer = ({ isOpen, onClose }) => {
   const [wishlistItems, setWishlistItems] = useState([]);
 
   const loadWishlist = () => {
-    const wishlist = JSON.parse(localStorage.getItem("wishlist") || "[]");
-    setWishlistItems(wishlist);
+    try {
+      const wishlist = JSON.parse(localStorage.getItem("wishlist") || "[]");
+      setWishlistItems(wishlist);
+    } catch (error) {
+      console.error("Failed to load wishlist:", error);
+      setWishlistItems([]);
+    }
   };
 
   useEffect(() => {
@@ -31,7 +37,10 @@ const WishlistDrawer = ({ isOpen, onClose }) => {
     localStorage.setItem("wishlist", JSON.stringify(updated));
     setWishlistItems(updated);
     window.dispatchEvent(new Event("wishlistUpdated"));
-    toast.success("Removed from wishlist", { duration: 1500 });
+    toast.success("Removed from wishlist", {
+      duration: 1500,
+      style: { background: "#1a1a1a", color: "#fff", fontSize: "12px", fontWeight: "600" },
+    });
   };
 
   const addToCartFromWishlist = (item) => {
@@ -44,101 +53,118 @@ const WishlistDrawer = ({ isOpen, onClose }) => {
     }
     localStorage.setItem("cart", JSON.stringify(cart));
     window.dispatchEvent(new Event("cartUpdated"));
-    toast.success(`Added ${item.title} to cart`, { duration: 1500 });
+    toast.success(`Added ${item.title} to cart`, {
+      duration: 1500,
+      style: { background: "#00C2D6", color: "#fff", fontSize: "12px", fontWeight: "600" },
+    });
   };
 
   return (
     <>
-      {isOpen && (
-        <div
-          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 transition-opacity"
-          onClick={onClose}
-        />
-      )}
+      {/* Backdrop with blur */}
       <div
-        className={`fixed top-0 right-0 h-full w-full sm:w-96 bg-white shadow-2xl z-50 transform transition-transform duration-300 ease-in-out ${
+        className={`fixed inset-0 bg-black/60 backdrop-blur-sm z-50 transition-opacity duration-300 ${
+          isOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+        }`}
+        onClick={onClose}
+        aria-hidden="true"
+      />
+
+      {/* Drawer */}
+      <div
+        className={`fixed top-0 right-0 h-full w-full sm:w-[420px] bg-white shadow-2xl z-50 flex flex-col transform transition-transform duration-300 ease-out ${
           isOpen ? "translate-x-0" : "translate-x-full"
         }`}
+        role="dialog"
+        aria-modal="true"
+        aria-label="Wishlist drawer"
       >
         {/* Header */}
-        <div className="flex justify-between items-center p-5 border-b border-gray-100">
-          <h2 className="text-2xl font-bold text-gray-800">
-            Wishlist{" "}
-            {wishlistItems.length > 0 && (
-              <span className="text-sm font-medium text-gray-500 ml-2">
-                ({wishlistItems.length})
-              </span>
-            )}
-          </h2>
+        <div className="flex justify-between items-center px-5 py-4 border-b border-gray-100 bg-white">
+          <div>
+            <h2 className="text-lg font-black text-gray-900 tracking-tight flex items-center gap-2">
+              Wishlist{" "}
+              {wishlistItems.length > 0 && (
+                <span className="text-xs bg-[#E6F9FA] text-[#00C2D6] px-2.5 py-0.5 rounded-full font-bold">
+                  {wishlistItems.length} items
+                </span>
+              )}
+            </h2>
+          </div>
           <button
             onClick={onClose}
-            className="text-gray-400 hover:text-gray-600 transition"
+            className="w-8 h-8 rounded-full border border-gray-100 flex items-center justify-center text-gray-400 hover:text-gray-900 hover:bg-gray-50 transition duration-200 active:scale-90"
             aria-label="Close wishlist"
           >
-            <FiX size={24} />
+            <FiX size={18} />
           </button>
         </div>
 
-        {/* Scrollable items */}
-        <div
-          className="flex-1 overflow-y-auto p-5 space-y-5"
-          style={{ maxHeight: "calc(100vh - 180px)" }}
-        >
+        {/* Scrollable content */}
+        <div className="flex-1 overflow-y-auto px-5 py-4 divide-y divide-gray-100 scrollbar-none">
           {wishlistItems.length === 0 ? (
-            <div className="text-center py-16">
-              <div className="w-24 h-24 mx-auto bg-gray-100 rounded-full flex items-center justify-center mb-4">
-                <FiHeart className="w-10 h-10 text-gray-300" />
+            <div className="flex flex-col items-center justify-center h-full text-center py-12">
+              <div className="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center text-gray-300 mb-4 border border-gray-100">
+                <FiHeart size={32} />
               </div>
-              <h3 className="text-lg font-semibold text-gray-800 mb-2">
-                Your wishlist is empty
-              </h3>
-              <p className="text-gray-500 text-sm mb-6">
-                Save your favorite items here.
+              <p className="text-gray-900 font-bold text-base">Your wishlist is empty</p>
+              <p className="text-gray-400 text-xs max-w-[240px] mt-1 leading-normal">
+                Start saving your favorite tumblers and accessories here.
               </p>
               <button
                 onClick={onClose}
-                className="text-orange-500 font-medium hover:underline"
+                className="mt-5 bg-gray-900 text-white font-bold text-xs px-5 py-2.5 rounded-xl hover:bg-[#00C2D6] transition duration-200 shadow-xs uppercase tracking-wider"
               >
-                Continue Shopping →
+                Continue Shopping
               </button>
             </div>
           ) : (
             wishlistItems.map((item) => (
               <div
                 key={item.id}
-                className="flex gap-4 bg-white rounded-xl border border-gray-100 p-3 hover:shadow-md transition-shadow duration-200"
+                className="flex gap-4 py-4 first:pt-1 group"
               >
+                {/* Image */}
                 <Link
                   to={`/product/${item.id}`}
                   onClick={onClose}
-                  className="block shrink-0"
+                  className="shrink-0"
                 >
-                  <img
-                    src={item.image}
-                    alt={item.title}
-                    className="w-20 h-20 object-cover rounded-lg bg-gray-50"
-                  />
+                  <div className="w-20 h-20 bg-gray-50 border border-gray-100 rounded-xl overflow-hidden p-1 flex items-center justify-center">
+                    <img
+                      src={item.image}
+                      alt={item.title}
+                      className="max-w-full max-h-full object-contain mix-blend-multiply"
+                      loading="lazy"
+                    />
+                  </div>
                 </Link>
-                <div className="flex-1 min-w-0">
-                  <Link to={`/product/${item.id}`} onClick={onClose}>
-                    <h4 className="font-semibold text-gray-800 text-base hover:text-orange-500 transition line-clamp-1">
-                      {item.title}
-                    </h4>
-                  </Link>
-                  <p className="font-bold text-orange-600 text-lg mt-1">
-                    ₹{item.price}
-                  </p>
+
+                {/* Details */}
+                <div className="flex-1 min-w-0 flex flex-col justify-between">
+                  <div>
+                    <Link to={`/product/${item.id}`} onClick={onClose}>
+                      <h4 className="font-bold text-gray-900 text-sm line-clamp-2 leading-tight hover:text-[#00C2D6] transition">
+                        {item.title}
+                      </h4>
+                    </Link>
+                    <p className="font-bold text-[#00C2D6] text-base mt-1">
+                      ₹{item.price}
+                    </p>
+                  </div>
+
                   <div className="flex items-center justify-between mt-3">
                     <button
                       onClick={() => addToCartFromWishlist(item)}
-                      className="flex-1 bg-orange-500 hover:bg-orange-600 text-white text-sm font-semibold py-2 px-3 rounded-lg transition flex items-center justify-center gap-1"
+                      className="flex-1 bg-[#00C2D6] hover:bg-[#00A0B0] text-white text-xs font-bold py-2 px-3 rounded-lg transition flex items-center justify-center gap-1.5 shadow-sm active:scale-95"
+                      aria-label={`Add ${item.title} to cart`}
                     >
                       <FiShoppingCart size={14} /> Add to Cart
                     </button>
                     <button
                       onClick={() => removeFromWishlist(item.id)}
-                      className="ml-2 text-red-400 hover:text-red-600 transition p-2"
-                      aria-label="Remove"
+                      className="ml-2 text-gray-400 hover:text-red-500 transition p-2 rounded-lg hover:bg-red-50"
+                      aria-label="Remove from wishlist"
                     >
                       <FiTrash2 size={16} />
                     </button>
@@ -149,13 +175,13 @@ const WishlistDrawer = ({ isOpen, onClose }) => {
           )}
         </div>
 
-        {/* Footer */}
+        {/* Footer – View Full Wishlist */}
         {wishlistItems.length > 0 && (
-          <div className="border-t border-gray-100 p-5 bg-white">
+          <div className="border-t border-gray-100 p-5 bg-white shadow-[0_-8px_30px_rgb(0,0,0,0.02)]">
             <Link
-              to="/wishlist"
+              to="/dashboard/wishlist"
               onClick={onClose}
-              className="block w-full bg-gray-900 hover:bg-gray-800 text-white font-semibold py-3 rounded-xl text-center transition shadow-md"
+              className="block w-full bg-gray-900 hover:bg-[#00C2D6] text-white font-bold py-3.5 rounded-xl text-center transition duration-200 shadow-sm text-sm uppercase tracking-wide"
             >
               View Full Wishlist
             </Link>

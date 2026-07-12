@@ -1,19 +1,27 @@
+// src/pages/SignupPage.jsx – Teal Theme, Responsive, Production-Ready
 import React, { useState } from "react";
 import { Mail, Lock, Eye, EyeOff, Leaf, User, Phone, Loader2 } from "lucide-react";
 import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
 import BrandPanel from "../components/BrandPanel";
 
+// ─── Brand Colors ───────────────────────────────────
+const BRAND_TEAL = "#14C6D8";
+const BRAND_HOVER = "#0FB2C3";
+const BRAND_LIGHT_BG = "#E6F9FA";
+
 const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 const validateMobile = (mobile) => /^[0-9]{10}$/.test(mobile);
 
+// ─── Social Button ──────────────────────────────────
 const SocialButton = ({ label, icon }) => (
-  <button className="flex items-center justify-center gap-2 rounded-xl border border-gray-200 bg-white py-2.5 text-sm font-medium text-gray-700 transition hover:border-orange-300 hover:bg-orange-50">
+  <button className="flex items-center justify-center gap-2 rounded-xl border border-gray-200 bg-white py-2.5 text-sm font-medium text-gray-700 transition hover:border-[#14C6D8] hover:bg-[#E6F9FA] hover:text-[#14C6D8]">
     {icon}
     <span className="hidden sm:inline">{label}</span>
   </button>
 );
 
+// ─── Social Icons (same as Login) ──────────────────
 const GoogleIcon = () => (
   <svg className="h-4 w-4" viewBox="0 0 24 24">
     <path fill="#EA4335" d="M12 5.04c1.64 0 3.12.56 4.28 1.67l3.2-3.2C17.52 1.58 14.96 1 12 1 7.35 1 3.4 3.65 1.5 7.5l3.8 2.95c.9-2.7 3.4-4.41 6.7-4.41z"/>
@@ -35,7 +43,6 @@ const FacebookIcon = () => (
   </svg>
 );
 
-
 const InstagramIcon = () => (
   <svg className="h-4 w-4" viewBox="0 0 24 24">
     <linearGradient id="ig-grad" x1="0%" y1="100%" x2="100%" y2="0%">
@@ -48,6 +55,8 @@ const InstagramIcon = () => (
     <circle cx="17.5" cy="6.5" r="1.2" fill="white" />
   </svg>
 );
+
+// ─── MAIN COMPONENT ──────────────────────────────────
 export default function SignupPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
@@ -95,19 +104,19 @@ export default function SignupPage() {
   return (
     <div className="min-h-screen bg-white flex flex-col lg:flex-row">
       <BrandPanel />
-      <div className="w-full lg:w-1/2 flex items-center justify-center p-4 sm:p-6 bg-[#FEE9DC]/30 order-1 lg:order-2">
-        <div className="w-full max-w-md bg-white rounded-2xl shadow-xl p-6 sm:p-8">
+      <div className="w-full lg:w-1/2 flex items-center justify-center p-4 sm:p-6 bg-[#E6F9FA]/30 order-1 lg:order-2">
+        <div className="w-full max-w-md bg-white rounded-2xl shadow-xl p-6 sm:p-8 border border-gray-100">
           <div className="text-center mb-6">
-            <div className="w-14 h-14 mx-auto bg-orange-100 rounded-full flex items-center justify-center mb-3">
-              <User className="h-6 w-6 text-orange-600" />
+            <div className="w-14 h-14 mx-auto bg-[#E6F9FA] rounded-full flex items-center justify-center mb-3">
+              <User className="h-6 w-6 text-[#14C6D8]" />
             </div>
             <h2 className="text-2xl font-bold text-gray-800">
-              Create <span className="text-orange-600">Account</span>
+              Create <span className="text-[#14C6D8]">Account</span>
             </h2>
             <p className="text-sm text-gray-500 mt-1">Join Tumblré and make every sip special.</p>
             <div className="flex items-center gap-2 mt-4">
               <div className="flex-1 h-px bg-gray-200" />
-              <Leaf className="h-4 w-4 text-orange-400" />
+              <Leaf className="h-4 w-4 text-[#14C6D8]" />
               <div className="flex-1 h-px bg-gray-200" />
             </div>
           </div>
@@ -122,7 +131,7 @@ export default function SignupPage() {
                     type="text"
                     value={fullName}
                     onChange={(e) => setFullName(e.target.value)}
-                    className="w-full pl-9 pr-3 py-2 border border-gray-200 rounded-lg focus:border-orange-400 focus:ring-1 focus:ring-orange-400 outline-none text-sm"
+                    className="w-full pl-9 pr-3 py-2 border border-gray-200 rounded-lg focus:border-[#14C6D8] focus:ring-1 focus:ring-[#14C6D8] outline-none text-sm transition"
                     placeholder="Enter your name"
                   />
                 </div>
@@ -136,7 +145,7 @@ export default function SignupPage() {
                     value={mobile}
                     onChange={(e) => setMobile(e.target.value)}
                     maxLength={10}
-                    className="w-full pl-9 pr-3 py-2 border border-gray-200 rounded-lg focus:border-orange-400 focus:ring-1 focus:ring-orange-400 outline-none text-sm"
+                    className="w-full pl-9 pr-3 py-2 border border-gray-200 rounded-lg focus:border-[#14C6D8] focus:ring-1 focus:ring-[#14C6D8] outline-none text-sm transition"
                     placeholder="10-digit mobile"
                   />
                 </div>
@@ -151,7 +160,7 @@ export default function SignupPage() {
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full pl-9 pr-3 py-2 border border-gray-200 rounded-lg focus:border-orange-400 focus:ring-1 focus:ring-orange-400 outline-none text-sm"
+                  className="w-full pl-9 pr-3 py-2 border border-gray-200 rounded-lg focus:border-[#14C6D8] focus:ring-1 focus:ring-[#14C6D8] outline-none text-sm transition"
                   placeholder="Enter your email"
                   required
                 />
@@ -167,14 +176,14 @@ export default function SignupPage() {
                     type={showPassword ? "text" : "password"}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="w-full pl-9 pr-9 py-2 border border-gray-200 rounded-lg focus:border-orange-400 focus:ring-1 focus:ring-orange-400 outline-none text-sm"
+                    className="w-full pl-9 pr-9 py-2 border border-gray-200 rounded-lg focus:border-[#14C6D8] focus:ring-1 focus:ring-[#14C6D8] outline-none text-sm transition"
                     placeholder="Enter password"
                     required
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition"
                   >
                     {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                   </button>
@@ -188,13 +197,13 @@ export default function SignupPage() {
                     type={showConfirm ? "text" : "password"}
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
-                    className="w-full pl-9 pr-9 py-2 border border-gray-200 rounded-lg focus:border-orange-400 focus:ring-1 focus:ring-orange-400 outline-none text-sm"
+                    className="w-full pl-9 pr-9 py-2 border border-gray-200 rounded-lg focus:border-[#14C6D8] focus:ring-1 focus:ring-[#14C6D8] outline-none text-sm transition"
                     placeholder="Confirm password"
                   />
                   <button
                     type="button"
                     onClick={() => setShowConfirm(!showConfirm)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition"
                   >
                     {showConfirm ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                   </button>
@@ -208,28 +217,28 @@ export default function SignupPage() {
                 id="terms"
                 checked={agreeTerms}
                 onChange={(e) => setAgreeTerms(e.target.checked)}
-                className="mt-0.5 h-4 w-4 rounded border-gray-300 text-orange-500 focus:ring-orange-400"
+                className="mt-0.5 h-4 w-4 rounded border-gray-300 text-[#14C6D8] focus:ring-[#14C6D8]"
               />
               <label htmlFor="terms" className="text-xs text-gray-600">
-                I agree to the <a href="#" className="text-orange-500 hover:underline">Terms & Conditions</a> and <a href="#" className="text-orange-500 hover:underline">Privacy Policy</a>
+                I agree to the <a href="#" className="text-[#14C6D8] hover:text-[#0FB2C3] transition">Terms & Conditions</a> and <a href="#" className="text-[#14C6D8] hover:text-[#0FB2C3] transition">Privacy Policy</a>
               </label>
             </div>
 
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-2.5 rounded-lg transition flex items-center justify-center gap-2 disabled:opacity-60"
+              className="w-full bg-[#14C6D8] hover:bg-[#0FB2C3] text-white font-bold py-2.5 rounded-lg transition flex items-center justify-center gap-2 disabled:opacity-60 shadow-md hover:shadow-lg hover:shadow-[#14C6D8]/30"
             >
               {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Leaf className="h-4 w-4" />}
               <span>{isLoading ? "Creating..." : "Create Account"}</span>
             </button>
           </form>
 
-          {/* Professional login link – centered, below form, above social */}
+          {/* Login link */}
           <div className="mt-6 text-center">
             <p className="text-sm text-gray-600">
               Already have an account?{" "}
-              <Link to="/login" className="font-semibold text-orange-600 hover:underline">
+              <Link to="/login" className="font-semibold text-[#14C6D8] hover:text-[#0FB2C3] transition">
                 Login
               </Link>
             </p>

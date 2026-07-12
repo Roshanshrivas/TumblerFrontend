@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useMemo, lazy, Suspense, useCallback, useRef } from "react";
+// src/pages/ProductsPage.jsx – Teal Theme, Reusable CartDrawer, Production‑Ready
+import React, { useState, useEffect, useMemo, lazy, Suspense, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useSearchParams, Link } from "react-router-dom";
 import {
@@ -9,16 +10,14 @@ import {
   FiChevronRight,
   FiX,
   FiShoppingCart,
-  FiTrash2,
-  FiPlus,
-  FiMinus,
   FiHeart,
   FiArrowUp,
 } from "react-icons/fi";
 import toast from "react-hot-toast";
 
-// Lazy load ProductCard for better performance
 const ProductCard = lazy(() => import("../components/ProductCard"));
+
+import CartDrawer from "../components/CartDrawer";
 
 // ========== PRODUCT DATA ==========
 const allProducts = [
@@ -177,7 +176,7 @@ const allProducts = [
   },
 ];
 
-// Category name mapping (must match IDs used in CategorySection)
+// Category name mapping
 const categoryNames = {
   1: "Insulated Tumblers",
   2: "Travel Tumblers",
@@ -188,13 +187,7 @@ const categoryNames = {
 
 // ========== FILTER CONFIGURATION ==========
 const filterSections = {
-  "Quick Filters": [
-    "Leak Proof",
-    "Hot & Cold",
-    "Double Wall",
-    "BPA Free",
-    "Cup Holder Friendly",
-  ],
+  "Quick Filters": ["Leak Proof", "Hot & Cold", "Double Wall", "BPA Free", "Cup Holder Friendly"],
   Color: ["Black", "Purple", "Blue", "Red", "Green", "Pink"],
   "Size Range": ["16oz", "20oz", "24oz", "30oz", "40oz"],
   Material: ["Stainless Steel", "Ceramic", "Plastic"],
@@ -220,9 +213,10 @@ const SkeletonCard = () => (
   </div>
 );
 
-// ========== SIDEBAR COMPONENT ==========
+// ========== SIDEBAR CONTENT ==========
 const SidebarContent = ({
   selectedFilters,
+  setSelectedFilters,
   priceRange,
   setPriceRange,
   handleFilterChange,
@@ -242,11 +236,8 @@ const SidebarContent = ({
   };
 
   const handleReset = () => {
+    setSelectedFilters({});
     setPriceRange([0, 3500]);
-    Object.keys(selectedFilters).forEach((section) => {
-      delete selectedFilters[section];
-    });
-    window.dispatchEvent(new Event("filtersReset"));
   };
 
   return (
@@ -255,7 +246,7 @@ const SidebarContent = ({
         <p className="font-semibold text-gray-600">{filteredCount} products</p>
         <button
           onClick={handleReset}
-          className="text-xs text-orange-500 hover:underline font-medium"
+          className="text-xs text-[#00C2D6] hover:underline font-medium"
         >
           Reset all
         </button>
@@ -270,15 +261,11 @@ const SidebarContent = ({
           step="50"
           value={priceRange[1]}
           onChange={(e) => setPriceRange([0, parseInt(e.target.value)])}
-          className="w-full h-1 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-orange-500"
+          className="w-full h-1 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-[#00C2D6]"
         />
         <div className="flex justify-between mt-3">
-          <span className="text-sm font-medium bg-gray-100 px-3 py-1 rounded-lg">
-            ₹{priceRange[0]}
-          </span>
-          <span className="text-sm font-medium bg-gray-100 px-3 py-1 rounded-lg">
-            ₹{priceRange[1]}
-          </span>
+          <span className="text-sm font-medium bg-gray-100 px-3 py-1 rounded-lg">₹{priceRange[0]}</span>
+          <span className="text-sm font-medium bg-gray-100 px-3 py-1 rounded-lg">₹{priceRange[1]}</span>
         </div>
       </div>
 
@@ -286,27 +273,23 @@ const SidebarContent = ({
         <div key={section} className="border-t border-gray-100 pt-4 mb-4">
           <button
             onClick={() => toggleSection(section)}
-            className="flex justify-between items-center w-full text-left font-semibold text-gray-700 hover:text-orange-500 transition"
+            className="flex justify-between items-center w-full text-left font-semibold text-gray-700 hover:text-[#00C2D6] transition"
           >
             <span>{section}</span>
-            <span className="text-gray-400 text-xl">
-              {openSections[section] ? "−" : "+"}
-            </span>
+            <span className="text-gray-400 text-xl">{openSections[section] ? "−" : "+"}</span>
           </button>
           {openSections[section] && (
             <div className="space-y-2 pl-2 mt-3">
               {options.map((opt) => (
                 <label
                   key={opt}
-                  className="flex items-center gap-2 text-sm text-gray-600 cursor-pointer hover:text-orange-500 transition"
+                  className="flex items-center gap-2 text-sm text-gray-600 cursor-pointer hover:text-[#00C2D6] transition"
                 >
                   <input
                     type="checkbox"
-                    onChange={(e) =>
-                      handleFilterChange(section, opt, e.target.checked)
-                    }
+                    onChange={(e) => handleFilterChange(section, opt, e.target.checked)}
                     checked={selectedFilters[section]?.includes(opt) || false}
-                    className="rounded border-gray-300 text-orange-500 focus:ring-orange-400"
+                    className="rounded border-gray-300 text-[#00C2D6] focus:ring-[#00C2D6]"
                   />
                   {opt}
                 </label>
@@ -353,18 +336,16 @@ const ProductsPage = () => {
 
   // Show/hide back to top button
   useEffect(() => {
-    const handleScroll = () => {
-      setShowBackToTop(window.scrollY > 500);
-    };
+    const handleScroll = () => setShowBackToTop(window.scrollY > 500);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   // Load cart & wishlist from localStorage
   useEffect(() => {
-    const savedCart = localStorage.getItem("tumblerCart");
+    const savedCart = localStorage.getItem("cart");
     if (savedCart) setCart(JSON.parse(savedCart));
-    const savedWishlist = localStorage.getItem("tumblerWishlist");
+    const savedWishlist = localStorage.getItem("wishlist");
     if (savedWishlist) setWishlist(JSON.parse(savedWishlist));
   }, []);
 
@@ -387,54 +368,37 @@ const ProductsPage = () => {
     return () => window.removeEventListener("filtersReset", handleReset);
   }, []);
 
+  // Cart operations
   const addToCart = (product, quantity = 1) => {
     setCart((prev) => {
       const existing = prev.find((item) => item.id === product.id);
       if (existing) {
         return prev.map((item) =>
-          item.id === product.id
-            ? { ...item, quantity: item.quantity + quantity }
-            : item
+          item.id === product.id ? { ...item, quantity: item.quantity + quantity } : item
         );
       }
       return [...prev, { ...product, quantity }];
     });
     toast.success(`Added ${product.title} to cart`, {
       duration: 2000,
-      style: { background: "#ff6b00", color: "#fff" },
+      style: { background: "#00C2D6", color: "#fff" },
     });
   };
 
-  const updateQuantity = (id, delta) => {
-    setCart((prev) =>
-      prev
-        .map((item) =>
-          item.id === id
-            ? { ...item, quantity: Math.max(1, item.quantity + delta) }
-            : item
-        )
-        .filter((item) => item.quantity > 0)
-    );
-  };
-
-  const removeFromCart = (id) => {
-    setCart((prev) => prev.filter((item) => item.id !== id));
-    toast.success("Removed from cart");
-  };
-
-  const cartTotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
-
   const toggleWishlist = (productId) => {
     setWishlist((prev) =>
-      prev.includes(productId)
-        ? prev.filter((id) => id !== productId)
-        : [...prev, productId]
+      prev.includes(productId) ? prev.filter((id) => id !== productId) : [...prev, productId]
     );
     toast.success(
-      wishlist.includes(productId) ? "Removed from wishlist" : "Added to wishlist"
+      wishlist.includes(productId) ? "Removed from wishlist" : "Added to wishlist",
+      {
+        duration: 1500,
+        style: { background: "#00C2D6", color: "#fff" },
+      }
     );
   };
 
+  // Filter change handler – immutable
   const handleFilterChange = (section, value, checked) => {
     setSelectedFilters((prev) => {
       const current = prev[section] || [];
@@ -447,7 +411,7 @@ const ProductsPage = () => {
     setCurrentPage(1);
   };
 
-  // Memoized filtered products (including category filter)
+  // Memoized filtered products
   const filteredProducts = useMemo(() => {
     let filtered = [...allProducts];
     if (categoryId) {
@@ -526,20 +490,20 @@ const ProductsPage = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12">
-        {/* Animated Header with Breadcrumb */}
+      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-6">
+        {/* Header with Breadcrumb */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
           className="mb-16"
         >
-          <div className="flex items-center gap-2 text-sm mb-6">
-            <a href="/" className="flex items-center gap-1 text-gray-500 hover:text-orange-500 transition">
+          <div className="flex items-center gap-2 text-sm mb-4">
+            <Link to="/" className="flex items-center gap-1 text-gray-500 hover:text-[#00C2D6] transition">
               🏠 Home
-            </a>
+            </Link>
             <span className="text-gray-300">/</span>
-            <span className="font-medium text-gray-700">Products</span>
+            <span className="font-medium text-gray-700">Shop</span>
             {categoryName && (
               <>
                 <span className="text-gray-300">/</span>
@@ -549,7 +513,7 @@ const ProductsPage = () => {
           </div>
           <div className="text-center">
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-gray-900 mb-2">
-              {categoryName ? categoryName : "All Products"}
+              {categoryName || "All Products"}
             </h1>
             <div className="flex items-center justify-center gap-3">
               <span className="h-px w-5 md:w-8 bg-slate-200" />
@@ -560,7 +524,7 @@ const ProductsPage = () => {
             </div>
             {categoryName && (
               <div className="mt-4">
-                <Link to="/products" className="text-sm text-orange-500 hover:underline inline-flex items-center gap-1">
+                <Link to="/products" className="text-sm text-[#00C2D6] hover:underline inline-flex items-center gap-1">
                   ← View all categories
                 </Link>
               </div>
@@ -573,6 +537,7 @@ const ProductsPage = () => {
           <aside className="hidden lg:block w-80 bg-white rounded-2xl shadow-md border border-gray-100 p-6 h-fit sticky top-24">
             <SidebarContent
               selectedFilters={selectedFilters}
+              setSelectedFilters={setSelectedFilters}
               priceRange={priceRange}
               setPriceRange={setPriceRange}
               handleFilterChange={handleFilterChange}
@@ -593,7 +558,7 @@ const ProductsPage = () => {
             </div>
           </div>
 
-          {/* Main Content with ref for smooth scroll */}
+          {/* Main Content */}
           <main ref={productsContainerRef} className="flex-1">
             {/* Sort & View Bar */}
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8 pb-4 border-b border-gray-200">
@@ -604,7 +569,7 @@ const ProductsPage = () => {
                 <select
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value)}
-                  className="border border-gray-200 rounded-xl px-4 py-2 bg-white text-sm font-medium focus:ring-2 focus:ring-orange-500"
+                  className="border border-gray-200 rounded-xl px-4 py-2 bg-white text-sm font-medium focus:ring-2 focus:ring-[#00C2D6]"
                 >
                   <option value="featured">Featured</option>
                   <option value="newest">Newest</option>
@@ -616,7 +581,7 @@ const ProductsPage = () => {
                     onClick={() => setViewMode("grid")}
                     className={`p-2 rounded-lg transition ${
                       viewMode === "grid"
-                        ? "bg-orange-500 text-white shadow-md"
+                        ? "bg-[#00C2D6] text-white shadow-md"
                         : "bg-white border border-gray-200 text-gray-500 hover:bg-gray-50"
                     }`}
                   >
@@ -626,7 +591,7 @@ const ProductsPage = () => {
                     onClick={() => setViewMode("list")}
                     className={`p-2 rounded-lg transition ${
                       viewMode === "list"
-                        ? "bg-orange-500 text-white shadow-md"
+                        ? "bg-[#00C2D6] text-white shadow-md"
                         : "bg-white border border-gray-200 text-gray-500 hover:bg-gray-50"
                     }`}
                   >
@@ -636,7 +601,7 @@ const ProductsPage = () => {
               </div>
             </div>
 
-            {/* Products Grid/List with Skeleton Loading */}
+            {/* Products Grid/List */}
             {isLoading ? (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {[...Array(6)].map((_, i) => (
@@ -675,12 +640,10 @@ const ProductsPage = () => {
                           <div className="flex-1">
                             <h3 className="text-xl font-bold">{product.title}</h3>
                             <div className="flex items-center gap-2 mt-1">
-                              <span className="text-2xl font-extrabold text-orange-500">
+                              <span className="text-2xl font-extrabold text-[#00C2D6]">
                                 ₹{product.price}
                               </span>
-                              <span className="text-gray-400 line-through">
-                                ₹{product.oldPrice}
-                              </span>
+                              <span className="text-gray-400 line-through">₹{product.oldPrice}</span>
                               {product.discount && (
                                 <span className="bg-red-100 text-red-600 text-xs px-2 py-0.5 rounded-full">
                                   -{product.discount}%
@@ -689,9 +652,7 @@ const ProductsPage = () => {
                             </div>
                             <div className="flex items-center gap-2 mt-1">
                               {renderStars(product.rating)}
-                              <span className="text-gray-400 text-xs">
-                                ({product.reviews})
-                              </span>
+                              <span className="text-gray-400 text-xs">({product.reviews})</span>
                             </div>
                             <p className="text-gray-500 text-sm mt-2">
                               Premium stainless steel tumbler with vacuum insulation.
@@ -699,7 +660,7 @@ const ProductsPage = () => {
                             <div className="flex gap-3 mt-4">
                               <button
                                 onClick={() => addToCart(product)}
-                                className="flex-1 bg-orange-500 text-white py-2 rounded-xl flex items-center justify-center gap-2 hover:bg-orange-600 transition"
+                                className="flex-1 bg-[#00C2D6] text-white py-2 rounded-xl flex items-center justify-center gap-2 hover:bg-[#00A0B0] transition"
                               >
                                 <FiShoppingCart /> Add to Cart
                               </button>
@@ -749,7 +710,7 @@ const ProductsPage = () => {
                         onClick={() => setCurrentPage(page)}
                         className={`w-10 h-10 rounded-full font-medium transition ${
                           currentPage === page
-                            ? "bg-orange-500 text-white shadow-md"
+                            ? "bg-[#00C2D6] text-white shadow-md"
                             : "border bg-white hover:bg-gray-50"
                         }`}
                       >
@@ -774,10 +735,10 @@ const ProductsPage = () => {
         </div>
       </div>
 
-      {/* Floating Cart Button */}
+      {/* Floating Cart Button – triggers the reusable CartDrawer */}
       <button
         onClick={() => setIsCartOpen(true)}
-        className="fixed bottom-6 right-6 z-40 bg-orange-500 text-white p-4 rounded-full shadow-lg hover:scale-105 transition"
+        className="fixed bottom-6 right-6 z-40 bg-[#00C2D6] text-white p-4 rounded-full shadow-lg hover:scale-105 transition"
       >
         <FiShoppingCart size={24} />
         {cart.length > 0 && (
@@ -802,83 +763,8 @@ const ProductsPage = () => {
         )}
       </AnimatePresence>
 
-      {/* Cart Drawer */}
-      <AnimatePresence>
-        {isCartOpen && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 bg-black/50 flex justify-end"
-          >
-            <motion.div
-              initial={{ x: "100%" }}
-              animate={{ x: 0 }}
-              exit={{ x: "100%" }}
-              transition={{ type: "spring", damping: 20 }}
-              className="w-full max-w-md bg-white h-full overflow-y-auto p-6 shadow-xl"
-            >
-              <div className="flex justify-between items-center mb-6">
-                <h2 className="text-2xl font-bold">Your Cart</h2>
-                <button onClick={() => setIsCartOpen(false)}>
-                  <FiX size={24} />
-                </button>
-              </div>
-              {cart.length === 0 ? (
-                <p className="text-gray-500 text-center py-12">Your cart is empty</p>
-              ) : (
-                <>
-                  <div className="space-y-5 mb-6">
-                    {cart.map((item) => (
-                      <div key={item.id} className="flex gap-4 border-b border-gray-100 pb-4">
-                        <img
-                          src={item.image}
-                          alt={item.title}
-                          className="w-20 h-20 object-contain bg-gray-50 rounded-lg"
-                        />
-                        <div className="flex-1">
-                          <h4 className="font-semibold text-gray-800">{item.title}</h4>
-                          <div className="text-orange-500 font-bold mt-1">₹{item.price}</div>
-                          <div className="flex items-center gap-2 mt-2">
-                            <button
-                              onClick={() => updateQuantity(item.id, -1)}
-                              className="p-1 border rounded hover:bg-gray-100"
-                            >
-                              <FiMinus size={12} />
-                            </button>
-                            <span className="w-8 text-center font-medium">{item.quantity}</span>
-                            <button
-                              onClick={() => updateQuantity(item.id, 1)}
-                              className="p-1 border rounded hover:bg-gray-100"
-                            >
-                              <FiPlus size={12} />
-                            </button>
-                            <button
-                              onClick={() => removeFromCart(item.id)}
-                              className="ml-auto text-red-500 hover:text-red-600"
-                            >
-                              <FiTrash2 size={16} />
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                  <div className="border-t pt-4">
-                    <div className="flex justify-between font-bold text-lg">
-                      <span>Total</span>
-                      <span className="text-orange-500">₹{cartTotal}</span>
-                    </div>
-                    <button className="w-full bg-orange-500 text-white py-3 rounded-xl mt-5 font-semibold hover:bg-orange-600 transition shadow-md">
-                      Proceed to Checkout
-                    </button>
-                  </div>
-                </>
-              )}
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {/* Reusable CartDrawer – replaces the inline drawer */}
+      <CartDrawer isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
 
       {/* Mobile Filter Drawer */}
       <AnimatePresence>
@@ -903,6 +789,7 @@ const ProductsPage = () => {
               </div>
               <SidebarContent
                 selectedFilters={selectedFilters}
+                setSelectedFilters={setSelectedFilters}
                 priceRange={priceRange}
                 setPriceRange={setPriceRange}
                 handleFilterChange={handleFilterChange}
@@ -910,7 +797,7 @@ const ProductsPage = () => {
               />
               <button
                 onClick={() => setIsMobileFilterOpen(false)}
-                className="w-full bg-orange-500 text-white py-3 rounded-xl mt-6 font-semibold hover:bg-orange-600 transition"
+                className="w-full bg-[#00C2D6] text-white py-3 rounded-xl mt-6 font-semibold hover:bg-[#00A0B0] transition"
               >
                 Apply Filters
               </button>

@@ -5,11 +5,24 @@
 
 
 @theme {
-  --color-primary: #471396;
+  /* --color-primary: #471396;
   --color-secondary: #B13BFF;
   --color-accent: #FFCC00;
   --color-background: #090040;
-  --color-text: #333333;
+  --color-text: #333333; */
+  
+
+--color-Primary : #14C6D8;
+--color-Primary-Hover : #0FB2C3;
+--color-Dark : #18212A;
+--color-Text : #5F6C7B;
+--color-Border : #E8EEF2;
+--color-Background : #FFFFFF;
+--color-Section : #F8FBFC;
+--color-Success : #22C55E;
+--color-Warning : #F59E0B;
+--color-Danger : #EF4444;
+
 
    /* Custom breakpoints */
   
@@ -48,4 +61,24 @@
 }
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
+}
+
+@media print {
+  /* Hide unnecessary elements */
+  .no-print { display: none; }
+  
+  /* Remove backgrounds, shadows, and borders */
+  .bg-white, .dark\:bg-gray-900 { background: white !important; }
+  .shadow-sm, .shadow-lg { box-shadow: none !important; }
+  
+  /* Ensure dark text on white background */
+  .dark\:text-white { color: black !important; }
+  .dark\:text-gray-400 { color: #666 !important; }
+  
+  /* Remove sidebars and navigation */
+  nav, .sidebar, .navbar, footer { display: none !important; }
+  
+  /* Improve spacing */
+  .p-6 { padding: 0 !important; }
+  .mb-6 { margin-bottom: 1rem !important; }
 }

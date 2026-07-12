@@ -1,4 +1,4 @@
-// src/pages/AboutUs.jsx
+// src/pages/AboutUs.jsx – Teal Theme, Production‑Ready
 import React, { useEffect, useRef } from "react";
 import { motion, useAnimation, useInView } from "framer-motion";
 import {
@@ -19,6 +19,12 @@ import {
   Leaf,
   Star,
 } from "lucide-react";
+
+// ==============================================
+// BRAND COLOR
+// ==============================================
+const BRAND_TEAL = "#00C2D6";
+const BRAND_HOVER = "#00A0B0";
 
 // ==============================================
 // ANIMATION VARIANTS
@@ -54,7 +60,7 @@ const floatAnimation = {
 // REUSABLE COMPONENT
 // ==============================================
 const SectionBadge = ({ text }) => (
-  <span className="inline-block text-xs font-semibold text-orange-500 uppercase tracking-wider bg-orange-50 dark:bg-orange-900/20 px-3 py-1 rounded-full mb-4">
+  <span className="inline-block text-xs font-semibold text-[#00C2D6] uppercase tracking-wider bg-[#E6F9FA] dark:bg-[#00C2D6]/20 px-3 py-1 rounded-full mb-4">
     {text}
   </span>
 );
@@ -79,29 +85,29 @@ const AboutUs = () => {
       name: "Rahul Sharma",
       role: "Founder & CEO",
       bio: "Passionate about sustainable products and design innovation.",
-      image: "https://ui-avatars.com/api/?name=Rahul+Sharma&background=FF6B35&color=fff&size=128",
+      image: "https://ui-avatars.com/api/?name=Rahul+Sharma&background=00C2D6&color=fff&size=128",
     },
     {
       name: "Priya Patel",
       role: "Head of Design",
       bio: "Industrial designer with a love for minimalist aesthetics.",
-      image: "https://ui-avatars.com/api/?name=Priya+Patel&background=25D366&color=fff&size=128",
+      image: "https://ui-avatars.com/api/?name=Priya+Patel&background=00A0B0&color=fff&size=128",
     },
     {
       name: "Amit Kumar",
       role: "Operations Manager",
       bio: "Ensuring every tumbler reaches you in perfect condition.",
-      image: "https://ui-avatars.com/api/?name=Amit+Kumar&background=3B82F6&color=fff&size=128",
+      image: "https://ui-avatars.com/api/?name=Amit+Kumar&background=008F9E&color=fff&size=128",
     },
     {
       name: "Sneha Reddy",
       role: "Head of Marketing",
       bio: "Connecting our brand with customers around the world.",
-      image: "https://ui-avatars.com/api/?name=Sneha+Reddy&background=8B5CF6&color=fff&size=128",
+      image: "https://ui-avatars.com/api/?name=Sneha+Reddy&background=00B8CC&color=fff&size=128",
     },
   ];
 
-  // Values data
+  // Values data – icons remain, but we'll style them teal
   const values = [
     {
       icon: Shield,
@@ -149,8 +155,9 @@ const AboutUs = () => {
     >
       {/* ===== HERO SECTION ===== */}
       <section className="relative overflow-hidden pt-20 pb-24 bg-white dark:bg-gray-900">
-        <div className="absolute -top-40 -right-40 w-96 h-96 bg-orange-200/30 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-orange-100/30 rounded-full blur-3xl animate-pulse delay-1000" />
+        {/* Decorative blobs – teal tinted */}
+        <div className="absolute -top-40 -right-40 w-96 h-96 bg-[#00C2D6]/20 rounded-full blur-3xl animate-pulse" />
+        <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-[#00C2D6]/10 rounded-full blur-3xl animate-pulse delay-1000" />
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
@@ -161,9 +168,9 @@ const AboutUs = () => {
             >
               <SectionBadge text="Our Story" />
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-gray-900 dark:text-white leading-tight tracking-tight">
-                Crafting <span className="text-orange-500">Premium</span>{" "}
+                Crafting <span className="text-[#00C2D6]">Premium</span>{" "}
                 <br className="hidden sm:block" />
-                Hydration, <span className="text-orange-500">One Tumbler</span> at a Time
+                Hydration, <span className="text-[#00C2D6]">One Tumbler</span> at a Time
               </h1>
               <p className="mt-6 text-lg text-gray-600 dark:text-gray-300 leading-relaxed max-w-lg">
                 At Tumbler Studio, we believe hydration should be both functional and beautiful.
@@ -175,7 +182,7 @@ const AboutUs = () => {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   href="/allproducts"
-                  className="px-6 py-3 bg-orange-500 hover:bg-orange-600 text-white rounded-xl font-medium transition-all shadow-lg hover:shadow-orange-200/50"
+                  className="px-6 py-3 bg-[#00C2D6] hover:bg-[#00A0B0] text-white rounded-xl font-medium transition-all shadow-lg hover:shadow-[#00C2D6]/30"
                 >
                   Explore Collection
                 </motion.a>
@@ -197,7 +204,7 @@ const AboutUs = () => {
               className="relative flex justify-center"
             >
               <div className="relative w-full max-w-md aspect-square">
-                <div className="absolute inset-0 bg-gradient-to-tr from-orange-200 via-orange-100 to-transparent rounded-3xl -rotate-6 scale-105" />
+                <div className="absolute inset-0 bg-gradient-to-tr from-[#00C2D6]/20 via-[#00C2D6]/10 to-transparent rounded-3xl -rotate-6 scale-105" />
                 <motion.img
                   animate={floatAnimation}
                   src="https://res.cloudinary.com/dbkpwluh0/image/upload/v1779963032/blacktumbler_dbd4a2.png"
@@ -219,10 +226,9 @@ const AboutUs = () => {
 
       {/* ===== STATS SECTION – PROFESSIONAL REDESIGN ===== */}
       <section className="relative py-16 bg-white dark:bg-gray-900 overflow-hidden">
-        {/* Subtle background decoration */}
-        <div className="absolute inset-0 bg-gradient-to-r from-orange-50/20 via-transparent to-orange-50/20 dark:from-orange-950/10 dark:to-orange-950/10 pointer-events-none" />
-        <div className="absolute top-0 left-1/4 w-64 h-64 bg-orange-200/10 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 right-1/4 w-64 h-64 bg-orange-200/10 rounded-full blur-3xl" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#E6F9FA]/20 via-transparent to-[#E6F9FA]/20 dark:from-[#00C2D6]/10 dark:to-[#00C2D6]/10 pointer-events-none" />
+        <div className="absolute top-0 left-1/4 w-64 h-64 bg-[#00C2D6]/10 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 right-1/4 w-64 h-64 bg-[#00C2D6]/10 rounded-full blur-3xl" />
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           <motion.div
@@ -240,27 +246,23 @@ const AboutUs = () => {
                   variants={scaleIn}
                   className="group relative flex flex-col items-center text-center p-6 rounded-2xl bg-gradient-to-b from-gray-50/80 to-white dark:from-gray-800/50 dark:to-gray-900 border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1"
                 >
-                  {/* Glowing background on hover */}
-                  <div className="absolute inset-0 rounded-2xl bg-orange-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  <div className="absolute inset-0 rounded-2xl bg-[#00C2D6]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
-                  {/* Icon with glow */}
                   <div className="relative mb-4">
-                    <div className="absolute inset-0 bg-orange-200/30 rounded-full blur-xl group-hover:blur-2xl transition-all duration-300 scale-75 group-hover:scale-100" />
-                    <div className="relative w-14 h-14 rounded-2xl bg-orange-50 dark:bg-orange-900/30 flex items-center justify-center group-hover:bg-orange-100 dark:group-hover:bg-orange-900/50 transition-all duration-300 border border-orange-100 dark:border-orange-800/30">
-                      <Icon className="w-7 h-7 text-orange-500 group-hover:scale-110 transition-transform duration-300" />
+                    <div className="absolute inset-0 bg-[#00C2D6]/20 rounded-full blur-xl group-hover:blur-2xl transition-all duration-300 scale-75 group-hover:scale-100" />
+                    <div className="relative w-14 h-14 rounded-2xl bg-[#E6F9FA] dark:bg-[#00C2D6]/30 flex items-center justify-center group-hover:bg-[#E6F9FA] dark:group-hover:bg-[#00C2D6]/50 transition-all duration-300 border border-[#00C2D6]/20 dark:border-[#00C2D6]/30">
+                      <Icon className="w-7 h-7 text-[#00C2D6] group-hover:scale-110 transition-transform duration-300" />
                     </div>
                   </div>
 
-                  {/* Value & Label */}
-                  <p className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white group-hover:text-orange-500 transition-colors duration-300">
+                  <p className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white group-hover:text-[#00C2D6] transition-colors duration-300">
                     {stat.value}
                   </p>
                   <p className="text-sm text-gray-500 dark:text-gray-400 mt-1 font-medium tracking-wide">
                     {stat.label}
                   </p>
 
-                  {/* Decorative bottom line */}
-                  <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 group-hover:w-12 h-0.5 bg-orange-500 transition-all duration-300" />
+                  <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 group-hover:w-12 h-0.5 bg-[#00C2D6] transition-all duration-300" />
                 </motion.div>
               );
             })}
@@ -279,8 +281,8 @@ const AboutUs = () => {
               variants={fadeInUp}
               className="bg-white dark:bg-gray-900 rounded-3xl p-8 border border-gray-200 dark:border-gray-800 shadow-sm hover:shadow-xl transition-all duration-300 group"
             >
-              <div className="w-14 h-14 rounded-2xl bg-blue-50 dark:bg-blue-900/20 flex items-center justify-center mb-4 group-hover:bg-blue-100 dark:group-hover:bg-blue-900/30 transition-all">
-                <Globe className="w-7 h-7 text-blue-500" />
+              <div className="w-14 h-14 rounded-2xl bg-[#E6F9FA] dark:bg-[#00C2D6]/20 flex items-center justify-center mb-4 group-hover:bg-[#E6F9FA] dark:group-hover:bg-[#00C2D6]/30 transition-all">
+                <Globe className="w-7 h-7 text-[#00C2D6]" />
               </div>
               <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-3">
                 Our Mission
@@ -299,8 +301,8 @@ const AboutUs = () => {
               transition={{ delay: 0.15 }}
               className="bg-white dark:bg-gray-900 rounded-3xl p-8 border border-gray-200 dark:border-gray-800 shadow-sm hover:shadow-xl transition-all duration-300 group"
             >
-              <div className="w-14 h-14 rounded-2xl bg-purple-50 dark:bg-purple-900/20 flex items-center justify-center mb-4 group-hover:bg-purple-100 dark:group-hover:bg-purple-900/30 transition-all">
-                <Rocket className="w-7 h-7 text-purple-500" />
+              <div className="w-14 h-14 rounded-2xl bg-[#E6F9FA] dark:bg-[#00C2D6]/20 flex items-center justify-center mb-4 group-hover:bg-[#E6F9FA] dark:group-hover:bg-[#00C2D6]/30 transition-all">
+                <Rocket className="w-7 h-7 text-[#00C2D6]" />
               </div>
               <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-3">
                 Our Vision
@@ -344,12 +346,12 @@ const AboutUs = () => {
                   viewport={{ once: true }}
                   variants={fadeInUp}
                   transition={{ delay: idx * 0.08 }}
-                  className="group relative bg-gray-50 dark:bg-gray-800/30 rounded-2xl p-6 border border-gray-200 dark:border-gray-700 hover:border-orange-300 dark:hover:border-orange-800 transition-all hover:shadow-lg"
+                  className="group relative bg-gray-50 dark:bg-gray-800/30 rounded-2xl p-6 border border-gray-200 dark:border-gray-700 hover:border-[#00C2D6]/40 dark:hover:border-[#00C2D6]/40 transition-all hover:shadow-lg"
                 >
-                  <div className="absolute inset-0 bg-gradient-to-br from-orange-50/0 to-orange-50/0 group-hover:from-orange-50/20 group-hover:to-orange-100/20 dark:group-hover:from-orange-900/10 dark:group-hover:to-orange-800/10 rounded-2xl transition-all" />
+                  <div className="absolute inset-0 bg-gradient-to-br from-[#00C2D6]/0 to-[#00C2D6]/0 group-hover:from-[#00C2D6]/10 group-hover:to-[#00C2D6]/20 dark:group-hover:from-[#00C2D6]/10 dark:group-hover:to-[#00C2D6]/20 rounded-2xl transition-all" />
                   <div className="relative">
-                    <div className="w-12 h-12 rounded-xl bg-orange-50 dark:bg-orange-900/20 flex items-center justify-center mb-4 group-hover:bg-orange-100 dark:group-hover:bg-orange-900/40 transition-colors">
-                      <Icon className="w-6 h-6 text-orange-500 group-hover:scale-110 transition-transform" />
+                    <div className="w-12 h-12 rounded-xl bg-[#E6F9FA] dark:bg-[#00C2D6]/20 flex items-center justify-center mb-4 group-hover:bg-[#E6F9FA] dark:group-hover:bg-[#00C2D6]/40 transition-colors">
+                      <Icon className="w-6 h-6 text-[#00C2D6] group-hover:scale-110 transition-transform" />
                     </div>
                     <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
                       {value.title}
@@ -382,7 +384,7 @@ const AboutUs = () => {
           </motion.div>
 
           <div className="relative">
-            <div className="absolute left-1/2 top-0 bottom-0 w-0.5 bg-orange-200 dark:bg-orange-800/50 -translate-x-1/2 hidden md:block" />
+            <div className="absolute left-1/2 top-0 bottom-0 w-0.5 bg-[#00C2D6]/30 dark:bg-[#00C2D6]/40 -translate-x-1/2 hidden md:block" />
 
             <div className="space-y-12">
               {milestones.map((item, idx) => (
@@ -401,14 +403,14 @@ const AboutUs = () => {
                     <div className={`bg-white dark:bg-gray-900 rounded-2xl p-6 border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-lg transition-all ${
                       idx % 2 === 0 ? "md:ml-auto md:max-w-md" : "md:mr-auto md:max-w-md"
                     }`}>
-                      <span className="text-sm font-bold text-orange-500">{item.year}</span>
+                      <span className="text-sm font-bold text-[#00C2D6]">{item.year}</span>
                       <h4 className="text-xl font-bold text-gray-900 dark:text-white mt-1">{item.title}</h4>
                       <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">{item.description}</p>
                     </div>
                   </div>
 
                   <div className="flex-shrink-0 relative">
-                    <div className="w-8 h-8 rounded-full bg-orange-500 border-4 border-white dark:border-gray-900 shadow-md z-10 relative" />
+                    <div className="w-8 h-8 rounded-full bg-[#00C2D6] border-4 border-white dark:border-gray-900 shadow-md z-10 relative" />
                   </div>
 
                   <div className="flex-1 hidden md:block" />
@@ -447,22 +449,22 @@ const AboutUs = () => {
                 viewport={{ once: true }}
                 variants={fadeInUp}
                 transition={{ delay: idx * 0.08 }}
-                className="group bg-gray-50 dark:bg-gray-800/30 rounded-2xl p-6 border border-gray-200 dark:border-gray-700 hover:border-orange-300 dark:hover:border-orange-800 hover:shadow-xl transition-all text-center"
+                className="group bg-gray-50 dark:bg-gray-800/30 rounded-2xl p-6 border border-gray-200 dark:border-gray-700 hover:border-[#00C2D6]/40 dark:hover:border-[#00C2D6]/40 hover:shadow-xl transition-all text-center"
               >
                 <div className="relative inline-block">
                   <img
                     src={member.image}
                     alt={member.name}
-                    className="w-24 h-24 rounded-full mx-auto mb-4 object-cover border-2 border-orange-200 dark:border-orange-800 group-hover:border-orange-500 transition-colors"
+                    className="w-24 h-24 rounded-full mx-auto mb-4 object-cover border-2 border-[#00C2D6]/30 group-hover:border-[#00C2D6] transition-colors"
                   />
-                  <div className="absolute -bottom-1 right-1 bg-orange-500 rounded-full p-1 border-2 border-white dark:border-gray-900">
+                  <div className="absolute -bottom-1 right-1 bg-[#00C2D6] rounded-full p-1 border-2 border-white dark:border-gray-900">
                     <CheckCircle className="w-3 h-3 text-white" />
                   </div>
                 </div>
                 <h4 className="text-lg font-semibold text-gray-900 dark:text-white">
                   {member.name}
                 </h4>
-                <p className="text-sm text-orange-500 font-medium mt-0.5">
+                <p className="text-sm text-[#00C2D6] font-medium mt-0.5">
                   {member.role}
                 </p>
                 <p className="text-sm text-gray-500 dark:text-gray-400 mt-2 leading-relaxed">
@@ -475,7 +477,7 @@ const AboutUs = () => {
       </section>
 
       {/* ===== CTA SECTION ===== */}
-      <section className="py-16 bg-gradient-to-r from-orange-500 to-orange-600 dark:from-orange-600 dark:to-orange-700 relative overflow-hidden">
+      <section className="py-16 bg-gradient-to-r from-[#00C2D6] to-[#0098A8] dark:from-[#00A0B0] dark:to-[#008F9E] relative overflow-hidden">
         <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4wNSI+PHBhdGggZD0iTTM2IDM0djJIMjR2LTJoMTJ6TTM2IDI0djJIMjR2LTJoMTJ6Ii8+PC9nPjwvZz48L3N2Zz4=')] opacity-30" />
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative">
           <motion.div
@@ -487,7 +489,7 @@ const AboutUs = () => {
             <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
               Ready to Experience Premium Hydration?
             </h2>
-            <p className="text-orange-100 text-lg max-w-2xl mx-auto mb-8">
+            <p className="text-[#D6F5F8] text-lg max-w-2xl mx-auto mb-8">
               Join thousands of happy customers and elevate your hydration game with
               Tumbler Studio.
             </p>
@@ -496,7 +498,7 @@ const AboutUs = () => {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 href="/allproducts"
-                className="px-8 py-3 bg-white text-orange-600 hover:bg-orange-50 rounded-xl font-semibold transition-all shadow-lg hover:shadow-xl"
+                className="px-8 py-3 bg-white text-[#00C2D6] hover:bg-[#E6F9FA] rounded-xl font-semibold transition-all shadow-lg hover:shadow-xl"
               >
                 Shop Now
               </motion.a>

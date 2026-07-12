@@ -1,4 +1,4 @@
-// src/pages/Contact.jsx
+// src/pages/Contact.jsx – Teal Theme, Production‑Ready
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import {
@@ -20,6 +20,11 @@ import {
 import toast from "react-hot-toast";
 import { FaFacebook, FaInstagramSquare, FaTwitterSquare, FaYoutube } from "react-icons/fa";
 
+// ==============================================
+// BRAND COLOR
+// ==============================================
+const BRAND_TEAL = "#00C2D6";
+const BRAND_HOVER = "#00A0B0";
 
 // ==============================================
 // ANIMATION VARIANTS
@@ -50,7 +55,7 @@ const scaleIn = {
 // REUSABLE COMPONENT
 // ==============================================
 const SectionBadge = ({ text }) => (
-  <span className="inline-block text-xs font-semibold text-orange-500 uppercase tracking-wider bg-orange-50 dark:bg-orange-900/20 px-3 py-1 rounded-full mb-4">
+  <span className="inline-block text-xs font-semibold text-[#00C2D6] uppercase tracking-wider bg-[#E6F9FA] dark:bg-[#00C2D6]/20 px-3 py-1 rounded-full mb-4">
     {text}
   </span>
 );
@@ -62,7 +67,7 @@ const FAQItem = ({ question, answer, isOpen, onToggle }) => (
   <motion.div
     initial={{ opacity: 0, y: 10 }}
     animate={{ opacity: 1, y: 0 }}
-    className="border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden bg-white dark:bg-gray-900 hover:border-orange-300 dark:hover:border-orange-800 transition-all"
+    className="border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden bg-white dark:bg-gray-900 hover:border-[#00C2D6]/40 dark:hover:border-[#00C2D6]/40 transition-all"
   >
     <button
       onClick={onToggle}
@@ -70,7 +75,7 @@ const FAQItem = ({ question, answer, isOpen, onToggle }) => (
     >
       <span className="font-medium text-gray-900 dark:text-white pr-4">{question}</span>
       {isOpen ? (
-        <ChevronUp size={18} className="text-orange-500 flex-shrink-0" />
+        <ChevronUp size={18} className="text-[#00C2D6] flex-shrink-0" />
       ) : (
         <ChevronDown size={18} className="text-gray-400 flex-shrink-0" />
       )}
@@ -135,7 +140,6 @@ const Contact = () => {
 
     setIsSubmitting(true);
     try {
-      // Simulate API call
       await new Promise((resolve) => setTimeout(resolve, 1500));
       toast.success("Your message has been sent successfully!");
       setIsSubmitted(true);
@@ -222,8 +226,8 @@ const Contact = () => {
     >
       {/* ===== HERO SECTION ===== */}
       <section className="relative overflow-hidden pt-20 pb-16 bg-white dark:bg-gray-900">
-        <div className="absolute -top-40 -right-40 w-96 h-96 bg-orange-200/30 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-orange-100/30 rounded-full blur-3xl animate-pulse delay-1000" />
+        <div className="absolute -top-40 -right-40 w-96 h-96 bg-[#00C2D6]/20 rounded-full blur-3xl animate-pulse" />
+        <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-[#00C2D6]/10 rounded-full blur-3xl animate-pulse delay-1000" />
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           <motion.div
@@ -233,7 +237,7 @@ const Contact = () => {
           >
             <SectionBadge text="Contact Us" />
             <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 dark:text-white leading-tight tracking-tight">
-              We'd Love to <span className="text-orange-500">Hear From You</span>
+              We'd Love to <span className="text-[#00C2D6]">Hear From You</span>
             </h1>
             <p className="mt-4 text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
               Have questions, feedback, or want to collaborate? Reach out to us – we're
@@ -277,7 +281,7 @@ const Contact = () => {
                         onChange={handleChange}
                         className={`w-full pl-10 pr-4 py-2.5 border ${
                           formErrors.name ? "border-red-500" : "border-gray-200 dark:border-gray-700"
-                        } rounded-xl bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none transition-all`}
+                        } rounded-xl bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-[#00C2D6] focus:border-transparent outline-none transition-all`}
                         placeholder="John Doe"
                       />
                     </div>
@@ -301,7 +305,7 @@ const Contact = () => {
                         onChange={handleChange}
                         className={`w-full pl-10 pr-4 py-2.5 border ${
                           formErrors.email ? "border-red-500" : "border-gray-200 dark:border-gray-700"
-                        } rounded-xl bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none transition-all`}
+                        } rounded-xl bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-[#00C2D6] focus:border-transparent outline-none transition-all`}
                         placeholder="john@example.com"
                       />
                     </div>
@@ -326,7 +330,7 @@ const Contact = () => {
                       onChange={handleChange}
                       className={`w-full pl-10 pr-4 py-2.5 border ${
                         formErrors.subject ? "border-red-500" : "border-gray-200 dark:border-gray-700"
-                      } rounded-xl bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none transition-all`}
+                      } rounded-xl bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-[#00C2D6] focus:border-transparent outline-none transition-all`}
                       placeholder="How can we help you?"
                     />
                   </div>
@@ -348,7 +352,7 @@ const Contact = () => {
                     rows="5"
                     className={`w-full px-4 py-2.5 border ${
                       formErrors.message ? "border-red-500" : "border-gray-200 dark:border-gray-700"
-                    } rounded-xl bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none transition-all resize-none`}
+                    } rounded-xl bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-[#00C2D6] focus:border-transparent outline-none transition-all resize-none`}
                     placeholder="Write your message here..."
                   />
                   {formErrors.message && (
@@ -364,7 +368,7 @@ const Contact = () => {
                 <button
                   type="submit"
                   disabled={isSubmitting || isSubmitted}
-                  className="w-full sm:w-auto px-8 py-3 bg-orange-500 hover:bg-orange-600 disabled:bg-orange-300 text-white rounded-xl font-medium transition-all shadow-sm hover:shadow-md flex items-center justify-center gap-2"
+                  className="w-full sm:w-auto px-8 py-3 bg-[#00C2D6] hover:bg-[#00A0B0] disabled:bg-[#00C2D6]/50 text-white rounded-xl font-medium transition-all shadow-sm hover:shadow-md flex items-center justify-center gap-2"
                 >
                   {isSubmitting ? (
                     <>
@@ -409,11 +413,11 @@ const Contact = () => {
                   <motion.div
                     key={idx}
                     variants={scaleIn}
-                    className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-800 p-5 shadow-sm hover:shadow-md transition-all hover:border-orange-300 dark:hover:border-orange-800 group"
+                    className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-800 p-5 shadow-sm hover:shadow-md transition-all hover:border-[#00C2D6]/40 dark:hover:border-[#00C2D6]/40 group"
                   >
                     <div className="flex items-start gap-4">
-                      <div className="w-11 h-11 rounded-xl bg-orange-50 dark:bg-orange-900/20 flex items-center justify-center flex-shrink-0 group-hover:bg-orange-100 dark:group-hover:bg-orange-900/40 transition-colors">
-                        <Icon className="w-5 h-5 text-orange-500" />
+                      <div className="w-11 h-11 rounded-xl bg-[#E6F9FA] dark:bg-[#00C2D6]/20 flex items-center justify-center flex-shrink-0 group-hover:bg-[#E6F9FA] dark:group-hover:bg-[#00C2D6]/30 transition-colors">
+                        <Icon className="w-5 h-5 text-[#00C2D6]" />
                       </div>
                       <div>
                         <p className="text-sm font-medium text-gray-700 dark:text-gray-300">
@@ -446,7 +450,7 @@ const Contact = () => {
                       <a
                         key={social.label}
                         href={social.href}
-                        className="w-10 h-10 rounded-xl bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-gray-500 dark:text-gray-400 hover:bg-orange-500 hover:text-white transition-all hover:scale-105"
+                        className="w-10 h-10 rounded-xl bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-gray-500 dark:text-gray-400 hover:bg-[#00C2D6] hover:text-white transition-all hover:scale-105"
                         aria-label={social.label}
                       >
                         <Icon size={18} />
@@ -479,7 +483,6 @@ const Contact = () => {
               </p>
             </div>
             <div className="relative h-64 md:h-80 bg-gray-200 dark:bg-gray-800">
-              {/* Embedded Google Map placeholder */}
               <iframe
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3503.639929740043!2d77.318653775735!3d28.58151977569374!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390ce44c6c0ffd73%3A0xc3be4c3f5b607ff9!2sSector%2062%2C%20Noida%2C%20Uttar%20Pradesh!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin"
                 width="100%"
@@ -549,7 +552,7 @@ const Contact = () => {
               Still have questions?{" "}
               <a
                 href="mailto:support@tumblerstudio.com"
-                className="text-orange-500 hover:text-orange-600 font-medium transition"
+                className="text-[#00C2D6] hover:text-[#00A0B0] font-medium transition"
               >
                 Contact our support team
               </a>
@@ -559,7 +562,7 @@ const Contact = () => {
       </section>
 
       {/* ===== CTA SECTION ===== */}
-      <section className="py-16 bg-gradient-to-r from-orange-500 to-orange-600 dark:from-orange-600 dark:to-orange-700 relative overflow-hidden">
+      <section className="py-16 bg-gradient-to-r from-[#00C2D6] to-[#0098A8] dark:from-[#0098A8] dark:to-[#008F9E] relative overflow-hidden">
         <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4wNSI+PHBhdGggZD0iTTM2IDM0djJIMjR2LTJoMTJ6TTM2IDI0djJIMjR2LTJoMTJ6Ii8+PC9nPjwvZz48L3N2Zz4=')] opacity-30" />
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative">
           <motion.div
@@ -571,14 +574,14 @@ const Contact = () => {
             <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
               Let's Create Something Amazing Together
             </h2>
-            <p className="text-orange-100 text-lg max-w-2xl mx-auto mb-8">
+            <p className="text-[#D6F5F8] text-lg max-w-2xl mx-auto mb-8">
               Whether you have a question, a collaboration idea, or just want to say hi
               – we're always excited to hear from you.
             </p>
             <div className="flex flex-wrap justify-center gap-4">
               <a
                 href="mailto:support@tumblerstudio.com"
-                className="px-8 py-3 bg-white text-orange-600 hover:bg-orange-50 rounded-xl font-semibold transition-all shadow-lg hover:shadow-xl flex items-center gap-2"
+                className="px-8 py-3 bg-white text-[#00C2D6] hover:bg-[#E6F9FA] rounded-xl font-semibold transition-all shadow-lg hover:shadow-xl flex items-center gap-2"
               >
                 <Mail size={18} /> Email Us
               </a>

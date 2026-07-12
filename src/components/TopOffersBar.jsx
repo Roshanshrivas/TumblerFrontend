@@ -74,7 +74,7 @@ const TopOffersBar = () => {
           animate={{ height: 'auto', opacity: 1 }}
           exit={{ height: 0, opacity: 0 }}
           transition={{ duration: 0.3 }}
-          className="relative w-full bg-gradient-to-r from-[#FE5700] to-[#FF7A2E] text-white shadow-md z-40"
+          className="relative w-full bg-gradient-to-r from-[#14C6D8] to-[#09B0BE] text-white shadow-md z-40"
         >
           {/* Container with different content based on screen size */}
           <div className="max-w-7xl mx-auto px-4 py-2.5 sm:py-3">

@@ -8,6 +8,7 @@ import Navbar from './components/Navbar';;
 import Footer from './components/Footer';
 import ProductsPage from './pages/ProductsPage';
 import ProtectedRoute from './components/admin/ProtectedRoute';
+// import UserProtectedRoute from './components/UserProtectedRoute';
 
 import AdminLayout from './pages/admin/AdminLayout';        
 import AdminDashboard from './pages/admin/AdminDashboard'; 
@@ -35,10 +36,25 @@ import AdminReviews from './pages/admin/AdminReviews';
 import AdminSettings from './pages/admin/AdminSettings';
 
 import OrderPrint from './components/admin/orders/OrderPrint';
-import TrackOrder from './components/admin/orders/TrackOrder';
 import CustomProductForm from './components/admin/customization/CustomProductForm';
 import CustomProductDetail from './components/admin/customization/CustomProductDetail';
 import BroadcastForm from './components/admin/broadcast/BroadcastForm';
+
+
+// ─── USER DASHBOARD IMPORTS ────────────────────────
+import UserDashboard from './pages/UserDashboard';
+import Overview from './pages/dashboard/Overview';
+import DashboardOrders from './pages/UserOrders'; // use existing or new
+import DashboardOrderDetail from './pages/OrderDetail'; // use existing or new
+import Addresses from './pages/dashboard/Addresses';
+import Wishlist from './pages/WishlistPage';
+import Profile from './pages/dashboard/Profile';
+import TrackOrder from './pages/dashboard/TrackOrder';
+import ChangePassword from './pages/dashboard/ChangePassword';
+import Coupons from './pages/dashboard/Coupons';
+import Notifications from './pages/dashboard/Notifications';
+import Support from './pages/dashboard/Support';
+
 
 
 
@@ -49,7 +65,14 @@ const Login = lazy(() => import('./pages/Login'));
 const Signup = lazy(() => import('./pages/signup'));
 const ProductDetailPage = lazy(() => import('./pages/ProductDetails'));
 const CartPage = lazy(() => import('./pages/CartPage'));
-const WishlistPage = lazy(() => import('./pages/WishlistPage'));
+const Checkout  = lazy(() => import('./pages/Checkout'));
+const OrderSuccess  = lazy(() => import('./pages/OrderSuccess'));
+
+// const WishlistPage = lazy(() => import('./pages/WishlistPage'));
+// import UserOrders from './pages/UserOrders';
+// import UserOrderDetail from './pages/OrderDetail';
+
+
 
 // Layout components
 const PublicLayout = () => (
@@ -79,64 +102,233 @@ const router = createBrowserRouter([
   {
     element: <PublicLayout />,
     children: [
-      { path: '/', element: <Suspense fallback={<LoadingSpinner />}><Home /></Suspense> },
-      { path: '/customize', element: <Suspense fallback={<LoadingSpinner />}><CustomizePage /></Suspense> },
-      { path: '/allproducts', element: <Suspense fallback={<LoadingSpinner />}><ProductsPage /></Suspense> },
-      { path: '/product/:id', element: <Suspense fallback={<LoadingSpinner />}><ProductDetailPage /></Suspense> },
-      { path: '/cart', element: <Suspense fallback={<LoadingSpinner />}><CartPage /></Suspense> },
-      { path: '/wishlist', element: <Suspense fallback={<LoadingSpinner />}><WishlistPage /></Suspense> },
-      { path: '/about', element: <Suspense fallback={<LoadingSpinner />}><AboutUs /></Suspense> },
-      { path: '/contact', element: <Suspense fallback={<LoadingSpinner />}><Contact /></Suspense> },
-      { path: '/track/order/:id', element: <TrackOrder /> },
+      {
+        path: "/",
+        element: (
+          <Suspense fallback={<LoadingSpinner />}>
+            <Home />
+          </Suspense>
+        ),
+      },
+      {
+        path: "/customize",
+        element: (
+          <Suspense fallback={<LoadingSpinner />}>
+            <CustomizePage />
+          </Suspense>
+        ),
+      },
+      {
+        path: "/allproducts",
+        element: (
+          <Suspense fallback={<LoadingSpinner />}>
+            <ProductsPage />
+          </Suspense>
+        ),
+      },
+      {
+        path: "/product/:id",
+        element: (
+          <Suspense fallback={<LoadingSpinner />}>
+            <ProductDetailPage />
+          </Suspense>
+        ),
+      },
+      {
+        path: "/cart",
+        element: (
+          <Suspense fallback={<LoadingSpinner />}>
+            <CartPage />
+          </Suspense>
+        ),
+      },
+      // { path: '/wishlist', element: <Suspense fallback={<LoadingSpinner />}><WishlistPage /></Suspense> },
+      {
+        path: "/about",
+        element: (
+          <Suspense fallback={<LoadingSpinner />}>
+            <AboutUs />
+          </Suspense>
+        ),
+      },
+      {
+        path: "/contact",
+        element: (
+          <Suspense fallback={<LoadingSpinner />}>
+            <Contact />
+          </Suspense>
+        ),
+      },
+      { path: "/track/order/:id", element: <TrackOrder /> },
     ],
   },
   {
     element: <AuthLayout />,
     children: [
-      { path: '/login', element: <Suspense fallback={<LoadingSpinner />}><Login /></Suspense> },
-      { path: '/signup', element: <Suspense fallback={<LoadingSpinner />}><Signup /></Suspense> },
-      { path: '/user/profile', element: <Suspense><UserProfile /></Suspense> },
-      
+      {
+        path: "/login",
+        element: (
+          <Suspense fallback={<LoadingSpinner />}>
+            <Login />
+          </Suspense>
+        ),
+      },
+      {
+        path: "/signup",
+        element: (
+          <Suspense fallback={<LoadingSpinner />}>
+            <Signup />
+          </Suspense>
+        ),
+      },
+      // { path: '/user/profile', element: <Suspense><UserProfile /></Suspense> },
+      // { path: '/my-orders', element: <Suspense><UserOrders /></Suspense> },
+      // { path: '/order/:orderId', element: <Suspense><UserOrderDetail /></Suspense> },
     ],
   },
 
-    // Admin routes – protected by role check
   {
-    element: <ProtectedRoute allowedRoles={['admin']} />,
+    element: <ProtectedRoute allowedRoles={["user", "admin"]} />,
     children: [
-        { path: '/admin/orders/:id/print/:type', element: <OrderPrint /> },
-        { path: '/admin/orders/:id/print', element: <OrderPrint /> },
+      // Checkout & Order Success (standalone pages)
+      {
+        path: "/checkout",
+        element: (
+          <Suspense fallback={<LoadingSpinner />}>
+            <Checkout />
+          </Suspense>
+        ),
+      },
+      {
+        path: "/order-success/:orderId",
+        element: (
+          <Suspense fallback={<LoadingSpinner />}>
+            <OrderSuccess />
+          </Suspense>
+        ),
+      },
+      // ── USER DASHBOARD ROUTES (authenticated) ──
+      {
+        element: <UserDashboard />,
+        children: [
+          {
+            path: "/dashboard",
+            element: <Navigate to="/dashboard/overview" replace />,
+          },
+          { path: "/dashboard/overview", element: <Overview /> },
+          { path: "/dashboard/orders", element: <DashboardOrders /> },
+          {
+            path: "/dashboard/orders/:orderId",
+            element: <DashboardOrderDetail />,
+          },
+          { path: "/dashboard/addresses", element: <Addresses /> },
+          { path: "/dashboard/wishlist", element: <Wishlist /> },
+          { path: "/dashboard/profile", element: <Profile /> },
+          { path: "/dashboard/password", element: <ChangePassword /> },
+          { path: "/dashboard/track/:orderNumber", element: <TrackOrder /> },
+          { path: "/dashboard/coupons", element: <Coupons /> },
+          { path: "/dashboard/notifications", element: <Notifications /> },
+          { path: "/dashboard/support", element: <Support /> },
+        ],
+      },
+    ],
+  },
+
+  // Admin routes – protected by role check
+  {
+    element: <ProtectedRoute allowedRoles={["admin"]} />,
+    children: [
+      { path: "/admin/orders/:id/print/:type", element: <OrderPrint /> },
+      { path: "/admin/orders/:id/print", element: <OrderPrint /> },
       {
         element: <AdminLayout />,
         children: [
-          { path: '/admin', element: <Navigate to="/admin/dashboard" replace /> },
-          { path: '/admin/profile', element: <Suspense><AdminProfile /></Suspense> },
-          { path: '/admin/dashboard', element: <LazyComponent Component={AdminDashboard} /> },
-          { path: '/admin/products', element: <LazyComponent Component={AdminProducts} /> },
-          { path: '/admin/products/add', element: <ProductForm /> },
-          { path: '/admin/products/:id', element: <ProductDetail /> },
-          { path: '/admin/products/:id/edit', element: <ProductForm /> },
-          { path: '/admin/categories', element: <LazyComponent Component={AdminCategories} /> },
-          { path: '/admin/categories/add', element: <CategoryForm /> },
-          { path: '/admin/categories/:id', element: <CategoryDetail /> },
-          { path: '/admin/categories/:id/edit', element: <CategoryForm /> },
-          { path: '/admin/orders', element: <LazyComponent Component={AdminOrders} /> },
-          { path: '/admin/orders/add', element: <LazyComponent Component={OrderForm} /> },
-          { path: '/admin/orders/:id', element: <OrderDetail /> },
-          { path: '/admin/orders/:id/edit', element: <OrderForm /> },
-          { path: '/admin/custom-products', element: <LazyComponent Component={AdminCustomDesigns} /> },
-          { path: '/admin/custom-products/add', element: <CustomProductForm /> },
-          { path: '/admin/custom-products/:id', element: <CustomProductDetail /> },
-          { path: '/admin/custom-products/:id/edit', element: <CustomProductForm /> },
-          { path: '/admin/users', element: <LazyComponent Component={AdminUsers} /> },
-          { path: '/admin/analytics', element: <LazyComponent Component={AdminAnalytics} /> },
-          { path: '/admin/broadcast', element: <LazyComponent Component={AdminBroadcast} /> },
-          { path: '/admin/broadcast/create', element: <BroadcastForm /> },
-          { path: '/admin/broadcast/:id/edit', element: <BroadcastForm /> },
-          { path: '/admin/coupons', element: <LazyComponent Component={AdminCoupons} /> },
-          { path: '/admin/banners', element: <LazyComponent Component={AdminBanners} /> },
-          { path: '/admin/reviews', element: <LazyComponent Component={AdminReviews} /> },
-          { path: '/admin/settings', element: <LazyComponent Component={AdminSettings} /> },
+          {
+            path: "/admin",
+            element: <Navigate to="/admin/dashboard" replace />,
+          },
+          {
+            path: "/admin/profile",
+            element: (
+              <Suspense>
+                <AdminProfile />
+              </Suspense>
+            ),
+          },
+          {
+            path: "/admin/dashboard",
+            element: <LazyComponent Component={AdminDashboard} />,
+          },
+          {
+            path: "/admin/products",
+            element: <LazyComponent Component={AdminProducts} />,
+          },
+          { path: "/admin/products/add", element: <ProductForm /> },
+          { path: "/admin/products/:id", element: <ProductDetail /> },
+          { path: "/admin/products/:id/edit", element: <ProductForm /> },
+          {
+            path: "/admin/categories",
+            element: <LazyComponent Component={AdminCategories} />,
+          },
+          { path: "/admin/categories/add", element: <CategoryForm /> },
+          { path: "/admin/categories/:id", element: <CategoryDetail /> },
+          { path: "/admin/categories/:id/edit", element: <CategoryForm /> },
+          {
+            path: "/admin/orders",
+            element: <LazyComponent Component={AdminOrders} />,
+          },
+          {
+            path: "/admin/orders/add",
+            element: <LazyComponent Component={OrderForm} />,
+          },
+          { path: "/admin/orders/:id", element: <OrderDetail /> },
+          { path: "/admin/orders/:id/edit", element: <OrderForm /> },
+          {
+            path: "/admin/custom-products",
+            element: <LazyComponent Component={AdminCustomDesigns} />,
+          },
+          {
+            path: "/admin/custom-products/add",
+            element: <CustomProductForm />,
+          },
+          {
+            path: "/admin/custom-products/:id",
+            element: <CustomProductDetail />,
+          },
+          {
+            path: "/admin/custom-products/:id/edit",
+            element: <CustomProductForm />,
+          },
+          {
+            path: "/admin/users",
+            element: <LazyComponent Component={AdminUsers} />,
+          },
+          {
+            path: "/admin/analytics",
+            element: <LazyComponent Component={AdminAnalytics} />,
+          },
+          {
+            path: "/admin/broadcast",
+            element: <LazyComponent Component={AdminBroadcast} />,
+          },
+          { path: "/admin/broadcast/create", element: <BroadcastForm /> },
+          { path: "/admin/broadcast/:id/edit", element: <BroadcastForm /> },
+          {
+            path: "/admin/coupons",
+            element: <LazyComponent Component={AdminCoupons} />,
+          },
+          {
+            path: "/admin/banners",
+            element: <LazyComponent Component={AdminBanners} />,
+          },
+          {
+            path: "/admin/reviews",
+            element: <LazyComponent Component={AdminReviews} />,
+          },
+          {
+            path: "/admin/settings",
+            element: <LazyComponent Component={AdminSettings} />,
+          },
         ],
       },
     ],
